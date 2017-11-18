@@ -1,0 +1,76 @@
+ public static PdfResponse PdfGeneration(string Template, string DocType)
+        {
+            PdfResponse pdfresponse = new PdfResponse();
+
+            System.DateTime myDate = DateTime.Now;
+            int year = myDate.Year;
+            int month = myDate.Month;
+
+            var PartialPath = "/Uploads/Documents/" + year + "/" + month;
+
+            var FilePath = "~" + PartialPath;
+
+
+            bool exists = Directory.Exists(HttpContext.Current.Server.MapPath(FilePath));
+
+            if (!exists)
+            {
+                System.IO.Directory.CreateDirectory(HttpContext.Current.Server.MapPath(FilePath));
+            }
+
+            string FileName = "";
+
+            switch (DocType)
+            {
+                case "LINK_REMOVAL":
+                    FileName = "LinkRemoval_" + Guid.NewGuid().ToString() + ".pdf";
+                    break;
+
+                case "DUNNING":
+                    FileName = "Dunning_" + Guid.NewGuid().ToString() + ".pdf";
+                    break;
+
+                default:
+                    FileName = "LinkRemoval_" + Guid.NewGuid().ToString() + ".pdf";
+                    break;
+            }
+
+
+            var FilePathWithFilename = Path.Combine(HttpContext.Current.Server.MapPath(FilePath), FileName);
+
+            var LogoPath = HttpContext.Current.Server.MapPath("~/Uploads/Logo/face_logo.jpg");
+            var Stamp = HttpContext.Current.Server.MapPath("~/Uploads/Logo/Face_stamp.png");
+
+            StringReader sr = new StringReader(Template);
+            iTextSharp.text.Document pdfDoc = new iTextSharp.text.Document(PageSize.A4, 10f, 10f, 105f, 0f);
+
+            iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(LogoPath);
+            jpg.Alignment = Element.ALIGN_TOP;
+            jpg.ScaleAbsolute(220f, 130f);
+            jpg.SetAbsolutePosition(340f, 700f);
+
+
+            iTextSharp.text.Image stamp = iTextSharp.text.Image.GetInstance(Stamp);
+            //stamp.Alignment = Element.ALIGN_TOP;
+            stamp.ScaleAbsolute(80f, 80f);
+            stamp.SetAbsolutePosition(430f, 0f);
+
+            //var output = new MemoryStream();
+            // PdfWriter writer = PdfWriter.GetInstance(pdfDoc, output);
+            HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+            PdfWriter.GetInstance(pdfDoc, new FileStream(FilePathWithFilename, FileMode.Create));
+            pdfDoc.Open();
+            pdfDoc.Add(jpg);
+            pdfDoc.Add(stamp);
+
+            // XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+            htmlparser.Parse(sr);
+            pdfDoc.Close();
+            //Response.Write(pdfDoc);
+            //Response.End();
+
+            pdfresponse.Filename = FileName;
+            pdfresponse.FilePath = PartialPath + "/" + FileName;
+            pdfresponse.FullPath = FilePathWithFilename;
+            return pdfresponse;
+        }
