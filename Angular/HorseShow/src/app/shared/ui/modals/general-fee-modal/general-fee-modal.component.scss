@@ -1,0 +1,11 @@
+.non-print-element {
+    flex-direction: row;
+    justify-content: center;
+    button {
+        min-width: auto !important;
+        border:none;
+        .fa-pencil-square-o {
+            color: #0b0f09;
+        }
+    }
+}

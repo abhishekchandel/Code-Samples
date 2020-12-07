@@ -1,0 +1,25 @@
+.loaderDiv
+				{
+					position: absolute;
+					left: 0;
+					top: 0;
+					background: rgba(255, 255, 255, 0.75);
+					height: 100%!important;
+					width: 100%!important;
+					z-index:1;
+					.mat-progress-spinner{
+					    width: 50px !important;
+						height: 50px !important;
+						position: absolute;
+						left: 50%;
+						transform: translate(-50% , -50%);
+						top: 50%;
+						::ng-deep svg{
+							width: 50px!important;
+							height: 50px!important;	
+							circle{
+								stroke:  #b4523d;
+							}
+						}
+					}
+				}

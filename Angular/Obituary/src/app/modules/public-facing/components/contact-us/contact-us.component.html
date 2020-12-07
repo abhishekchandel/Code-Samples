@@ -1,0 +1,112 @@
+<form #contactUsForm="ngForm" name="contactUsForm" (ngSubmit)="contactUsForm.valid && saveContact(contactUsForm)"
+    novalidate>
+
+    <section class="mainContent">
+        <div class="container">
+            <div class="row">
+                <!--search panel-->
+                <div class="searchPanel">
+                    <a [routerLink]="['/advance-search']">Continue Searching <i
+                            class="fa fa-search"></i></a>
+                </div>
+                <!---->
+                <div class="col-sm-12">
+                    <div class="row mb-20">
+                        <div class="col-sm-12">
+                            <div class="mainHeading">
+                                <h1>Contact Us</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="contactUs">
+                                <div class="thumbImage"style="background-image: url('./assets/images/contact-us.jpg')">
+                                    <div class="thumbBox">
+                                        <div class="form-group"
+                                            [class.has-error]="(name.touched || contactUsForm.submitted)&& name.invalid">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" required name="contactName"
+                                                #name="ngModel" pattern="[a-zA-Z ]*$" [(ngModel)]="contactFormData.name"
+                                                placeholder="Enter Name" />
+                                            <span class="help-block"
+                                                *ngIf="name.errors?.required && (name.touched || contactUsForm.submitted)">Name
+                                                is
+                                                required</span>
+                                            <span class="help-block"
+                                                *ngIf="!name.errors?.required && name.errors?.pattern">Enter a valid
+                                                name
+                                            </span>
+                                        </div>
+                                        <div class="form-group"
+                                            [class.has-error]="(email.touched || contactUsForm.submitted)&& email.invalid">
+
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="email" #email="ngModel"
+                                                required [(ngModel)]="contactFormData.email"
+                                                pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                                                placeholder="Enter Email" />
+                                            <span class="help-block"
+                                                *ngIf="email.errors?.required && (email.touched || contactUsForm.submitted)">Email
+                                                is
+                                                required</span>
+                                            <span class="help-block"
+                                                *ngIf="!email.errors?.required && email.errors?.pattern">Enter a valid
+                                                email
+                                                address
+                                            </span>
+                                        </div>
+                                        <div class="form-group"
+                                            [class.has-error]="(message.touched || contactUsForm.submitted)&& message.invalid">
+
+                                            <label>Message</label>
+                                            <textarea class="form-control" name="message" required #message="ngModel"
+                                                [(ngModel)]="contactFormData.message" placeholder="Message"></textarea>
+                                            <span class="help-block"
+                                                *ngIf="message.errors?.required && message.touched || contactUsForm.submitted && message.invalid">Message
+                                                is
+                                                required</span>
+                                        </div>
+                                        <div class="form-group"
+                                            [class.has-error]="(company.touched || contactUsForm.submitted)&& company.invalid">
+
+                                            <label>Company</label>
+                                            <input type="text" class="form-control" required name="company"
+                                                #company="ngModel" [(ngModel)]="contactFormData.company"
+                                                placeholder="Enter Company" />
+                                            <span class="help-block"
+                                                *ngIf="company.errors?.required && company.touched || contactUsForm.submitted && company.invalid">Company
+                                                is
+                                                required</span>
+                                        </div>
+                                        <div class="form-group"
+                                            [class.has-error]="(phone.touched || contactUsForm.submitted)&& phone.invalid">
+
+                                            <label>Work Phone</label>
+                                            <input type="text" class="form-control" required name="phone"
+                                                #phone="ngModel" [(ngModel)]="contactFormData.phone"
+                                                mask="(000) 000-0000" minlength="10" placeholder="Enter Phone Number" />
+                                            <span class="help-block"
+                                                *ngIf="phone.errors?.required && (phone.touched || contactUsForm.submitted)">Work
+                                                Phone
+                                                is
+                                                required</span>
+                                            <span class="help-block" *ngIf="phone.errors?.minlength">Work Phone
+                                                is
+                                                invalid</span>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-blue btnCss">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loaderDiv" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </section>
+</form>

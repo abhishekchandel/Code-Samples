@@ -1,0 +1,44 @@
+<form #loginForm="ngForm" name="loginForm" (ngSubmit)="loginForm.valid && login(loginForm)" novalidate>
+    <section class="bgImage">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="boxWrapper">
+                        <div class="boxHeder">
+                            <h1>Funeral Provider Log-in</h1>
+                        </div>
+                        <div class="bgColor"></div>
+                        <div class="formBox">
+                                <div class="form-group"
+                                    [class.has-error]="(userName.touched || loginForm.submitted)&& userName.invalid">
+                                    <label>User Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter User Name" id="email"
+                                        name="userName" #userName="ngModel" [(ngModel)]="loginFormData.userName"
+                                        required>
+                                    <span class="help-block" *ngIf="userName.errors?.required">User Name is
+                                        required</span>
+                                </div>
+                                <div class="form-group"
+                                    [class.has-error]="(password.touched || loginForm.submitted)&& password.invalid">
+                                    <label>Password:</label>
+                                    <input type="password" class="form-control" placeholder="Enter Password" id="pwd"
+                                        name="password" #password="ngModel" [(ngModel)]="loginFormData.password"
+                                        required>
+                                    <span class="help-block" *ngIf="password.errors?.required">Password
+                                        is
+                                        required</span>
+                                </div>
+                                <p class="forgotPass text-right"><a [routerLink]="['/auth/forgot-password']">Forgot
+                                    Password ?</a></p>
+                                <button type="submit" class="btn btn-red btnCss mt-20"
+                                    >Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loaderDiv" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+         </div>
+    </section>
+</form>

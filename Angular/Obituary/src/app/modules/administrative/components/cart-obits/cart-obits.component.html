@@ -1,0 +1,126 @@
+<section class="bgImage">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="searchPanel">
+                <a [routerLink]="['/admin/admin-panel']">Back To Admin Panel <i class="fa fa-th"></i></a>
+            </div>
+            <div class="col-lg-10 offset-lg-1 col-md-12">
+                <div class="adminWrapper">
+
+                    <div class="wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="boxHeder">
+                                    <h1>Maintain Cart Obits<i class="fa fa-shopping-cart" aria-hidden="true"></i></h1>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="select" *ngIf="showDropdown">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>View Staff Cart</mat-label>
+                                        <mat-select (selectionChange)="getAllObits($event)">
+                                            <mat-option>None</mat-option>
+                                            <mat-option *ngFor="let employee of accountMembers"
+                                                [value]="employee.UserProfileId">{{employee.Name| titlecase}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="cardDiv">
+                                    <div class="cardHeader">Important message about obituaries in your Cart
+                                    </div>
+                                    <div class="cardBody">
+                                        <div class="narrinfo">
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Cart Items</th>
+
+                                                                <th class="text-right">
+                                                                    {{cartResponse&&cartResponse.length}}
+                                                                    {{cartResponse.length > 1 ? 'items' : 'item'}}
+                                                                    in your Cart
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let data of cartResponse;let i=index;">
+                                                                <td>
+                                                                    <div class="thumbTitle">
+                                                                        <h1>{{data.FirstName}}
+                                                                            {{data.LastName}}
+                                                                        </h1>
+                                                                    </div>
+                                                                    <div class="thumbInner">
+                                                                        <div class="thumbImage"
+                                                                            *ngFor="let image of data.Images;let i=index">
+                                                                            <img [src]="assetsUrl+image.FirstImage"
+                                                                                *ngIf="i < 1"
+                                                                                onError="this.src='./assets/images/no-image.jpg'"
+                                                                                alt="image" />
+                                                                            <!-- <img [src]="assetsUrl+image.SecondImage"
+                                                                                *ngIf="image.SecondImage!=null"
+                                                                                alt="image" /> -->
+                                                                        </div>
+                                                                        <div class="thumbImage"
+                                                                            *ngIf="data.Images.length==0"><img
+                                                                                src="./assets/images/no-image.jpg"
+                                                                                alt="image" /></div>
+
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="info" [innerHtml]="data.Narrative">
+                                                                    </div>
+                                                                    <div class="cartBtn">
+                                                                        <button class="btn btn-red btnCss"
+                                                                            (click)="calculateAmount('one',data.ObituaryId,cartResponse)">
+                                                                            Submit</button>
+                                                                        <button class="btn btn-red btnCss"
+                                                                            (click)="editCartObit(data.ObituaryId)">
+                                                                            Edit</button><button
+                                                                            class="btn btn-red btnCss"
+                                                                            (click)="confirmRemoveObit(i,data)">
+
+                                                                            Remove</button></div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="buttons">
+                                    <button class="btn btn-red btnCss wd-220" (click)="placeAnotherObituary()">Place
+                                        Another
+                                        Obituary</button>
+                                    <button class="btn btn-red btnCss  wd-220" (click)="submitAll(cartResponse)">Submit
+                                        All</button>
+                                    <button class="btn btn-red btnCss  wd-220"
+                                        [routerLink]="['/admin/admin-panel']">Cancel</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loaderDiv" *ngIf="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+</section>
+<ng-template #paymentModal>
+
+    <app-stripe-payment-form [singleItem]="singleItem" [selectedUserId]="selectedUserId" [obituariesId]="obituariesId"
+        [amount]="amount" (pageRefresh)="getObits($event)" (handleClose)="closeModal()">
+    </app-stripe-payment-form>
+
+</ng-template>

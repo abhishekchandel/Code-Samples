@@ -1,0 +1,68 @@
+<div id="downLoadDoc" class="modal fade trashPopup" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" (click)="onDismiss()">&times;</button>
+            <h4 class="modal-title">Sponsors Details</h4>
+        </div>
+        <div class="modal-body text-center sponsorsDetails">
+            <div class="form-group">
+                <label><b>Sponsor Name:</b></label>
+                <span>{{sponsorDetails.sponsorName | titlecase}}</span>
+            </div>
+            <div class="form-group">
+                <label><b>Contact Name:</b></label>
+                <span>{{sponsorDetails.contactName | titlecase}}</span>
+            </div>
+            <div class="form-group">
+                <label><b>Phone:</b></label>
+                <span>{{sponsorDetails.phone}}</span>
+            </div>
+            <div class="form-group">
+                <label><b>Email:</b></label>
+                <span>{{sponsorDetails.email}}</span>
+            </div>
+            <div class="form-group">
+                <label><b>Address:</b></label>
+                <span>{{sponsorDetails.address}}</span>
+            </div>
+            <div class="form-group">
+                <label><b>Sponsor Amount:</b></label>
+                <span>${{sponsorDetails.amount}}</span>
+            </div>
+
+            <div class="form-group">
+                <label><b>Amount Received:</b></label>
+                <span>${{sponsorDetails.amountReceived}}</span>
+            </div>
+
+            <div class="form-group">
+                <label><b>Balance:</b></label>
+                <span>${{sponsorDetails.balance}}</span>
+            </div>
+
+            <div class="form-group">
+                <label><b>State:</b></label>
+                <span>{{sponsorDetails.state | titlecase}}</span>
+            </div>
+            <div class="form-group">
+                <label><b>City:</b></label>
+                <span>{{sponsorDetails.city | titlecase}}</span>
+            </div>
+            <div class="form-group">
+                <label><b>Zip Code:</b></label>
+                <span>{{sponsorDetails.zipcode}}</span>
+            </div>
+            <div class="form-group">
+                <label><b>Sponsor ID:</b></label>
+                <span>{{sponsorDetails.sponsorId}}</span>
+            </div>
+        </div>
+        <div class="modal-footer text-center">
+        <button type="button" class="btn btn-default" (click)="onDismiss()">Close</button>
+        </div>
+        </div>
+
+    </div>		
+    
+</div>

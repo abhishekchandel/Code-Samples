@@ -1,0 +1,283 @@
+<form #notificationForm="ngForm" name="notificationForm"
+    (ngSubmit)="notificationForm.valid && subscribe(notificationForm)" novalidate>
+
+    <section class="mainContent">
+        <div class="container">
+            <div class="row">
+                <!--search panel-->
+                <div class="searchPanel">
+                    <a [routerLink]="['/advance-search']">Continue Searching <i class="fa fa-search"></i></a>
+                </div>
+                <!---->
+                <div class="col-sm-12">
+                    <div class="row mb-20">
+                        <div class="col-sm-12">
+                            <div class="mainHeading">
+                                <h1>Notifications</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="notifications">
+                                <div class="thumbColor">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12">
+                                            <div class="thumbImage"><img src="assets/images/notifications.png"
+                                                    alt="image" /></div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="thumbText">
+                                                <h2>Notifications</h2>
+                                                <p>Sign up and subscribe to receive <span>EveryObit</span>
+                                                    notifications.
+                                                    <br>Make sure you sign up for the notification lists that interest
+                                                    you.
+                                                </p>
+                                                <p>We never share or sell your information and you can unsubscibe at any
+                                                    time. </p>
+
+                                            </div>
+                                            <div class="thumbText">
+                                                <h3>Notification Information</h3>
+                                            </div>
+                                            <div class="thumbBox">
+                                                <div class="row">
+                                                    <!-- name of deceased -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group"
+                                                            [class.has-error]="(deceasedName.touched || notificationForm.submitted)&& deceasedName.invalid">
+                                                            <label>Name of Deceased</label>
+                                                            <input type="text" title="Name Of Deceased"
+                                                                class="form-control" name="deceasedName"
+                                                                #deceasedName="ngModel"
+                                                                [(ngModel)]="notificationFormData.deceasedName"
+                                                                placeholder="Enter Name" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- place of Death -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Death State</label>
+                                                            <select class="form-control" #deathState="ngModel"
+                                                                name="deathState" title="Death State"
+                                                                [(ngModel)]="notificationFormData.deathState"
+                                                                placeholder="State"
+                                                                (change)="getDeathCities($event.target.value)">
+                                                                <option value="null" disabled="true" [selected]="true">
+                                                                    Select State
+                                                                </option>
+                                                                <option
+                                                                    *ngFor="let state of statesResponse;let i =index"
+                                                                    [value]="state.StateId">
+                                                                    {{state.Name}} -
+                                                                    {{state.Abbreviations}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Death City</label>
+                                                            <select class="form-control" #deathCity="ngModel"
+                                                                name="deathCity" title="Death City"
+                                                                [(ngModel)]="notificationFormData.deathCity"
+                                                                placeholder="City">
+                                                                <option value="null" disabled="true" [selected]="true">
+                                                                    Select City
+                                                                </option>
+                                                                <option *ngFor="let city of deathCitiesResponse"
+                                                                    [value]="city.CityId">
+                                                                    {{city.Name}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- posted date -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Date of Obit Posting</label>
+                                                            <mat-form-field>
+                                                                <input class="form-control" matInput
+                                                                    title="Date Of Obit Posting"
+                                                                    [matDatepicker]="postingDatePicker" readonly
+                                                                    placeholder="Date Of Posting" [min]="minDate"
+                                                                    #postingDate="ngModel" name="postingDate"
+                                                                    [(ngModel)]="notificationFormData.postingDate">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="postingDatePicker">
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #postingDatePicker></mat-datepicker>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- from date of death -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Date of Death : From</label>
+                                                            <mat-form-field>
+                                                                <input class="form-control" matInput
+                                                                    [matDatepicker]="deathpickerFrom"
+                                                                    title="Date Of Death : From" [min]="minDate"
+                                                                    (dateChange)="handleDateValidations()" readonly
+                                                                    placeholder="Date Of Death" #FromDeathDate="ngModel"
+                                                                    name="FromDeathDate"
+                                                                    [(ngModel)]="notificationFormData.FromDeathDate">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="deathpickerFrom">
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #deathpickerFrom></mat-datepicker>
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- deceased to date -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group" [class.has-error]="errorIndex">
+                                                            <label>Date of Death : To</label>
+                                                            <mat-form-field>
+                                                                <input class="form-control" matInput readonly
+                                                                    title="Date Of Death : To"
+                                                                    [matDatepicker]="deathpickerTo" [min]="minDate"
+                                                                    #ToDeathDate="ngModel" (dateChange)="checkEndDate()"
+                                                                    placeholder="Date Of Death" name="ToDeathDate"
+                                                                    [(ngModel)]="notificationFormData.ToDeathDate">
+                                                                <mat-datepicker-toggle matSuffix [for]="deathpickerTo">
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #deathpickerTo></mat-datepicker>
+                                                            </mat-form-field>
+                                                            <div class="help-block">
+                                                                End Date
+                                                                should be greater than Start Date
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- notification start date -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group"
+                                                            [class.has-error]="(notificationStartDate.touched || notificationForm.submitted)&& notificationStartDate.invalid">
+                                                            <label>Notification Start Date</label>
+                                                            <mat-form-field>
+                                                                <input class="form-control" matInput readonly
+                                                                    [matDatepicker]="notificationStartDatePicker"
+                                                                    title="Notification Start Date"
+                                                                    placeholder="Notification Start Date"
+                                                                    [min]="minDate" #notificationStartDate="ngModel"
+                                                                    name="notificationStartDate"
+                                                                    [(ngModel)]="notificationFormData.notificationStartDate">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="notificationStartDatePicker">
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #notificationStartDatePicker>
+                                                                </mat-datepicker>
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- notification end date -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group"
+                                                            [class.has-error]="(notificationEndDate.touched || notificationForm.submitted)&& notificationEndDate.invalid">
+                                                            <label>Notification End Date</label>
+                                                            <mat-form-field>
+                                                                <input class="form-control" matInput readonly
+                                                                    title="Notification End Date"
+                                                                    [matDatepicker]="notificationEndDatePicker"
+                                                                    placeholder="Notification End Date"
+                                                                    [min]="notificationDate"
+                                                                    #notificationEndDate="ngModel"
+                                                                    name="notificationEndDate"
+                                                                    [(ngModel)]="notificationFormData.notificationEndDate">
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="notificationEndDatePicker">
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #notificationEndDatePicker>
+                                                                </mat-datepicker>
+                                                            </mat-form-field>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" name="armedForces"
+                                                                #armedForces="ngModel"
+                                                                [(ngModel)]="notificationFormData.armedForces">
+                                                            <span class="primary"></span>
+                                                        </label>
+                                                        <span title="Notified for Armed Forces Deceased"
+                                                            class="checkActive">Armed Forces</span>
+                                                    </div>
+                                                    <div class="thumbText">
+                                                        <span>
+                                                            <h3>Requester Information</h3>
+                                                        </span>
+
+                                                    </div>
+                                                    <!-- Name of Requester -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group"
+                                                            [class.has-error]="(name.touched || notificationForm.submitted)&& name.invalid">
+                                                            <label>Name of Requester</label>
+                                                            <input type="text" class="form-control" name="name"
+                                                                title="Name Of Requester" #name="ngModel"
+                                                                pattern="[a-zA-Z ]*$"
+                                                                [(ngModel)]="notificationFormData.name"
+                                                                placeholder="Enter Name" required />
+                                                            <span class="help-block"
+                                                                *ngIf="name.errors?.required && (name.touched || notificationForm.submitted )">Name
+                                                                is
+                                                                required</span>
+                                                            <span class="help-block"
+                                                                *ngIf="!name.errors?.required && name.errors?.pattern">Enter
+                                                                a
+                                                                valid
+                                                                name
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Email Of Requester -->
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group"
+                                                            [class.has-error]="(email.touched || notificationForm.submitted)&& email.invalid">
+                                                            <label>Email of Requester</label>
+                                                            <input type="text" required class="form-control"
+                                                                name="email" #email="ngModel" title="Email Of Requester"
+                                                                [(ngModel)]="notificationFormData.email"
+                                                                pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                                                                placeholder="Enter Email" />
+                                                            <span class="help-block"
+                                                                *ngIf="email.errors?.required && (email.touched || notificationForm.submitted)">Email
+                                                                is
+                                                                required</span>
+                                                            <span class="help-block"
+                                                                *ngIf="!email.errors?.required && email.errors?.pattern">Enter
+                                                                a
+                                                                valid
+                                                                email
+                                                                address
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <button type="submit"
+                                                            class="btn btn-blue btnCss">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loaderDiv" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </section>
+</form>

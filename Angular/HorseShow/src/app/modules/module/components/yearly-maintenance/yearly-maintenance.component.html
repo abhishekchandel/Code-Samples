@@ -1,0 +1,708 @@
+<div class="innerContent">
+	<div class="sortData">
+	   <div class="sponBtn"><button class="btn btn-red btnCss" (click)="resetForm()" >Add new Year</button></div>						   
+   </div>
+
+   <div class="gridTable addBlueStrip">
+        <div class="table-responsive">
+            <table class="table table-bordered tableBodyScroll">
+                <thead>
+                <tr>
+                    <th>Show Year
+                        <span></span>
+                    </th> 
+                    <th>Pre Entry Cutoff Date
+                        <span></span>
+                    </th> 
+                    <th>Pre Entry Fee
+                        <span></span>
+                    </th>
+                    <th>Post Entry Fee
+                        <span></span>
+                    </th>
+                    <th>Date Created
+                        <span></span>
+                    </th>
+                    <th>Remove</th> 
+                </tr>	
+                </thead> 
+                <perfect-scrollbar class="nicescrollBar-1"> 
+                    <tbody>
+                        <tr *ngFor="let summary of yearlyMaintenanceSummaryList ;let i = index " (click)="highlight(summary.YearlyMaintenanceId,i)" [ngClass]="{'blueRow': selectedRowIndex == i}">
+                            <td data-label="Show Year">{{summary.Year}}</td>
+                            <td data-label="Pre Entry Cutoff Date">{{summary.PreEntryCutOffDate | date : 'MM-dd-yyyy'}}</td>
+                            <td data-label="Pre Entry Free">{{summary.PreEntryFee}}</td>
+                            <td data-label="Post Entry Free">{{summary.PostEntryFee}}</td>
+                            <td data-label="Date Created">{{summary.DateCreated | date : 'MM-dd-yyyy'}}</td>
+                            <td data-label="Remove">
+                                <button type="button" class="icon" (click)="confirmRemoveYear($event,summary.YearlyMaintenanceId)"><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </perfect-scrollbar> 
+            </table> 
+            <div >
+                <mat-paginator  #paginator [length]="totalItems" (page)="getNext($event)" [pageSizeOptions]="[5]">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+
+    <!---->	
+
+    <div class="dataDesc gridTable twoCol">
+		<table class="table table-bordered tableBodyScroll">
+			<tbody>
+				<tr>
+                    <td><span class="blueBox"></span><b>Horse Show Year:</b> {{yearlyMaintenanceSummary.Year}} </td>
+					<td><span class="blueBox"></span><b>Horse Show Location:</b> &nbsp; {{contactInfo.Location}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+   <!---->
+    <div class="sponTabbing">
+        <div class="tab-content">
+            <div class="tab-pane  active" id="home">
+                <mat-tab-group #tabGroup>
+                    
+                    <mat-tab  class="nav-link active nav nav-tabs" label="Users">
+                        <div class="card dataEntriesTable">
+                            <div class="card-body">
+                                <div class="table-responsive tableTab" id="contentscroll2">
+                                    <table class="table table-bordered tableBodyScroll">
+                                        <thead>
+                                            <tr>
+                                                <th>First Name</th> 
+                                                <th>Last Name</th> 
+                                                <th>Email</th>
+                                                <th>Active</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <perfect-scrollbar class="nicescrollBar-2">
+                                            <tbody>
+                                                
+                                                <tr *ngFor="let user of verifiedUsers">
+                                                    <td>{{user.FirstName}}</td>
+                                                    <td>{{user.LastName}}</td>
+                                                    <td>{{user.Email}}</td>
+                                                    <td>
+                                                        <label class="customCheckbox d-inline-block">
+                                                            <input name="nsbaIndicator"  type="checkbox" (click)="confirmUserActiveInactive(user.UserId,$event)"  [attr.checked]="user.IsActive === true ? true : null" class="ciCheckbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="icon" (click)="confirmRemoveApprovedUser(user.UserId)"><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                    </td>
+                                                </tr>
+                                              
+                                            </tbody> 
+                                        </perfect-scrollbar>
+                                    </table>
+                                </div>
+
+                                <div class="actionBtn text-right mb-4 mt-3">
+                                    <button (click)='tabGroup.selectedIndex = 1' class="btn btn-red btnCss roundBtn">Next</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab  class="nav-link active nav nav-tabs" label="User Info">
+                        <div class="card dataEntriesTable">
+                            <div class="card-body">                                 
+                                        <div class="table-responsive tableTab" id="contentscroll2">
+                                            <table class="table table-bordered tableBodyScroll">
+                                                <thead>
+                                                    <tr>
+                                                        <th>First Name</th> 
+                                                        <th>Last Name</th>
+                                                        <th>Email</th> 
+                                                        <th>Verified</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <perfect-scrollbar class="nicescrollBar-2">
+                                                    <tbody>
+                                                        
+                                                        <tr *ngFor="let user of registeredUsers">
+                                                            <td>{{user.FirstName}}</td>
+                                                            <td>{{user.LastName}}</td>
+                                                            <td>{{user.Email}}</td>                                                          
+                                                            <td>
+                                                             <span *ngIf="user.IsApproved==false"><i class="fa fa-times-circle verifiedSign" aria-hidden="true"></i></span>
+                                                            </td>
+                                                            <td>
+                                                                <span *ngIf="user.IsApproved==false"><button type="button" (click)="confirmVerifyUnverify(user.UserId)" class="icon text-success"><span></span> <i class="fa fa-check-square-o darkBlue" aria-hidden="true"></i></button></span>
+                                                                <button type="button" class="icon" (click)="confirmRemoveUser(user.UserId)"><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                      
+                                                    </tbody> 
+                                                </perfect-scrollbar>
+                                            </table>
+                                        </div>
+                                        
+                                    <div class="actionBtn text-right mb-4 mt-3">
+                                        <button (click)='tabGroup.selectedIndex = 0' class="btn btn-red btnCss roundBtn">Previous</button>
+                                        <button (click)='tabGroup.selectedIndex = 2' class="btn btn-red btnCss roundBtn">Next</button>
+                                        <button type="submit"class="btn btn-red btnCss roundBtn">Submit</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+
+                    <mat-tab  class="nav-link  nav nav-tabs" label="Fees & Categories">
+                        <form #addYearForm="ngForm" name="addYearForm" (ngSubmit)="addYearForm.valid && addUpdateYear()">
+                        <div class="card dataEntriesTable">
+                            <div class="card-body"> 
+                                <ul class="showDateTable">
+                                    <li>
+                                        <div class="form-group">
+                                            <label class="smText">Show Start Date <span>*</span></label> 
+                                            <mat-form-field class="dateField"> 
+                                                <input matInput required [matDatepicker]="showStartDatePicker" 
+                                                    placeholder="Show Start Date" class="form-control"
+                                                    name="showStartDate" #showStartDate="ngModel"
+                                                     readonly
+                                                    [(ngModel)]="yearlyMaintenanceSummary.ShowStartDate" >
+                                                <mat-datepicker-toggle matSuffix [for]="showStartDatePicker">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #showStartDatePicker></mat-datepicker>													
+                                            </mat-form-field>
+                                            <span class="help-block"
+                                            *ngIf="(addYearForm.submitted || showStartDate.touched) && showStartDate.invalid">
+                                            Please enter Show Start Date
+                                        </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <label class="smText">Show End Date <span>*</span></label> 
+                                            <mat-form-field class="dateField">
+                                                <input required matInput [matDatepicker]="showEndDatePicker"
+                                                    placeholder="Billing Date" class="form-control"
+                                                    name="showEndDate" #showEndDate="ngModel"
+                                                     readonly
+                                                    [(ngModel)]="yearlyMaintenanceSummary.ShowEndDate" >
+                                                <mat-datepicker-toggle matSuffix [for]="showEndDatePicker">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #showEndDatePicker></mat-datepicker>													
+                                            </mat-form-field>
+                                            <span class="help-block"
+                                            *ngIf="(addYearForm.submitted || showEndDate.touched) && showEndDate.invalid">
+                                            Please enter Show End Date
+                                        </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <label class="smText">Pre Entry Cut Off Date <span>*</span></label>
+                                            <mat-form-field class="dateField">
+                                                <input required matInput [matDatepicker]="preEntryCutOffDatePicker"
+                                                    placeholder="Billing Date" class="form-control"
+                                                    name="preEntryCutOffDate" #preEntryCutOffDate="ngModel"
+                                                    
+                                                    [(ngModel)]="yearlyMaintenanceSummary.PreEntryCutOffDate" readonly>
+                                                <mat-datepicker-toggle matSuffix [for]="preEntryCutOffDatePicker">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #preEntryCutOffDatePicker></mat-datepicker>													
+                                            </mat-form-field>
+                                            <span class="help-block"
+                                            *ngIf="(addYearForm.submitted || preEntryCutOffDate.touched) && preEntryCutOffDate.invalid">
+                                            Please enter Pre Entry Cut Off Date
+                                        </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <label class="smText">Sponsor Cut Off Date <span>*</span></label>
+                                            <mat-form-field  class="dateField">
+                                                <input matInput required [matDatepicker]="sponsorCutOffDatePicker"
+                                                    placeholder="Billing Date" class="form-control"
+                                                    name="sponsorCutOffDate" #sponsorCutOffDate="ngModel"
+                                                    
+                                                    [(ngModel)]="yearlyMaintenanceSummary.SponcerCutOffDate" readonly>
+                                                <mat-datepicker-toggle matSuffix [for]="sponsorCutOffDatePicker">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #sponsorCutOffDatePicker></mat-datepicker>													
+                                            </mat-form-field>
+                                            <span class="help-block"
+                                            *ngIf="(addYearForm.submitted || sponsorCutOffDate.touched) && sponsorCutOffDate.invalid">
+                                            Please enter Sponsor Cut Off Date
+                                        </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <label class="smText">Show Year <span>*</span></label>                                  
+                                            <select  class="form-control" required placeholder="Year" name="year" #year="ngModel" [(ngModel)]="yearlyMaintenanceSummary.Year" (change)="setYear($event)">													
+                                                <option value="null" disabled="true" [selected]="true">
+                                                    Select  Year
+                                                </option>
+                                                <option *ngFor="let year of years"
+                                                    [value]="year">{{year}}
+                                                </option>                                                                                               
+                                            </select>
+                                            <span class="help-block"
+                                            *ngIf="(addYearForm.submitted || year.touched) && year.invalid">
+                                            Please select year
+                                        </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                                
+                                <div class="table-responsive tableTab ssReports" id="contentscroll2">
+                                    <table class="table table-bordered tableBodyScroll">
+                                        <thead>
+                                        <tr>
+                                            <th>Select To Populate</th> 
+                                        </tr>	
+                                        </thead> 
+                                        <perfect-scrollbar class="nicescrollBar-2"> 
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="pointerSign" (click)="openAddFeeModal()">Ad Fees</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="pointerSign" (click)="openClassCategoryModal()">Class Categories</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="pointerSign" (click)="openGeneralFeeModal()">General Fees ( Horse, Admin, Class, Entry, etc )</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="pointerSign" (click)="openScratchRefundCalculationModal()">Scratch Refund Calculations</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="pointerSign" (click)="openSponsorIncentiveRefundModal()">Sponsor Incentive Refund Calculations</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </perfect-scrollbar> 
+                                    </table> 
+                                </div>
+                            </div>
+                            <div class="actionBtn text-right mb-3">
+                                <button (click)='tabGroup.selectedIndex = 1' class="btn btn-red btnCss roundBtn">Previous</button>
+                                <button (click)='tabGroup.selectedIndex = 3' class="btn btn-red btnCss roundBtn">Next</button>
+                                <button type="submit"class="btn btn-red btnCss roundBtn">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    </mat-tab>
+
+                    <mat-tab  class="nav-link nav nav-tabs" label="Copy Data">
+                        <form #copyDataForm="ngForm" name="copyDataForm" (ngSubmit)="copyDataForm.valid && copyData()">
+                            <div class="card">
+                                <div class="card-body">
+                                    <button type="submit"class="btn btn-red btnCss roundBtn">Copy</button>
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </mat-tab>
+
+                    <mat-tab  class="nav-link nav nav-tabs" label="Statement Text">
+                        <form>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="comnCaption mb-4">Enter text that will appear on the various statements listed below:</h3>
+                                
+                                    <table class="table table-bordered tableBodyScroll"> 
+                                        <perfect-scrollbar class="nicescrollBar-1"> 
+                                            <tbody>
+                                                <tr *ngFor="let report of reportsList ; let i = index;">
+                                                    <td >
+                                                        <div class="stWrapper">
+                                                            <label>{{report.StatementName}} -Report #{{report.StatementNumber}} {{report.Incentive ==null ? '' : 'Incentive'}}  {{report.Incentive}}</label>
+                                                            <textarea (input)="setText($event.target.value,i)" >{{report.StatementText}}</textarea>
+                                                        </div>
+                                                        <div class="actionBtn text-right mb-2 mt-1">
+                                                            <button (click)="updateReportInfo(report,i)" type="button"class="btn btn-red btnCss roundBtn">Submit</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                               
+                                            </tbody>
+                                        </perfect-scrollbar> 
+                                    </table>
+                                
+                                </div>
+                            </div>
+                        </form>
+                    </mat-tab>
+
+                    <mat-tab  class="nav-link nav nav-tabs" label="AAYHS Contact Info">
+                        <form #addContactForm="ngForm" (ngSubmit)="addContactForm.valid && addUpdateContactInfo()">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="boxShadow mb-4"> 
+                                        <div class="row">                                         
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Show Location <span>*</span></label> 
+                                                    <input type="text"  class="form-control" required name="location" #location="ngModel" [(ngModel)]="contactInfo.Location" placeholder="Location"/>
+                                                </div>
+                                                <span class="help-block"*ngIf="(addContactForm.submitted || location.touched) && location.invalid">Please enter location </span>                                                
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Email Contact 1 <span>*</span></label> 
+                                                    <input type="text" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" class="form-control" required name="emailContact1" #emailContact1="ngModel" [(ngModel)]="contactInfo.Email1" placeholder="Email Contact 1"/>
+                                                </div>
+                                                <span class="help-block" *ngIf="emailContact1.errors?.required && (emailContact1.touched || addContactForm.submitted)">Please enter Email contact 1</span>
+                                                <span class="help-block" *ngIf="!emailContact1.errors?.required && emailContact1.errors?.pattern"> Email contact 1 is invalid</span>                                              
+                                             </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Email Contact 2 <span>*</span></label> 
+                                                    <input pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" type="text" class="form-control" required name="emailContact2" #emailContact2="ngModel" [(ngModel)]="contactInfo.Email2" placeholder="Email Contact 2"/>
+                                                    <span class="help-block" *ngIf="emailContact2.errors?.required && (emailContact2.touched || addContactForm.submitted)">Please enter Email contact 2</span>                                             
+                                                    <span class="help-block" *ngIf="!emailContact2.errors?.required && emailContact2.errors?.pattern"> Email contact 2 is invalid</span>
+                                                </div>
+                                            </div>
+                                         
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Phone Contact 1 <span>*</span></label> 
+                                                    <input mask="(000) 000-0000" type="text" class="form-control" required name="phoneContact1" #phoneContact1="ngModel" [(ngModel)]="contactInfo.Phone1" placeholder="Phone Contact 1"/>
+                                                </div>
+                                                <span class="help-block"*ngIf="(addContactForm.submitted || phoneContact1.touched) && phoneContact1.invalid">Please enter Phone Contact 1 </span>                                                
+                                            </div>
+                                        <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Phone Contact 2 </label> 
+                                                    <input mask="(000) 000-0000" type="text"  class="form-control" name="phoneContact2" #phoneContact2="ngModel" [(ngModel)]="contactInfo.Phone2" placeholder="Phone Contact 2"/>
+                                                </div>
+                                                                                              
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Address <span>*</span></label> 
+                                                <input type="text" #address="ngModel" name="address" [(ngModel)]="contactInfo.Address" required class="form-control" placeholder="Address"/>
+                                                <span class="help-block"*ngIf="(addContactForm.submitted || address.touched) && address.invalid">Please enter Address </span>                                             
+                                           </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>City <span>*</span></label> 
+                                                <input type="text" #city="ngModel" name="city" [(ngModel)]="contactInfo.City" required class="form-control" placeholder="City"/>
+                                                <span class="help-block"*ngIf="(addContactForm.submitted || city.touched) && city.invalid">Please enter City </span>                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>State <span>*</span></label> 
+                                                <input type="text" name="state" #state="ngModel" [(ngModel)]="contactInfo.State" required class="form-control" placeholder="State"/>
+                                            </div>
+                                            <span class="help-block"*ngIf="(addContactForm.submitted || state.touched) && state.invalid">Please select State </span>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                    <label> Zip <span>*</span></label> 
+                                                    <input type="text" maxlength="5" #zip="ngModel" name="exhibitorSponsorZip" [(ngModel)]="contactInfo.Zipcode" required class="form-control" placeholder="Zip"/>                                                        </div>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || zip.touched) && zip.invalid">Please enter Zip </span>
+                                            </div>                                        
+                                        </div>
+                                    <div class="row mt-3">
+                                        <div class="col-sm-6 mb-4">
+                                            <div class="boxShadow">
+                                                <h6 class="captionBorder">Return Address: Exhibitor Sponsor Confirmation - Report #3</h6>
+
+                                                <div class="form-group">
+                                                    <label>Email <span>*</span></label> 
+                                                    <input type="text" #exhibitorSponsorEmail="ngModel" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"  name="exhibitorSponsorEmail" [(ngModel)]="contactInfo.exhibitorSponsorEmail" required class="form-control" placeholder="Email"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorSponsorEmail.touched) && exhibitorSponsorEmail.invalid">Please enter Email </span>                                             
+                                                    <span class="help-block" *ngIf="!exhibitorSponsorEmail.errors?.required && exhibitorSponsorEmail.errors?.pattern"> Email  is invalid</span>    
+                                                </div>
+
+                                                   <div class="form-group">
+                                                    <label>Phone <span>*</span></label> 
+                                                    <input type="text" #exhibitorSponsorPhone="ngModel" mask="(000) 000-0000" name="exhibitorSponsorPhone" [(ngModel)]="contactInfo.exhibitorSponsorPhone" required class="form-control" placeholder="Phone"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorSponsorPhone.touched) && exhibitorSponsorPhone.invalid">Please enter Phone </span>                                             
+                                                   </div>
+
+                                                <div class="form-group">
+                                                    <label>Address <span>*</span></label> 
+                                                    <input type="text" #exhibitorSponsorAddress="ngModel" name="exhibitorSponsorAddress" [(ngModel)]="contactInfo.exhibitorSponsorAddress" required class="form-control" placeholder="Address"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorSponsorAddress.touched) && exhibitorSponsorAddress.invalid">Please enter Address </span>                                             
+                                                   </div>
+                                                <div class="form-group">
+                                                    <label>City <span>*</span></label> 
+                                                    <input type="text" #exhibitorSponsorCity="ngModel" name="exhibitorSponsorCity" [(ngModel)]="contactInfo.exhibitorSponsorCity" required class="form-control" placeholder="City"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorSponsorCity.touched) && exhibitorSponsorCity.invalid">Please enter City </span>                                               
+                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>State <span>*</span></label> 
+                                                            <select required class="form-control" #exhibitorSponsorState="ngModel" [(ngModel)]="contactInfo.exhibitorSponsorState" required placeholder="State" name="exhibitorSponsorState">													
+                                                                <option value="null" disabled="true" [selected]="true">
+                                                                    Select State
+                                                                </option>
+                                                                <option *ngFor="let state of statesResponse"
+                                                                    [value]="state.StateId">{{state.Name}} -
+                                                                    {{state.Code}}
+                                                                </option>                                                                                                
+                                                            </select>
+                                                        </div>
+                                                        <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorSponsorState.touched) && exhibitorSponsorState.invalid">Please select State </span>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label> Zip <span>*</span></label> 
+                                                            <input type="text" maxlength="5" #exhibitorSponsorZip="ngModel" name="exhibitorSponsorZip" [(ngModel)]="contactInfo.exhibitorSponsorZip" required class="form-control" placeholder="Zip"/>                                                        </div>
+                                                            <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorSponsorZip.touched) && exhibitorSponsorZip.invalid">Please enter Zip </span>
+                                                        </div>
+                                                </div> 
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 mb-4">
+                                            <div class="boxShadow">
+                                                <h6 class="captionBorder">Return Address: Exhibitor Refund Statement - Report 3a</h6>
+                                                <div class="form-group">
+                                                    <label>Email <span>*</span></label> 
+                                                    <input type="text" #exhibitorRefundEmail="ngModel" name="exhibitorRefundEmail" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" [(ngModel)]="contactInfo.exhibitorRefundEmail" required class="form-control" placeholder="Email"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorRefundEmail.touched) && exhibitorRefundEmail.invalid">Please enter Email </span>  
+                                                    <span class="help-block" *ngIf="!exhibitorRefundEmail.errors?.required && exhibitorRefundEmail.errors?.pattern"> Email  is invalid</span>                                            
+                                                   </div>
+
+                                                   <div class="form-group">
+                                                    <label>Phone <span>*</span></label> 
+                                                    <input type="text" mask="(000) 000-0000" #exhibitorRefundPhone="ngModel" name="exhibitorRefundPhone" [(ngModel)]="contactInfo.exhibitorRefundPhone" required class="form-control" placeholder="Phone"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorRefundPhone.touched) && exhibitorRefundPhone.invalid">Please enter Phone </span>                                             
+                                                   </div>
+                                                <div class="form-group">
+                                                    <label>Address <span>*</span></label> 
+                                                    <input type="text" name="exhibitorRefundAddress" #exhibitorRefundAddress="ngModel" required [(ngModel)]="contactInfo.exhibitorRefundAddress" class="form-control" placeholder="Address"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorRefundAddress.touched) && exhibitorRefundAddress.invalid">Please enter Address </span>                                                </div>
+                                                <div class="form-group">
+                                                    <label>City <span>*</span></label> 
+                                                    <input type="text" class="form-control" name="exhibitorRefundCity" #exhibitorRefundCity="ngModel" [(ngModel)]="contactInfo.exhibitorRefundCity" required placeholder="City"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorRefundCity.touched) && exhibitorRefundCity.invalid">Please enter City </span>                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>State <span>*</span></label> 
+                                                            <select required class="form-control" #exhibitorRefundState="ngModel" [(ngModel)]="contactInfo.exhibitorRefundState" required placeholder="State"  name="exhibitorRefundState">													
+                                                                <option value="null" disabled="true" [selected]="true">
+                                                                    Select State
+                                                                </option>
+                                                                <option *ngFor="let state of statesResponse"
+                                                                    [value]="state.StateId">{{state.Name}} -
+                                                                    {{state.Code}}
+                                                                </option>                                                                                                 
+                                                            </select>
+                                                        </div>
+                                                        <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorRefundState.touched) && exhibitorRefundState.invalid">Please select State </span>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label> Zip <span>*</span></label> 
+                                                            <input type="text" maxlength="5" #exhibitorRefundZip="ngModel" name="exhibitorRefundZip" [(ngModel)]="contactInfo.exhibitorRefundZip" required class="form-control" placeholder="Zip"/>                                                        </div>
+                                                            <span class="help-block"*ngIf="(addContactForm.submitted || exhibitorRefundZip.touched) && exhibitorRefundZip.invalid">Please enter Zip </span>
+                                                        </div>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 mb-4">
+                                            <div class="boxShadow">
+                                                <h6 class="captionBorder">Return Address: Confirmation for Entries and Stalls - Reports #17, #15</h6>
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <label>Email <span>*</span></label> 
+                                                        <input type="text" #returnEmail="ngModel" name="returnEmail" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" [(ngModel)]="contactInfo.returnEmail" required class="form-control" placeholder="Email"/>
+                                                        <span class="help-block"*ngIf="(addContactForm.submitted || returnEmail.touched) && returnEmail.invalid">Please enter Email </span>                                             
+                                                        <span class="help-block" *ngIf="!returnEmail.errors?.required && returnEmail.errors?.pattern"> Email  is invalid</span>                                            
+                                                    </div>
+    
+                                                       <div class="form-group">
+                                                        <label>Phone <span>*</span></label> 
+                                                        <input type="text" #returnPhone="ngModel" mask="(000) 000-0000" name="returnPhone" [(ngModel)]="contactInfo.returnPhone" required class="form-control" placeholder="Phone"/>
+                                                        <span class="help-block"*ngIf="(addContactForm.submitted || returnPhone.touched) && returnPhone.invalid">Please enter Phone </span>                                             
+                                                       </div>
+
+                                                    <label>Address <span>*</span></label> 
+                                                    <input type="text" #returnAddress="ngModel" name="returnAddress" [(ngModel)]="contactInfo.returnAddress" required class="form-control" placeholder="Address"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || returnAddress.touched) && returnAddress.invalid">Please enter Address </span>                                                </div>
+                                                <div class="form-group">
+                                                    <label>City <span>*</span></label> 
+                                                    <input type="text" #returnCity="ngModel" [(ngModel)]="contactInfo.returnCity" name="returnCity" required class="form-control" placeholder="City"/>
+                                                    <span class="help-block"*ngIf="(addContactForm.submitted || returnCity.touched) && returnCity.invalid">Please enter City</span>                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>State <span>*</span></label> 
+                                                            <select required class="form-control" #returnState="ngModel" [(ngModel)]="contactInfo.returnState" required placeholder="State" name="returnState">													
+                                                                <option value="null" disabled="true" [selected]="true">
+                                                                    Select State
+                                                                </option>
+                                                                <option *ngFor="let state of statesResponse"
+                                                                    [value]="state.StateId">{{state.Name}} -
+                                                                    {{state.Code}}
+                                                                </option>                                                                                     
+                                                            </select>
+                                                        </div>
+                                                        <span class="help-block"*ngIf="(addContactForm.submitted || returnState.touched) && returnState.invalid">Please select state </span>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label> Zip <span>*</span></label> 
+                                                            <input type="text" maxlength="5" #returnZip="ngModel" name="returnZip" [(ngModel)]="contactInfo.returnZip" required class="form-control" placeholder="Zip"/>                                                        </div>
+                                                            <span class="help-block"*ngIf="(addContactForm.submitted || returnZip.touched) && returnZip.invalid">Please enter Zip </span>
+                                                        </div>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="actionBtn text-right mb-3">
+                                        <button (click)='tabGroup.selectedIndex = 2' class="btn btn-red btnCss roundBtn">Previous</button>
+                                        <button (click)='tabGroup.selectedIndex = 4' class="btn btn-red btnCss roundBtn">Next</button>
+                                        <button type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+                                    </div>
+                            </div>
+                        </div>
+                                </div>
+                        </form>
+                    </mat-tab>
+                    <mat-tab  class="nav-link nav nav-tabs" label="Purge Routine">
+                        <form>
+                            <div class="card">
+                                <div class="card-body"> 
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h3 class="commonCaption font-weight-bold">Remove or Restore data in database tables</h3>
+                                            <h6 class="font-weight-bold">Current Software/Database Version/Release V1A1</h6>
+                                        </div>
+                                        <div class="col-sm-12 mb-3 mt-3 cbdRadio">
+                                            <div class="prePostField">
+                                                <label class="radioBtn"><strong>Purge Data</strong> = Remove Data from database table(s)
+                                                    <input type="radio" checked="checked" name="fee.CodeName" value="2011">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radioBtn"><strong>Restore Data</strong> = Restore Data from a previous backup to the current Database
+                                                    <input type="radio" name="fee.CodeName" value="2012" >
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                            <hr />
+                                            <div class="actionBtn text-right mb-3">
+                                                <button (click)='tabGroup.selectedIndex = 3' class="btn btn-red btnCss roundBtn">Previous</button>
+                                                <button (click)='tabGroup.selectedIndex = 5' class="btn btn-red btnCss roundBtn">Next</button>
+                                                <button type="submit"class="btn btn-red btnCss roundBtn">Submit</button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-tab>
+                    <mat-tab  class="nav-link nav nav-tabs" label="Backup Routine">
+                        <form>
+                            <div class="card">
+                                <div class="card-body"> 
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h3 class="commonCaption font-weight-bold">Back Up information in Current database tables</h3>
+                                            <h6 class="font-weight-bold">Current Software/Database Version/Release V1A1</h6>
+                                            <p>When backing up data, the application will be frozen so that No user's will be able to access the
+                                                application or its data. When the back up is complete, the application and data will be released so that user's will be able to access the application and data.
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive tableTab" id="contentscroll2">
+                                                <table class="table table-bordered tableBodyScroll">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Saved Database Data</th> 
+                                                            <th>Version/Release</th>
+                                                            <th class="comWidth">Remove</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <perfect-scrollbar class="nicescrollBar-2">
+                                                        <tbody>
+                                                            
+                                                            <tr>
+                                                                <td>BackupHorses_V1R1_20200701_050000</td>
+                                                                <td>V1R1</td>
+                                                                <td class="comWidth">
+                                                                    <button type="button" class="icon" ><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>BackupSponsors_V1R1_20200723_101500</td>
+                                                                <td>V1R1</td>
+                                                                <td class="comWidth">
+                                                                    <button type="button" class="icon" ><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>BackupClasses_V1R1_20200902_053000</td>
+                                                                <td>V1R1</td>
+                                                                <td class="comWidth">
+                                                                    <button type="button" class="icon" ><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>BackupAll_V1R1_20201002_023000</td>
+                                                                <td>V1R1</td>
+                                                                <td class="comWidth">
+                                                                    <button type="button" class="icon" ><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        </tbody> 
+                                                    </perfect-scrollbar>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 mb-3 mt-3 cbdRadio">
+                                            <div class="prePostField">
+                                                <label class="radioBtn"><strong>Back Up</strong> =  Back up Data from all Current database table
+
+                                                    <input type="radio" checked="checked" name="fee.CodeName" value="2011">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radioBtn"><strong>Back Up All Exhibitors Only</strong> = Back up Exhibitor Data only
+                                                    <input type="radio" name="fee.CodeName" value="2012" >
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radioBtn"><strong>Back Up Horses Only</strong> = Back up Horses Data Only
+                                                    <input type="radio" name="fee.CodeName" value="2012" >
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radioBtn"><strong>Back Up Classes Only</strong> = Back up Class Data Only
+                                                    <input type="radio" name="fee.CodeName" value="2012" >
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <label class="radioBtn"><strong>Back Up Sponsors Only</strong> = Back up Sponsor Data Only
+                                                    <input type="radio" name="fee.CodeName" value="2012" >
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                            <hr />
+                                            <div class="actionBtn text-right mb-3">
+                                                <button (click)='tabGroup.selectedIndex = 4' class="btn btn-red btnCss roundBtn">Previous</button>
+                                                <button type="submit"class="btn btn-red btnCss roundBtn">Submit</button>
+                                            </div>
+                                        </div>
+                                        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loaderWrapper" *ngIf="loading">
+	<div class="loader"></div>
+</div>

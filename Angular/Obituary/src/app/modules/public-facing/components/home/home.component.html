@@ -1,0 +1,35 @@
+<section class="bannerBg" style="background-image: url('./assets/images/bgimagenew.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="boxWrapper">
+                    <div class="boxHeder">
+                        <h1>Search Obituaries</h1>
+                    </div>
+                    <div class="formBox">
+                        <div class="form-group">
+                            <input type="text" class="form-control" #firstName="ngModel" name="firstName"
+                                [(ngModel)]="searchRequest.firstName" placeholder="Enter First Name">
+
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" #lastName="ngModel" name="lastName"
+                                [(ngModel)]="searchRequest.lastName" placeholder="Enter Last Name">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-red btnCss mt-20 wd-210"
+                                (click)="searchByName()">Submit</button><br>
+                        </div>
+                        <hr>
+                        <a type="submit" class="btn btn-grey btnCss"
+                            [routerLink]="['/advance-search']">Advance Search <i
+                                class="fa fa-search"></i></a>
+                        <a type="submit" class="btn btn-blue btnCss mt-20" (click)="searchArmedForces()">Armed
+                            Forces
+                            Obituaries</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,197 @@
+<div id="fTransactions" class="modal fade trashPopup" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <button (click)="onDismiss()"type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Financial Transactions</h4>
+        </div>
+        <div class="modal-body text-center">
+            <!-- financial transation -->
+            <form #feeForm="ngForm" (ngSubmit)="feeForm.valid && addTransaction()" class="formScroll">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="dataDesc gridTable rmStrip">
+                            <table class="table table-bordered tableBodyScroll">
+                                <tbody>
+                                    <tr>
+                                        <td><span class="blueBox"></span><b>Exhibitor: </b> {{ExhibitorId}}  </td>
+                                        <td><span class="blueBox"></span><b>Exhibitor Name:</b>&nbsp;{{ExhibitorName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive tableTab fTransactions" id="contentscroll2">
+                            <table class="table table-bordered tableBodyScroll">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Transaction Type</th>
+                                        <th>Pre/Post</th>
+                                        <th>Amt Charge Per Type</th>
+                                        <th>Amt Received</th>
+                                        <th>Refund Amt</th>
+                                        <th *ngIf="!isReadOnly">Scan Check</th>
+                                        <th *ngIf="!isReadOnly">Action</th>
+                                    </tr>
+                                </thead>
+                                <perfect-scrollbar class="nicescrollBar-2">
+                                    <tbody>
+                                        <tr *ngFor="let transaction of exhibitorTransactions ; let i=index">
+                                            <td>{{transaction.PayDate | date : 'MM-dd-yyyy'}}</td>
+                                            <td>{{transaction.TypeOfFee}}</td>
+                                            <td>
+                                                <div class="prePostField">
+                                                    <label class="radioBtn">Pre
+                                                        <input disabled type="radio"  [(ngModel)]="transaction.TimeFrameType" value="Pre" name="timeframe{{i}}">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                    <label class="radioBtn">Post
+                                                        <input disabled type="radio"  [(ngModel)]="transaction.TimeFrameType" value="Post" name="timeframe{{i}}">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>${{transaction.Amount}}</td>
+                                            <td *ngIf="updateMode==false || (updateMode==true && updateRowIndex!=i) ||(updateMode==true && updateRowIndex==i && isRefundEdit==true)">${{transaction.AmountPaid}}</td>
+                                            <td *ngIf="updateMode==true && updateRowIndex==i && isRefundEdit==false">
+                                                <span *ngIf="updateMode"> 
+                                                    <input #amount="ngModel"   name="editAmount"  required [(ngModel)]="editAmount" type="number" class="form-control" />
+                                                </span>
+                                             </td>
+                                            <td *ngIf="updateMode==false || (updateMode==true && updateRowIndex!=i ) ||(updateMode==true && updateRowIndex==i && isRefundEdit==false)">${{transaction.RefundAmount}}</td>
+                                            <td *ngIf="updateMode==true && updateRowIndex==i  && isRefundEdit==true">
+                                                <span *ngIf="updateMode"> 
+                                                    <input #refund="ngModel"   name="editRefund"  required [(ngModel)]="editRefund" type="number" class="form-control" />
+                                                </span>
+                                             </td>
+                                            <td *ngIf="!isReadOnly">
+                                                <div class="ftButton">
+                                                    <span class="fileUpload">
+                                                        <input type="file"  name="file" (change)="uploadDocument($event,transaction.ExhibitorPaymentDetailId)" />
+                                                        <i class="fa fa-upload" aria-hidden="true"></i>
+                                                    </span> 
+                                                    <button type="button" (click)="viewDocument(transaction.DocumentPath)" class="icon"><span></span><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                </div>
+                                            </td>
+                                            <td *ngIf="!isReadOnly">
+                                                <button
+                                                *ngIf="updateMode==false  || (updateMode==true && updateRowIndex!=i)"
+                                                type="button" class="icon"
+                                                (click)="editTransaction(i,transaction)">
+                                                <span></span> <i class="fa fa-edit"
+                                                    aria-hidden="true"></i>
+                                            </button>                                   
+                                            <button 
+                                                *ngIf="updateMode==true && updateRowIndex==i"
+                                                type="button" class="icon"
+                                                (click)="updateTransaction(transaction)"><i
+                                                    class="fa fa-edit"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="updateMode==true && updateRowIndex==i"
+                                                type="button" class="icon" (click)="cancelEdit()"><i
+                                                    class="fa fa-times-circle" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="icon" (click)="confirmDeleteFee(transaction.ExhibitorPaymentDetailId)"><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                                            </td>
+                                        </tr>                                      
+                                        <tr *ngIf="!isReadOnly">
+                                            <td>
+                                                <span *ngIf="fee.FeeTypeId">
+                                                <mat-form-field>
+													<input matInput [matDatepicker]="scheduleDatePicker"
+														 class="form-control" 
+														name="feeDate" 
+														#payDateControl="ngModel" [(ngModel)]="fee.PayDate"
+														 readonly>
+														
+													<mat-datepicker-toggle matSuffix [for]="scheduleDatePicker">
+													</mat-datepicker-toggle>
+													<mat-datepicker #scheduleDatePicker></mat-datepicker>													
+                                                </mat-form-field>
+                                            </span>
+                                            </td>
+
+                                            <td>
+                                                <select class="form-control" name="fee" required
+                                                [(ngModel)]="fee.FeeTypeId" (change)="setFeeType($event)" #feeControl="ngModel">
+                                                <option [ngValue]="null">
+                                                    Select Fee
+                                                </option>
+                                                <option *ngFor="let fee of filteredFee"
+                                                    [value]="fee.FeeTypeId">{{fee.FeeName}}
+                                                </option>
+                                            </select>
+                                            <span class="help-block"
+                                                *ngIf="(feeForm.submitted || feeControl.touched) && feeControl.invalid">Please
+                                                select fee</span> 
+                                            </td>
+
+                                            <td >
+                                                <div *ngIf="(fee.FeeTypeId && !isSponsorRefund && feeType !=='Additional Programs' && feeType !='Scratch Refund')" class="prePostField">
+                                                    <label class="radioBtn">Pre
+                                                        <input type="radio"  [(ngModel)]="fee.TimeFrameType" (change)="setAmount('Pre')" value="Pre" name="radio">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                    <label class="radioBtn">Post
+                                                        <input type="radio" value="Post" (change)="setAmount('Post')" [(ngModel)]="fee.TimeFrameType" name="radio">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>  
+                                            </td>
+
+                                            <td>
+                                            <span *ngIf="(fee.FeeTypeId && !isSponsorRefund && feeType !='Scratch Refund')">
+                                            <input  readonly #amountControl="ngModel" [(ngModel)]="fee.Amount" type="number"  class="form-control" name="amountControl"  />    
+                                        </span> 
+                                            </td>
+
+                                            <td>
+                                                <span *ngIf="(fee.FeeTypeId && !isSponsorRefund && feeType !='Scratch Refund')">
+                                           <input  #paidControl="ngModel" [(ngModel)]="fee.AmountPaid" required type="number"  class="form-control" name="paid"  /> 
+                                           <span class="help-block"
+                                            *ngIf="(feeForm.submitted || paidControl.touched) && paidControl.invalid">
+                                            Please enter amount
+                                          </span>  
+                                          </span>    
+                                            </td>
+
+                                            <td>
+                                               <span *ngIf="!isSponsorRefund"> {{fee.RefundAmount}} </span>
+                                                <span *ngIf="(isSponsorRefund && isRefund || feeType =='Scratch Refund')">
+                                                <input  #refundAmountControl="ngModel" required [(ngModel)]="fee.RefundAmount" type="number"  class="form-control" name="refundAmountControl"  />    
+                                                <span class="help-block"
+                                                *ngIf="(feeForm.submitted || refundAmountControl.touched) && refundAmountControl.invalid">
+                                                Please enter refund amount
+                                              </span> 
+                                            </span>
+                                            </td>
+
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                                        
+                                    </tbody>
+                                </perfect-scrollbar>
+                            </table>
+                        </div>
+                    </div>
+        </div>
+        <div class="modal-footer text-center">
+            <!-- <button class="btn btn-red btnCss roundBtn">+ Fee</button> -->
+            <button *ngIf="!isReadOnly" type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+        </div>
+    </form>
+        </div>
+
+    </div>
+</div>
+ <!----> 
+ <div class="loaderWrapper" *ngIf="loading">
+    <div class="loader"></div>
+</div>

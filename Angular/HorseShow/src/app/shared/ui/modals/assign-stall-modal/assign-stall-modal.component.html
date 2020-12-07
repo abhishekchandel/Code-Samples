@@ -1,0 +1,72 @@
+<div id="confirmAction" class="modal fade trashPopup" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <button (click)="onDismiss()" type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Confirm Action</h4>
+        </div>
+        <div class="modal-body text-center">
+            <div class="text-center col-sm-12 mb-3">
+                <button type="button" class="btn btn-default  roundBtn3"  *ngIf="showAssign==false" (click)="toggleMove(false)">Assign</button>
+                <button type="button" class="btn btn-default  roundBtn2"  *ngIf="showAssign==true" (click)="toggleMove(false)">Unassign</button>
+                <button type="button" class="btn btn-default  roundBtn2"  *ngIf="showAssign==true" (click)="toggleMove(true)">Move</button>
+            </div>
+            <h6 class="mb-4"><b>Stall Number: </b>{{StallNumber}}</h6>
+            <h6 class="mb-4"  *ngIf="showAssign==true"><b>Assign to: </b>{{AssignedToName}}</h6>
+            <div class="assignPopContent">
+               <div class="stallControll">
+                <div class="dwnFile" *ngFor="let item of stallTypes;let i=index">
+                    <input type="radio" name="radio" 
+                    [value]="item.GlobalCodeId"
+                     [checked]="StallAssignmentTypeId===item.GlobalCodeId"
+                    name="item.CodeName"
+                    [disabled]="item.CodeName=='HorseStall' && DisableHorseType==true"
+                    (change)="setStallType($event.target.value)">
+                    <span class="checkmark">{{item.CodeName}}</span>
+                </div>
+            </div>
+            
+                <div *ngIf="showMove==true" class="moveField">
+                    <input type="number" name="stallMovedTo" placeholder="Stall Number" class="form-control"
+                    #stallMovedTo="ngModel" name="stallMovedTo"
+                    [(ngModel)]="StallMovedTo" (change)="setMoveToStall($event.target.value)"
+                    required="showMove==true">
+                   
+                    <span class="help-block errorMessageText" 
+                    *ngIf="stallMovedTo.errors?.required &&  stallMovedTo.touched"
+                    >
+                    Stall Number is required</span>
+
+                </div>
+
+                
+                <div class="moveField">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="stallDatePicker"
+                             class="form-control"
+                            name="stallDate" #stallDate="ngModel"
+                            (dateChange)="setStallDate($event.target.value)"
+                            [(ngModel)]="StallAssignmentDate" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="stallDatePicker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #stallDatePicker></mat-datepicker>													
+                    </mat-form-field>
+                </div>
+
+
+
+
+                <div class="text-center col-sm-12 mb-3 btnSpace">
+                    <button type="button" class="btn btn-default roundBtn" (click)="assignStall()" *ngIf="showAssign==false  && showMove==false">Assign</button>
+                    <button type="button" class="btn btn-default roundBtn" (click)="unAssignStall()" *ngIf="showAssign==true && showMove==false">Unassign</button>
+                    <button type="button" class="btn btn-default roundBtn" (click)="moveStall()" *ngIf="showAssign==true && showMove==true">Move</button>
+                    <button type="button" class="btn btn-default roundBtn" (click)="onDismiss()" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+</div>

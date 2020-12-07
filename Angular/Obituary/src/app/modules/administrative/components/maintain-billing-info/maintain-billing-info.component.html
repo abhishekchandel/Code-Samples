@@ -1,0 +1,91 @@
+<form #billingInfoForm="ngForm" (ngSubmit)="billingInfoForm.valid && onSubmit(billingInfoForm)" novalidate>
+    <div class="tab-pane  active" id="home">
+        <div class="cardDiv">
+            <div class="cardHeader"> Billing Info</div>
+            <div class="cardBody">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group" [class.has-error]="isInvalidField(billingInfoForm,billingContact)">
+                            <input type="text" class="form-control" placeholder="Billing Contact Person"
+                                name="billingContact" #billingContact="ngModel" appTitleCase
+                                [(ngModel)]="billingRequest.billingContact" required>
+                            <span class="help-block" *ngIf="billingContact.errors?.required">Contact Person is
+                                required
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" [class.has-error]="isInvalidField(billingInfoForm,billingPhone)">
+                            <input type="text" class="form-control" placeholder="Contact billingPhone"
+                                name="billingPhone" #billingPhone="ngModel" [(ngModel)]="billingRequest.billingPhone"
+                                mask="(000) 000-0000" minlength="10" required>
+                            <span class="help-block" *ngIf="billingPhone.errors?.required">Contact Phone is
+                                required
+                            </span>
+                            <span class="help-block" *ngIf="billingPhone.errors?.minlength">Contact Phone is
+                                invalid
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" [class.has-error]="isInvalidField(billingInfoForm,billingEmail)">
+                            <input type="text" class="form-control" placeholder="Contact Email" name="billingEmail"
+                                #billingEmail="ngModel" [(ngModel)]="billingRequest.billingEmail"
+                                pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
+                            <span class="help-block" *ngIf="billingEmail.errors?.required">Contact Email is
+                                required
+                            </span>
+                            <span class="help-block" *ngIf="billingEmail.errors?.pattern">Contact Email is
+                                invalid
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" [class.has-error]="isInvalidField(billingInfoForm,billingDate)">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="billingDatePicker" disabled placeholder="Billing Date"
+                                    class="form-control" name="billingDate" #billingDate="ngModel" [min]="minDate"
+                                    [(ngModel)]="billingRequest.billingDate">
+                                <mat-datepicker-toggle matSuffix [for]="billingDatePicker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #billingDatePicker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class=" col-sm-6">
+                        <div class="form-group" [class.has-error]="isInvalidField(billingInfoForm,billingMethod)">
+                            <label>Instant - Billing per Transaction</label>
+                            <div class="inputRadio">
+                                <label class="radioButton">Paypal
+                                    <input type="radio" value="Paypal" name="billingMethod" #billingMethod="ngModel"
+                                        [(ngModel)]="billingRequest.billingMethod" disabled>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="inputRadio">
+                                <label class="radioButton">Stripe
+                                    <input type="radio" value="Stripe" name="billingMethod" #billingMethod="ngModel"
+                                        [(ngModel)]="billingRequest.billingMethod" required>
+                                    <span class="help-block" *ngIf="billingMethod.errors?.required">Billing Method is
+                                        required
+                                    </span>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="buttons">
+                        <button class="btn btn-red btnCss" [routerLink]="['/admin/admin-panel']">Cancel</button> <button
+                            type="submit" [disabled]="disableButton" class="btn btn-red btnCss">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="loaderDiv" *ngIf="loading">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+    </div>
+</form>

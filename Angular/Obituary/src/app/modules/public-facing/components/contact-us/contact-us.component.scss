@@ -1,0 +1,78 @@
+.contactUs {
+	.thumbImage {
+		width: 100%;
+		position: relative;
+		width: 100%;
+		position: relative;
+		// background-image: url("/assets/images/contact-us.jpg");
+		min-height: 650px;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		img {
+			max-width: 100%;
+			width: 100%;
+		}
+	}
+	.thumbBox{
+	     background-color: rgba(180, 82, 61,0.7);
+         border-radius: 40px 40px 0px 0px;
+	     padding:30px;
+		 position:absolute;
+		 bottom:0px;
+		 right:0px;
+		 max-width:400px;
+		 width:100%;
+	     margin:0px;
+		  .form-group {
+			margin-bottom:25px;
+			label{
+			 margin: 0 0 4px 0;
+             color: #fff;
+             font-size: 13px;
+				}
+			  textarea{
+				 height:80px;
+			  }
+			}
+		}
+	}
+	.form-group {
+		position: relative;
+		.help-block {
+			display: none;
+			font-size: 13px;
+			color: #f00;
+			position: absolute;
+			bottom: -22px;
+			left: 0;
+		}
+		&.has-error {
+			.help-block {
+				display: block;
+			}
+		}
+	}	.loaderDiv {
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: rgba(255, 255, 255, 0.75);
+		height: 100%!important;
+		width: 100%!important;
+		z-index: 1;
+		.mat-progress-spinner {
+		width: 50px !important;
+		height: 50px !important;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		::ng-deep svg {
+		width: 50px!important;
+		height: 50px!important;
+		circle {
+		stroke: #b4523d;
+		}
+		}
+		}
+		}

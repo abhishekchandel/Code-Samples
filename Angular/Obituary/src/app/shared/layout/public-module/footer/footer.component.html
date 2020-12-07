@@ -1,0 +1,53 @@
+<footer class="footer">
+    <div class="footerNav">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="footerMenus">
+                        <ul>
+                            <li>
+                                <a [routerLink]="['/about-us']" title="About Us">About Us</a>
+                            </li>
+                            <li><a [routerLink]="['/careers']" title="Careers">Careers </a></li>
+                            <li><a [routerLink]="['/advertise']" title="Advertise">Advertise</a></li>
+                            <li><a title="Terms of Use" (click)="openModal('Terms')"> Terms of Use </a></li>
+                            <li><a title="Cookie Preference" (click)="openModal('Cookie')"> Cookie Preference
+                                </a></li>
+                            <li><a [routerLink]="['/contact-us']" title="Contact Us"> Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footerBottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="copyright">
+                        <p>© Copyright 2020. All Rights Reserved </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="socialMedias">
+                        <ul>
+                            <li> <a target='_blank' href={{datasource?.FacebookUrl}}><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a target='_blank' href={{datasource?.LinkedInUrl}}><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!--bottom to top scroll-->
+<a href="#" id="scroll" style="display:none;" title="Bottom to Top Scroll">
+    <span class="goto">Go To</span> <span class="top-text">Top</span>
+    <ng-template #footerModal>
+
+        <app-footer-popup [terms]="terms" [cookies]="cookies" (handleClose)="closeModal()"></app-footer-popup>
+
+    </ng-template>

@@ -1,0 +1,32 @@
+<form class="loginField" #addRoleForm="ngForm" name="addRoleForm" (ngSubmit)="addRoleForm.valid && verifyUser()" novalidate>
+    <div id="emailSubmit" class="modal fade trashPopup" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button (click)="onDismiss()" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Role</h4>
+            </div>
+            <div class="modal-body text-center emailSubmit">
+                <div class="form-group">						
+                    <select required class="form-control" placeholder="Role" (change)="setRole($event.target.value)" name="role" #role="ngModel" [(ngModel)]="userRole" >																						
+                        <option value="null" disabled="true" [selected]="true">
+                            Select Role
+                        </option>                                               
+                        <option *ngFor="let role of rolesResponse"
+                        [value]="role.RoleId">{{role.RoleName}}
+                                </option>												
+                    </select>
+                    <span class="help-block" *ngIf="role.errors?.required && addRoleForm.submitted">
+                        Please select role</span>
+                   
+                </div>
+                <button class="btn btn-red btnCss">Submit</button>
+            </div>
+            </div>
+        </div>		
+    </div>
+    </form>
+      <!----> 
+      <div class="loaderWrapper" *ngIf="loading">
+        <div class="loader"></div>
+    </div>

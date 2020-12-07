@@ -1,0 +1,129 @@
+<form #userForm="ngForm" name="userForm" (ngSubmit)="userForm.valid && createUser(userForm)" novalidate>
+   <section class="bgImage">
+      <div class="container">
+         <div class="row">
+            <div class="searchPanel">
+               <a [routerLink]="['/admin/admin-panel']">Back To Admin Panel <i class="fa fa-th"></i></a>
+            </div>
+            <div class="col-lg-6 offset-lg-3">
+               <div class="boxWrapper">
+                  <div class="boxHeder">
+                     <h1>Create A New User</h1>
+                  </div>
+                  <div class="bgColor"></div>
+                  <div class="formBox">
+                     <div class="row">
+                        <div class="col-sm-12">
+                           <div class="form-group"
+                              [class.has-error]="(loginName.touched || userForm.submitted)&& loginName.invalid">
+                              <label>User Name <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" placeholder="Enter User Name" id="user name"
+                                 #loginName="ngModel" name="loginName" [(ngModel)]="userRequest.loginName" required>
+                              <span class="help-block" *ngIf="loginName.errors?.required">User Name is
+                                 required</span>
+                           </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="form-group"
+                              [class.has-error]="(password.touched || userForm.submitted)&& password.invalid">
+                              <label>Password <span class="text-danger">*</span></label>
+                              <input type="password" class="form-control" placeholder="Enter Password" id="pwd"
+                                 #password="ngModel" name="password" [(ngModel)]="userRequest.password" minlength="8"
+                                 required>
+                              <password-strength-meter [password]="password.value"></password-strength-meter>
+
+                              <span class="help-block" *ngIf="password.errors?.required">Password is
+                                 required</span>
+                              <span class="help-block" *ngIf="password.errors?.minlength">Enter at least 8 characters
+                              </span>
+                           </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="form-group"
+                              [class.has-error]="(confirmPassword.touched || userForm.submitted)&& confirmPassword.invalid">
+                              <label>Confirm Password <span class="text-danger">*</span></label>
+                              <input type="password" class="form-control" placeholder="Enter Confirm Password"
+                                 #confirmPassword="ngModel" name="confirmPassword" appConfirmEqualValidator="password"
+                                 [(ngModel)]="userRequest.confirmPassword" required>
+                              <span class="help-block" *ngIf="confirmPassword.errors?.required">Confirm Password is
+                                 required</span>
+                              <span class="help-block" *ngIf="confirmPassword.errors?.notEqual">
+                                 Passwords do not match</span>
+                           </div>
+                        </div>
+                        <div class="col-sm-12">
+                           <hr>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="form-group"
+                              [class.has-error]="(personName.touched || userForm.submitted)&& personName.invalid">
+                              <label>Name of Person <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" placeholder="Enter Name" id="name"
+                                 pattern="[a-zA-Z ]*$" #personName="ngModel" name="personName"
+                                 [(ngModel)]="userRequest.personName" required>
+                              <span class="help-block" *ngIf="personName.errors?.required">Name is
+                                 required</span>
+                              <span class="help-block" *ngIf="personName.errors?.pattern">Name is
+                                 invalid</span>
+                           </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="form-group"
+                              [class.has-error]="(userType.touched || userForm.submitted)&& userType.invalid">
+                              <label>Type of User <span class=" text-danger">*</span></label>
+                              <select class="form-control" placeholder="User Type" #userType="ngModel" name="userType"
+                                 [(ngModel)]="userRequest.userType" required>
+                                 <option [value]="null" [disabled]="true" [selected]="true">Choose one</option>
+                                 <option *ngFor="let profile of profileTypes" [value]="profile.GlobalCodeId">
+                                    {{profile.CodeName}}
+                                 </option>
+                              </select>
+                              <span class="help-block" *ngIf="userType.errors?.required">User Type is
+                                 required</span>
+                           </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="form-group"
+                              [class.has-error]="(email.touched || userForm.submitted)&& email.invalid">
+                              <label>Email <span class="text-danger">*</span></label>
+                              <input type="email" class="form-control" placeholder="Enter Email" id="email"
+                                 #email="ngModel" name="email" [(ngModel)]="userRequest.email"
+                                 pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
+                              <span class="help-block" *ngIf="email.errors?.required">Email is
+                                 required</span>
+                              <span class="help-block" *ngIf="email.errors?.pattern">Email is
+                                 invalid</span>
+                           </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="form-group"
+                              [class.has-error]="(phone.touched || userForm.submitted)&& phone.invalid">
+                              <label>Phone Number <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" mask="(000) 000-0000" placeholder="Phone Number"
+                                 id="phone" #phone="ngModel" name="phone" [(ngModel)]="userRequest.phone" minlength="10"
+                                  required>
+                              <span class="help-block" *ngIf="phone.errors?.required">Phone Number is
+                                 required</span>
+                              <span class="help-block" *ngIf="phone.errors?.minlength">Phone Number is
+                                 invalid</span>
+                           </div>
+                        </div>
+                        <div class="col-sm-12">
+                           <div class="form-group">
+                              <label>Comments</label>
+                              <textarea class="form-control" #comments="ngModel" name="comments"
+                                 [(ngModel)]="userRequest.comments"></textarea>
+                           </div>
+                        </div>
+                        <div class="col-sm-12"><button type="submit" class="btn btn-red btnCss">Submit</button></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="loaderDiv" *ngIf="loading">
+         <mat-spinner></mat-spinner>
+      </div>
+   </section>
+</form>

@@ -1,0 +1,14 @@
+.showDateTable {
+    .form-group {          
+        label{
+            &.smText {
+                position: relative;
+                span {
+                    position: absolute;
+                    right: -10px !important;
+                    top: -4px;
+                }
+            }
+        }
+    }
+}

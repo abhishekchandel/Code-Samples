@@ -1,0 +1,360 @@
+.thumbWrapper {
+	@media (max-width: 767px) {
+		margin:0 0 30px 0;
+	}
+	.thumbInner {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: center;
+		@media (max-width: 767px){
+			max-width: 243px;
+			margin: 0 auto;
+		}	
+	.thumbImage {
+		margin: 0 auto 9px;
+		width: 100%;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-pack: center;
+		justify-content: center;
+		height: auto;
+		-ms-flex-direction: row;
+		flex-direction: row;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			width: calc(50% - 4px);
+			max-width: 100%;
+			height: auto;
+			margin: 0 2px 2px 0;
+			border: 1px solid #7DB4BF;
+			padding: 3px;
+			border-radius: 4px;
+		}
+		&.hasOneImage {
+			width: 100%!important;
+			img{
+				width: 100%!important;
+			}
+		}
+	}
+}
+	.thumbDate {
+		background-color: #959595;
+		padding: 6px;
+		text-align: center;
+		@media (max-width: 767px) {
+			width: 240px;
+			margin: 0 auto;
+		}
+		p {
+			color: #fff;
+		}
+	}
+}
+
+.thumbContent {
+	position: relative;
+	.imageicon {
+		position: absolute;
+		right: 0;
+		top: 0;
+		img {
+			width: 60px;
+			display: block;
+			margin-bottom: 10px;
+		}
+		@media (max-width:991px) {
+			position: relative;
+			float: right;
+			margin: 0 0 0 21px;
+		}
+	}
+	.thumbContentInner {
+		max-width: 720px;
+		@media (max-width: 1199px) {
+			max-width:600px;
+		}
+		h3 {
+			line-height: 24px;
+			font-size: 20px;
+			color: #B4523D;
+			margin: 0 0 5px 0;
+		}
+		p {
+			line-height: 22px;
+			margin: 0 0 6px 0;
+			::ng-deep h1 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h2 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h3 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h4 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h5 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h6 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep ul{
+				padding-left: 0px;	
+				@media (max-width:767px){
+				 padding-left: 20px;	
+				}
+				li{
+				 font-size: 14px!important;
+				 line-height: 22px!important;   
+				}
+			 }
+		}
+		.readMore {
+			color: #B4523D;
+			font-style: italic;
+			font-size: 13px;
+		}
+	}
+}
+
+.loaderDiv {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(255, 255, 255, 0.75);
+	height: 100%!important;
+	width: 100%!important;
+	z-index: 1;
+	.mat-progress-spinner {
+		width: 50px !important;
+		height: 50px !important;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		::ng-deep svg {
+			width: 50px!important;
+			height: 50px!important;
+			circle {
+				stroke: #b4523d;
+			}
+		}
+	}
+}
+
+.browseListing {
+	background-color: #7DB4BF;
+	padding: 30px;
+	border-bottom: 1px solid #4b8692;
+	.widget {
+		width: 100%;
+		margin: 0 auto;
+		min-height: 30px;
+		@media (max-width: 991px) {
+			width:100%;
+		}
+	
+		// .widgetTitle {
+		// 	background-color: #959595;
+		// 	position: relative;
+		// 	padding: 10px 10px 10px 40px;
+		// 	text-transform: capitalize;
+		// 	color: #fff;
+		// 	cursor: pointer;
+		// 	.icon {
+		// 		position: absolute;
+		// 		left: 10px;
+		// 		i {
+		// 			font-size: 20px;
+		// 			color: #fff;
+		// 		}
+		// 	}
+		// }
+		.widgetBody {
+			padding: 15px 8px;
+			display: flex;
+			.calendar {
+				margin: 0 15px 0 0;
+    border: 0px solid #ddd;
+    background-color: #fff;
+    width: 130px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+				.year {
+					background-color: #959595;
+					color: #fff;
+					padding: 6px 12px;
+					text-align: center;
+				}
+				.date {
+					padding: 9px 12px 0;
+					text-align: center;
+					span{
+					    font-weight: bold;
+						font-size: 27px;
+						display: block;
+						position: relative;
+						top: -5px;
+					}
+				}
+			}
+			.serInfo {
+				width: 100%;
+				p {
+					color: #fff;
+				}
+				h2{
+					font-weight: normal;
+                    font-family: "open_sanslight";
+					font-size: 20px;
+					color: #fff;
+				}
+				h3{
+					font-size: 19px;
+					color: #fff;
+				}
+				h4{
+					font-weight: 500;
+					font-size: 17px;
+					color: #fff;
+					.color {
+						color: #B4523D;
+						font-size: 22px;
+					}
+				}
+			}
+			.socialMedias {
+				width: 100%;
+				display: block;
+				text-align: center;
+				ul {
+					list-style: none;
+					li {
+						width: auto;
+						display: inline-block;
+						margin: 0 12px 0 0;
+						&:last-child{
+						 margin:0px;
+						}
+						button{
+							border: 0px solid;
+							background-color: transparent;
+							padding: 0;
+						i {
+							width: 40px;
+							height: 40px;
+							background-color: #fff;
+							color: #7DB4BF;
+							border-radius: 4px;
+							text-align: center;
+							line-height: 40px;
+							font-size: 20px;
+							border: 1px solid #fff;
+							&:hover {
+								background: transparent;
+								border: 1px solid #fff;
+								color: #fff;
+							}
+						}
+					  }
+					}
+				}
+			}
+			.info {
+				display: block;
+				ul {
+					padding: 0px;
+					margin: 0px;
+					list-style: none;
+					li {
+						position: relative;
+						padding-left: 28px;
+						margin: 0 0 13px 0;
+						a {
+							color: #fff;
+							.icon {
+								position: absolute;
+								left: 0;
+								top: 0;
+								i {
+									font-size: 20px;
+									color: #fff;
+								}
+								
+							}
+						}
+						&:hover {
+							a {
+								color: #000;
+								.icon {
+									i {
+										color: #000;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		&.brBtm{
+			border-bottom: 1px solid #4b8692;
+			&:last-child{
+				border-bottom:0px solid #4b8692;	
+			}
+		}
+	}
+}
+img{
+	width: 80px;
+}
+.borderRgt {
+	border-left: 1px solid #4b8692;
+	border-right: 1px solid #4b8692;
+	@media (max-width: 991px) {
+		border-left: 0px solid #4b8692;
+		border-right: 1px solid #4b8692;
+	}
+	@media (max-width: 767px) {
+		border-left: 0px solid #4b8692;
+		border-right: 0px solid #4b8692;
+	}
+}
+::ng-deep.ps-content {
+    height: 150px!important;
+}
+.widgetTitle {
+	background-color: #959595;
+	position: relative;
+	padding: 10px 10px 10px 40px;
+	text-transform: capitalize;
+	color: #fff;
+	cursor: pointer;
+	.icon {
+		position: absolute;
+		left: 10px;
+		i {
+			font-size: 20px;
+			color: #fff;
+		}
+	}
+}
+perfect-scrollbar
+{
+	.ps {
+		height: auto!important;
+	}
+}

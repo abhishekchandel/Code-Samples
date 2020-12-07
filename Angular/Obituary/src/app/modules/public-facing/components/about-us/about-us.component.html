@@ -1,0 +1,36 @@
+<section class="mainContent">
+    <div class="container">
+        <div class="row">
+            <!--search panel-->
+            <div class="searchPanel">
+                <a [routerLink]="['/advance-search']">Continue Searching <i class="fa fa-search"></i></a>
+            </div>
+            <!---->
+            <div class="col-sm-12">
+                <div class="row mb-20">
+                    <div class="col-sm-12">
+                        <div class="mainHeading">
+                            <h1>About Us</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="aboutUs" *ngFor="let pageData of aboutUsData">
+                            <div class="thumbImage" [class.rounded]="pageData.OrderNumber==2"><img
+                                    [src]="assetsUrl+pageData.ImageUrl" alt="image" /></div>
+                            <div class="thumbBody" [class.bgBrown]="pageData.OrderNumber==2">
+                                <div class="icon" *ngIf="pageData.OrderNumber==2"><img src="assets/images/pasted.svg"
+                                        alt="image" /></div>
+                                <p>{{pageData.Description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loaderDiv" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+</section>

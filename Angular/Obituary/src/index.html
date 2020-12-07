@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>EveryObit</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet" />
+
+  <meta property="og:url" content="https://ditstekdemo.com/everyobit/" />
+  <meta property="og:site_name" content="EveryObit" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="EveryObit" />
+  <meta property="og:description" content="EveryObit:Celebrating Life Caring For Communities" />
+</head>
+<script>
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: '1206866779654526',
+      cookie: true,
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: 'v3.0'
+    });
+
+    FB.AppEvents.logPageView();
+  };
+
+  (function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) { return; }
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+</script>
+
+<body>
+  <app-root></app-root>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<header>
+    <div class="mainNav">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <nav class="navbar navbar-expand-md">
+                        <a class="navbar-brand"><img src="assets/images/logofinal.png" alt="image" /> </a>
+                        <div class="navbarToggler" (click)="shouldShow = !shouldShow">
+                            <span>
+                                <b></b>
+                                <b></b>
+                                <b></b>
+                            </span>
+                        </div>
+                        <div class="sectionBg" [ngClass]="{show: shouldShow, hide: !shouldShow}"></div>
+                        <div class="navbarCollapse" [ngClass]="{show: shouldShow, hide: !shouldShow}">
+                            <label>Menu</label>
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item" routerLinkActive="active">
+                                    <a class="nav-link" [routerLink]="['/home']" title="Home">Home</a>
+                                </li>
+                                <li class="nav-item" routerLinkActive="active">
+                                    <a class="nav-link" [routerLink]="['/browse-obituaries']"
+                                        title="Browse Obituaries">Browse
+                                        Obituaries</a>
+                                </li>
+                                <li class="nav-item" routerLinkActive="active">
+                                    <a class="nav-link" [routerLink]="['/send-flowers']"
+                                        title="Send Flowers">Send Flowers</a>
+                                </li>
+                                <!-- <li class="nav-item" routerLinkActive="active">
+                                    <a class="nav-link" [routerLink]="['/public-facing/support-and-advice']"
+                                        title="Support & Advice">Support &
+                                        Advice</a>
+                                </li> -->
+                                <!-- <li class="nav-item" routerLinkActive="active">
+                                    <a class="nav-link" [routerLink]="['/public-facing/funeral-homes']"
+                                        title="Funeral Provider Directory">Funeral
+                                        Homes</a>
+                                </li> -->
+                                <li class="nav-item" routerLinkActive="active">
+                                    <a *ngIf="!loggedIn" class="nav-link" [routerLink]="['/auth/login']"
+                                        title="Funeral Service Provider Log-in"> Log In</a>
+                                    <a *ngIf="loggedIn" class="nav-link" title="Log out" [routerLink]="['/auth/login']"
+                                        (click)="logoutSession()"> Log
+                                        Out</a>
+                                </li>
+                                <li class="nav-item" routerLinkActive="active">
+                                    <a class="nav-link" [routerLink]="['/notifications']"
+                                        title="Sign up for notifications">
+                                        Notifications</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

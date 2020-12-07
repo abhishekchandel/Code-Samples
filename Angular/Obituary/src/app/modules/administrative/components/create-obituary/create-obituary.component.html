@@ -1,0 +1,1177 @@
+<mat-vertical-stepper class="bgImage" linear #stepper>
+    <mat-step [stepControl]="identificationForm">
+        <ng-template matStepLabel>Deceased Identification</ng-template>
+        <form #identificationForm="ngForm" name="identificationForm"
+            (ngSubmit)="identificationForm.valid && stepperNext('Next',1)" novalidate>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="searchPanel">
+                            <a [routerLink]="['/admin/admin-panel']">Back To Admin Panel <i class="fa fa-th"></i></a>
+                        </div>
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+                                <!---->
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Place an Obituary - Deceased Identification.</h1>
+                                            </div>
+                                            <div class="whiteSpace"></div>
+                                        </div>
+
+                                        <div class="col-md-8 offset-md-2 col-sm-12">
+                                            <div class="cardDiv">
+                                                <div class="cardHeader"> Name of the Deceased </div>
+                                                <div class="cardBody">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group"
+                                                                [class.has-error]="(firstName.touched || identificationForm.submitted)&& firstName.invalid">
+                                                                <span class="text-danger">* *</span>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="First Name" #firstName="ngModel"
+                                                                    name="firstName" pattern="[a-zA-Z ]*$"
+                                                                    [(ngModel)]="deceasedIdentificationDetail.firstName"
+                                                                    required>
+                                                                <span class="help-block"
+                                                                    *ngIf="firstName.errors?.required">First Name is
+                                                                    required</span>
+                                                                <span class="help-block"
+                                                                    *ngIf="firstName.errors?.pattern">First Name is
+                                                                    invalid</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group"
+                                                                [class.has-error]="(middleName.touched || identificationForm.submitted)&& middleName.invalid">
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Middle Name" pattern="[a-zA-Z ]*$"
+                                                                    #middleName="ngModel" name="middleName"
+                                                                    [(ngModel)]="deceasedIdentificationDetail.middleName">
+                                                                <span class="help-block"
+                                                                    *ngIf="middleName.errors?.pattern">Middle Name is
+                                                                    invalid</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group"
+                                                                [class.has-error]="(lastName.touched || identificationForm.submitted)&& lastName.invalid">
+                                                                <span class="text-danger">* *</span>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Last Name" #lastName="ngModel"
+                                                                    name="lastName" pattern="[a-zA-Z ]*$"
+                                                                    [(ngModel)]="deceasedIdentificationDetail.lastName"
+                                                                    required>
+                                                                <span class="help-block"
+                                                                    *ngIf="lastName.errors?.required">Last Name is
+                                                                    required</span>
+                                                                <span class="help-block"
+                                                                    *ngIf="lastName.errors?.pattern">Last Name is
+                                                                    invalid</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group"
+                                                                [class.has-error]="(maidenName.touched || identificationForm.submitted)&& maidenName.invalid">
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Maiden Name" pattern="[a-zA-Z ]*$"
+                                                                    #maidenName="ngModel" name="maidenName"
+                                                                    [(ngModel)]="deceasedIdentificationDetail.maidenName">
+                                                                <span class="help-block"
+                                                                    *ngIf="maidenName.errors?.pattern">Maiden Name is
+                                                                    invalid</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group"
+                                                                [class.has-error]="(nickName.touched || identificationForm.submitted)&& nickName.invalid">
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Nick Name" pattern="[a-zA-Z ]*$"
+                                                                    #nickName="ngModel" name="nickName"
+                                                                    [(ngModel)]="deceasedIdentificationDetail.nickName">
+                                                                <span class="help-block"
+                                                                    *ngIf="nickName.errors?.pattern">Nick Name is
+                                                                    invalid</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group"
+                                                                [class.has-error]="(familyEmail.touched || identificationForm.submitted)&& familyEmail.invalid">
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Family Email Address"
+                                                                    #familyEmail="ngModel" name="familyEmail"
+                                                                    pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                                                                    [(ngModel)]="deceasedIdentificationDetail.familyEmail">
+                                                                <span class="help-block"
+                                                                    *ngIf="familyEmail.errors?.pattern">Enter a valid
+                                                                    email
+                                                                    address
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group"
+                                                                [class.has-error]="(dateOfBirth.touched || identificationForm.submitted) && dateOfBirth.invalid">
+                                                                <span class="text-danger">* *</span>
+                                                                <mat-form-field>
+                                                                    <input matInput [matDatepicker]="birthdatepicker"
+                                                                        class="form-control" #dateOfBirth="ngModel"
+                                                                        [max]="maxDate" placeholder="Date Of Birth"
+                                                                        (dateChange)="handleDateSelection()"
+                                                                        name="dateOfBirth"
+                                                                        [(ngModel)]="deceasedIdentificationDetail.dateOfBirth"
+                                                                        required>
+                                                                    <mat-datepicker-toggle matSuffix
+                                                                        [for]="birthdatepicker">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #birthdatepicker></mat-datepicker>
+                                                                </mat-form-field>
+                                                                <span class="help-block"
+                                                                    *ngIf="dateOfBirth.errors?.required">Date of Birth
+                                                                    is
+                                                                    required</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-check">
+                                                                <label class="checkbox">
+                                                                    <input type="checkbox" #armedForces="ngModel"
+                                                                        name="armedForces"
+                                                                        [(ngModel)]="deceasedIdentificationDetail.armedForces">
+                                                                    <span class="primary"></span>
+                                                                </label>
+                                                                <span class="checkActive">Armed Forces</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="buttons">
+                                                <button class="btn btn-red btnCss" (click)="handleDateOfBirth()"
+                                                    matStepperNext>Next
+                                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="btn btn-red btnCss" disabled>Preview</button>
+                                                <button class="btn btn-red btnCss"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="deathDate">
+        <ng-template matStepLabel>Date Of Death and Obituary Publish Date</ng-template>
+        <form #deathDate="ngForm" name="deathDate" (ngSubmit)="deathDate.valid && stepperNext('Next',2)" novalidate>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+                                <!---->
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Date of Death & Obituary Publish Date</h1>
+                                            </div>
+                                            <div class="whiteSpace"></div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="cardDiv">
+                                                <div class="cardHeader"> Date of Death </div>
+                                                <div class="cardBody">
+                                                    <div class="form-check"
+                                                        [class.has-error]="(dateOfDeath.touched || deathDate.submitted)&& dateOfDeath.invalid">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>Date of Death</mat-label>
+                                                            <input matInput [matDatepicker]="deathpicker"
+                                                                (dateChange)="handleDeathDateSelection()"
+                                                                [min]="minimumDate" [max]="maxDate"
+                                                                #dateOfDeath="ngModel" name="dateOfDeath"
+                                                                [(ngModel)]="deceasedDeathDates.dateOfDeath" readonly
+                                                                required>
+                                                            <mat-datepicker-toggle matSuffix [for]="deathpicker">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #deathpicker></mat-datepicker>
+                                                        </mat-form-field>
+                                                        <span class="help-block"
+                                                            *ngIf="dateOfDeath.errors?.required">Date of Death is
+                                                            required</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="cardDiv">
+                                                <div class="cardHeader">Date of Obit Publishing </div>
+                                                <div class="cardBody">
+                                                    <div class="form-check" [class.has-error]="errorIndex">
+                                                        <mat-form-field appearance="outline">
+                                                            <mat-label>Date of Obit Posting</mat-label>
+                                                            <input matInput [matDatepicker]="publishDate"
+                                                                #dateOfObitPublishing="ngModel" readonly
+                                                                (dateChange)="checkEndDate()"
+                                                                name="dateOfObitPublishing"
+                                                                [(ngModel)]="deceasedDeathDates.dateOfObitPublishing">
+                                                            <mat-datepicker-toggle matSuffix [for]="publishDate">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #publishDate></mat-datepicker>
+                                                        </mat-form-field>
+                                                        <div class="help-block">Publish
+                                                            Date
+                                                            should be greater than Death Date
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" col-sm-12">
+                                            <div class="buttons">
+                                                <button class="btn btn-red btnCss" (click)="stepperNext('Previous',1)"
+                                                    matStepperPrevious>
+                                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                                    Previous</button><button class="btn btn-red btnCss"
+                                                    [disabled]="errorIndex" matStepperNext
+                                                    (click)="stepperNext('Next',2)">Next
+                                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="btn btn-red btnCss" disabled>Preview</button>
+                                                <button class="btn btn-red btnCss"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="locationForm">
+        <form #locationForm="ngForm" name="locationForm" (ngSubmit)="locationForm.valid && stepperNext('Next',3)"
+            novalidate>
+            <ng-template matStepLabel>Set Up Location</ng-template>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+                                <!---->
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Location of Death & Location Residency</h1>
+                                            </div>
+                                            <div class="whiteSpace"></div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="cardDiv">
+                                                <div class="cardHeader"> Location Of Death </div>
+                                                <div class="cardBody locationpage">
+                                                    <div class="form-group"
+                                                        [class.has-error]="(deathState.touched || locationForm.submitted)&& deathState.invalid">
+                                                        <span class="text-danger-loc">* *</span>
+                                                        <select class="form-control" placeholder="State"
+                                                            #deathState="ngModel" name="deathState"
+                                                            (change)="getLocationCities($event.target.value);getStateName($event)"
+                                                            [(ngModel)]="deceasedLocations.deathState" required>
+                                                            <option value="null" disabled="true" [selected]="true">
+                                                                Select State
+                                                            </option>
+                                                            <option *ngFor="let state of statesResponse"
+                                                                [value]="state.StateId">{{state.Name}} -
+                                                                {{state.Abbreviations}}
+                                                            </option>
+                                                        </select>
+                                                        <span class="help-block"
+                                                            *ngIf="deathState.errors?.required">State is
+                                                            required</span>
+                                                    </div>
+                                                    <div class="form-group"
+                                                        [class.has-error]="(deathCity.touched || locationForm.submitted)&& deathCity.invalid">
+                                                        <span class="text-danger-loc">* *</span>
+                                                        <select class="form-control" placeholder="City"
+                                                            #deathCity="ngModel" name="deathCity"
+                                                            (change)="getCityName($event)"
+                                                            [(ngModel)]="deceasedLocations.deathCity" required>
+                                                            <option value="null" disabled="true" [selected]="true">
+                                                                Select City
+                                                            </option>
+                                                            <option *ngFor="let city of locationCitiesResponse"
+                                                                [value]="city.CityId">{{city.Name}}
+                                                            </option>
+                                                        </select>
+                                                        <span class="help-block" *ngIf="deathCity.errors?.required">City
+                                                            is
+                                                            required</span>
+                                                    </div>
+                                                    <div class="form-group"
+                                                        [class.has-error]="(deathZipCode.touched || locationForm.submitted)&& deathZipCode.invalid">
+                                                        <span class="text-danger-loc">* *</span>
+                                                        <input type="text" class="form-control" placeholder="Zipcode"
+                                                            #deathZipCode="ngModel" name="deathZipCode"
+                                                            pattern="^[0-9]{5}(?:-[0-9]{4})?$" maxlength="5"
+                                                            [(ngModel)]="deceasedLocations.deathZipCode" required>
+                                                        <span class="help-block"
+                                                            *ngIf="deathZipCode.errors?.required">Zip
+                                                            is
+                                                            required</span>
+                                                        <span class="help-block"
+                                                            *ngIf="deathZipCode.errors?.pattern">Zip is invalid</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="cardDiv">
+                                                <div class="cardHeader">Location Residency </div>
+                                                <div class="cardBody locationpage">
+                                                    <div class="form-group"
+                                                        [class.has-error]="(residenceState.touched || locationForm.submitted)&& residenceState.invalid">
+                                                        <span class="text-danger-loc">* *</span>
+                                                        <select class="form-control" placeholder="State"
+                                                            #residenceState="ngModel" name="residenceState"
+                                                            (change)="getResidenceCities($event.target.value)"
+                                                            [(ngModel)]="deceasedLocations.residenceState" required>
+                                                            <option value="null" disabled="true" [selected]="true">
+                                                                Select State
+                                                            </option>
+                                                            <option *ngFor="let state of statesResponse"
+                                                                [value]="state.StateId">{{state.Name}} -
+                                                                {{state.Abbreviations}}
+                                                            </option>
+                                                        </select>
+                                                        <span class="help-block"
+                                                            *ngIf="residenceState.errors?.required">State
+                                                            is
+                                                            required</span>
+                                                    </div>
+                                                    <div class="form-group"
+                                                        [class.has-error]="(residenceCity.touched || locationForm.submitted)&& residenceCity.invalid">
+                                                        <span class="text-danger-loc">* *</span>
+                                                        <select class="form-control" placeholder="City"
+                                                            #residenceCity="ngModel" name="residenceCity"
+                                                            [(ngModel)]="deceasedLocations.residenceCity" required>
+                                                            <option value="null" disabled="true" [selected]="true">
+                                                                Select City
+                                                            </option>
+                                                            <option *ngFor="let city of residenceCitiesResponse"
+                                                                [value]="city.CityId">{{city.Name}}
+                                                            </option>
+                                                        </select>
+                                                        <span class="help-block"
+                                                            *ngIf="residenceCity.errors?.required">City
+                                                            is
+                                                            required</span>
+
+                                                    </div>
+                                                    <div class="form-group"
+                                                        [class.has-error]="(residenceZipCode.touched || locationForm.submitted)&& residenceZipCode.invalid">
+                                                        <span class="text-danger-loc">* *</span>
+                                                        <input type="text" class="form-control" placeholder="Zipcode"
+                                                            #residenceZipCode="ngModel" name="residenceZipCode"
+                                                            [(ngModel)]="deceasedLocations.residenceZipCode"
+                                                            maxlength="5" pattern="^[0-9]{5}(?:-[0-9]{4})?$" required>
+                                                        <span class="help-block"
+                                                            *ngIf="residenceZipCode.errors?.required">Zip
+                                                            is
+                                                            required</span>
+                                                        <span class="help-block"
+                                                            *ngIf="residenceZipCode.errors?.pattern">Zip is
+                                                            invalid</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="buttons"> <button class="btn btn-red btnCss"
+                                                    (click)="stepperNext('Previous',2)" matStepperPrevious>
+                                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                                    Previous</button>
+                                                <button class="btn btn-red btnCss" (click)="stepperNext('Next',3)"
+                                                    matStepperNext>
+                                                    Next <i class="fa fa-angle-right" aria-hidden="true">
+                                                    </i> </button>
+                                                <button class="btn btn-red btnCss" disabled>Preview</button>
+                                                <button class="btn btn-red btnCss"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="obituaryPhotosForm" optional>
+        <form #obituaryPhotosForm="ngForm" name="obituaryPhotosForm"
+            (ngSubmit)="obituaryPhotosForm.valid && goToNext(stepper, 4)" novalidate>
+            <ng-template matStepLabel>Obituary Photos</ng-template>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+                                <!---->
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Submit an Obituary - Obituary Photos</h1>
+                                            </div>
+                                            <div class="whiteSpace"></div>
+                                        </div>
+                                        <div class="col-md-8 offset-md-2 col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Image</th>
+                                                            <th>Type of Photo</th>
+                                                            <th>Remove</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody
+                                                        *ngFor="let obituaryPhoto of obituaryPhotosArray; let i = index;">
+                                                        <tr>
+                                                            <td data-label="Type Of Photo">
+                                                                <div class="form-group"
+                                                                    [class.has-error]="obituaryPhotosForm.submitted && imageTypeControl.invalid">
+                                                                    <select class="form-control"
+                                                                        name="typeOfImage[{{i}}]"
+                                                                        [(ngModel)]="obituaryPhotosArray[i].imageType"
+                                                                        (change)="selectImageType($event, i)"
+                                                                        #imageTypeControl="ngModel"
+                                                                        [required]="obituaryPhotosArray[i].firstImage || obituaryPhotosArray[i].secondImage">
+                                                                        <option value="null" disabled [selected]="true">
+                                                                            Choose One
+                                                                        </option>
+                                                                        <option *ngFor="let image of imageTypes"
+                                                                            [value]="image.GlobalCodeId">
+                                                                            {{image.CodeName}}</option>
+                                                                    </select>
+
+                                                                    <span class="help-block"
+                                                                        *ngIf="imageTypeControl.errors?.required">Image
+                                                                        Type is required</span>
+                                                                </div>
+                                                            </td>
+
+                                                            <td data-label="Image">
+                                                                <div class="imageData"
+                                                                    [class.has-error]="obituaryPhotosForm.submitted && firstImageControl.invalid">
+                                                                    <div class="thumbImage one">
+                                                                        <img
+                                                                            [src]="obituaryPhotosArray[i]&&obituaryPhotosArray[i].firstImageBase64 ? obituaryPhotosArray[i].firstImageBase64 : './assets/images/productimage.jpg'" />
+                                                                    </div>
+                                                                    <div class="thumbButton">
+                                                                        <div class="upload-btn-wrapper">
+                                                                            <button
+                                                                                class="btn btn btn-default btn-sm"><i
+                                                                                    class="fa fa-cloud-upload"
+                                                                                    aria-hidden="true"></i> Upload
+                                                                            </button>
+                                                                            <input type="file" type="file"
+                                                                                name="firstImage[{{i}}]"
+                                                                                data-key="firstImage"
+                                                                                [(ngModel)]="obituaryPhotosArray[i].firstImage"
+                                                                                #firstImageControl="ngModel"
+                                                                                (change)="imgUpload($event,i);"
+                                                                                [required]="obituaryPhotosArray[i].imageType  && !obituaryPhotosArray[i].firstImageBase64" />
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <span class="help-block"
+                                                                        *ngIf="firstImageControl.errors?.required ">First
+                                                                        Image is required</span>
+                                                                </div>
+
+                                                                <div class="imageData"
+                                                                    [class.has-error]="obituaryPhotosForm.submitted && secondImageControl.invalid"
+                                                                    *ngIf=" obituaryPhotosArray[i].imageTypeText && obituaryPhotosArray[i].imageTypeText.indexOf('Single') == -1">
+                                                                    <div class="thumbImage one">
+                                                                        <img
+                                                                            [src]="obituaryPhotosArray[i] && obituaryPhotosArray[i].secondImageBase64 ? obituaryPhotosArray[i].secondImageBase64 : './assets/images/productimage.jpg'" />
+                                                                    </div>
+                                                                    <div class="thumbButton">
+                                                                        <div class="upload-btn-wrapper">
+                                                                            <button
+                                                                                class="btn btn btn-default btn-sm"><i
+                                                                                    class="fa fa-cloud-upload"
+                                                                                    aria-hidden="true"></i> Upload
+                                                                            </button>
+                                                                            <input type="file" type="file"
+                                                                                name="secondImage[{{i}}]"
+                                                                                data-key="secondImage"
+                                                                                [(ngModel)]="obituaryPhotosArray[i].secondImage"
+                                                                                #secondImageControl="ngModel"
+                                                                                (change)="imgUpload($event,i);"
+                                                                                [required]="obituaryPhotosArray[i] && !obituaryPhotosArray[i].secondImageBase64" />
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <span class="help-block"
+                                                                        *ngIf="secondImageControl.errors?.required">Second
+                                                                        Image is required</span>
+
+                                                                </div>
+                                                            </td>
+                                                            <td data-label="Remove">
+                                                                <div class="icon"><i class="fa fa-trash-o"
+                                                                        (click)="clearObitaryPhoto(i,obituaryPhotosArray[i].imageId)"
+                                                                        aria-hidden="true"></i>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="buttons"> <button class="btn btn-red btnCss"
+                                                    (click)="stepperNext('Previous',3)" matStepperPrevious>
+                                                    <i class="fa fa-angle-left" aria-hidden="true">
+                                                    </i> Previous </button>
+                                                <button class="btn btn-red btnCss">
+                                                    Next <i class="fa fa-angle-right" type="submit" aria-hidden="true">
+                                                    </i>
+
+                                                </button>
+                                                <button class="btn btn-red btnCss" [disabled]="isSkipped"
+                                                    (click)="skippedStep(stepper,4)">
+                                                    Skip
+                                                </button>
+                                                <button class="btn btn-red btnCss" disabled>Preview</button>
+                                                <button class="btn btn-red btnCss"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="obituaryEmblemForm" optional>
+        <form #obituaryEmblemForm="ngForm" name="obituaryEmblemForm" (ngSubmit)="goToNext(stepper,5)" novalidate>
+            <ng-template matStepLabel>Obituary Emblem Images</ng-template>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+                                <!---->
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Submit an Obituary - Emblem Images</h1>
+                                            </div>
+                                            <div class="whiteSpace"></div>
+                                            <div class="text">
+                                                <p>Each obituary that appears on <b>EveryObit.com </b>can include a
+                                                    maximum of two
+                                                    emblems from the drop-down menu. If the deceased has an affinity
+                                                    with more than
+                                                    two organizations or an organization not listed, please highlight
+                                                    the additional
+                                                    organizations in the obituary narrative.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 offset-md-2 col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Emblem</th>
+                                                            <th>Type Of Emblem</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let i of [0, 1]">
+                                                            <td data-label="Emblem">
+                                                                <div class="imageData">
+                                                                    <div class="thumbImage one">
+                                                                        <img [src]="obituaryEmblems[i] && obituaryEmblems[i].imageUrl ? obituaryEmblems[i].imageUrl : 'assets/images/productimage.jpg'"
+                                                                            alt="image" />
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td data-label="Type Of Emblem">
+                                                                <div class="thumbSelect">
+                                                                    <select class="form-control" name="typeOfEmblem"
+                                                                        (change)="selectEmblemType($event, i)"
+                                                                        [value]="obituaryEmblems[i] && obituaryEmblems[i].typeOfEmblem ? obituaryEmblems[i].typeOfEmblem : null">
+                                                                        <option [value]="null">Choose one </option>
+                                                                        <option *ngFor="let emblem of emblemsResponse"
+                                                                            [value]="emblem.GlobalCodeId"
+                                                                            [attr.data-url]="generateFullUrl(emblem.Description)">
+                                                                            {{emblem.CodeName}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="buttons"> <button class="btn btn-red btnCss"
+                                                    (click)="stepperNext('Previous',4)" matStepperPrevious>
+                                                    <i class="fa fa-angle-left" aria-hidden="true">
+                                                    </i> Previous </button>
+                                                <button class="btn btn-red btnCss" (click)="stepperNext('Next',5)"
+                                                    matStepperNext>
+                                                    Next <i class="fa fa-angle-right" aria-hidden="true">
+                                                    </i>
+                                                </button> <button class="btn btn-red btnCss" [disabled]="isSkipped"
+                                                    (click)="skippedStep(stepper,5)">
+                                                    Skip
+                                                </button>
+                                                <button class="btn btn-red btnCss" disabled>Preview</button>
+                                                <button class="btn btn-red btnCss"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="obituaryServiceForm">
+        <form #obituaryServiceForm="ngForm" name="obituaryServiceForm"
+            (ngSubmit)="obituaryServiceForm.valid && goToNext(stepper, 6)">
+            <ng-template matStepLabel>Obituary Services</ng-template>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+                                <!---->
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Submit an Obituary - Service Location Details</h1>
+                                            </div>
+                                            <div class="whiteSpace"></div>
+                                            <div class="text">
+                                                <p>Service announcement details appear in two areas of
+                                                    <b>EveryObit.com</b>, the <b>Obituary Narrative</b> and in a special
+                                                    area at the bottom of the <b>Obituary Narrative </b>and would
+                                                    include driving directions to each location. Both areas must include
+                                                    service dates, times and locations.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered tableBodyScroll">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Type of Service</th>
+                                                            <th>Location</th>
+                                                            <th>Remove</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <perfect-scrollbar>
+                                                            <tr
+                                                                *ngFor="let services of obituaryServiceArray ; let i=index;">
+                                                                <td data-label="Type Of Service">
+                                                                    <div class="imageData">
+                                                                        <div class="thumbSelect">
+                                                                            <select class="form-control"
+                                                                                #typeOfService="ngModel"
+                                                                                name="typeOfService[{{i}}]"
+                                                                                [(ngModel)]="obituaryServiceArray[i].typeOfService">
+                                                                                <option [value]="null" [disabled]="true"
+                                                                                    [selected]="true">Choose one
+                                                                                </option>
+                                                                                <option
+                                                                                    *ngFor="let service of servicesResponse"
+                                                                                    [value]="service.GlobalCodeId">
+                                                                                    {{service.CodeName}}
+                                                                                </option>
+                                                                            </select> </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td data-label="Location">
+                                                                    <div class="locationControls">
+                                                                        <div class="container-fluid">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-6 pad-5">
+                                                                                    <div class="form-group"
+                                                                                        [class.has-error]="(obituaryServiceArray[i].typeOfService>0)">
+                                                                                        <input #address="ngModel"
+                                                                                            name="address[{{i}}]"
+                                                                                            [required]="obituaryServiceArray[i].typeOfService!=serviceId"
+                                                                                            [(ngModel)]="obituaryServiceArray[i].address"
+                                                                                            type="text"
+                                                                                            class="form-control"
+                                                                                            placeholder="Address">
+                                                                                        <span class="help-block"
+                                                                                            *ngIf="address.errors?.required">Address
+                                                                                            is required</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-6  pad-5">
+                                                                                    <div class="form-group"
+                                                                                        [class.has-error]="(obituaryServiceArray[i].typeOfService>0)">
+                                                                                        <select class="form-control"
+                                                                                            placeholder="City"
+                                                                                            (change)="getCities($event.target.value,i)"
+                                                                                            [required]="obituaryServiceArray[i].typeOfService!=serviceId"
+                                                                                            #state="ngModel"
+                                                                                            name="state[{{i}}]"
+                                                                                            [(ngModel)]="obituaryServiceArray[i].state">
+                                                                                            <option value="null"
+                                                                                                [disabled]="true"
+                                                                                                [selected]="true">
+                                                                                                Select State
+                                                                                            </option>
+                                                                                            <option
+                                                                                                *ngFor="let state of statesResponse"
+                                                                                                [value]="state.StateId">
+                                                                                                {{state.Name}} -
+                                                                                                {{state.Abbreviations}}
+                                                                                            </option>
+                                                                                        </select>
+                                                                                        <span class="help-block"
+                                                                                            *ngIf="state.errors?.required">State
+                                                                                            is required</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-6 pad-5">
+                                                                                    <div class="form-group"
+                                                                                        [class.has-error]="(obituaryServiceArray[i].typeOfService>0)">
+                                                                                        <select class="form-control"
+                                                                                            placeholder="City"
+                                                                                            #city="ngModel"
+                                                                                            name="city[{{i}}]"
+                                                                                            [(ngModel)]="obituaryServiceArray[i].city"
+                                                                                            [required]="obituaryServiceArray[i].typeOfService!=serviceId">
+                                                                                            <option value="null"
+                                                                                                [disabled]="true"
+                                                                                                [selected]="true">
+                                                                                                Select City
+                                                                                            </option>
+                                                                                            <option
+                                                                                                *ngFor="let city of citiesResponse&&citiesResponse[i]"
+                                                                                                [value]="city.CityId">
+                                                                                                {{city.Name}}
+                                                                                            </option>
+                                                                                        </select>
+                                                                                        <span class="help-block"
+                                                                                            *ngIf="city.errors?.required">City
+                                                                                            is required</span>
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-sm-6  pad-5">
+                                                                                    <div class="form-group"
+                                                                                        [class.has-error]="(services.typeOfService>0)">
+                                                                                        <input #zipCode="ngModel"
+                                                                                            name="zipCode[{{i}}]"
+                                                                                            [required]="obituaryServiceArray[i].typeOfService!=serviceId"
+                                                                                            [(ngModel)]="obituaryServiceArray[i].zipCode"
+                                                                                            type="text"
+                                                                                            class="form-control"
+                                                                                            pattern="^[0-9]{5}(?:-[0-9]{4})?$"
+                                                                                            maxlength="5"
+                                                                                            placeholder="Zip Code">
+                                                                                        <span class="help-block"
+                                                                                            *ngIf="zipCode.errors?.required">ZipCode
+                                                                                            is required</span>
+                                                                                        <span class="help-block"
+                                                                                            *ngIf="zipCode.errors?.pattern">ZipCode
+                                                                                            is invalid</span>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-6 pad-5">
+                                                                                    <div class="form-group"
+                                                                                        [class.has-error]="(services.typeOfService>0)">
+                                                                                        <mat-form-field>
+                                                                                            <input matInput
+                                                                                                [matDatepicker]="serviceDatePicker"
+                                                                                                class="form-control"
+                                                                                                [required]="obituaryServiceArray[i].typeOfService!=serviceId"
+                                                                                                #serviceDate="ngModel"
+                                                                                                (dateChange)="formatServiceDate(i)"
+                                                                                                [min]="minDate"
+                                                                                                placeholder="Date Of Service"
+                                                                                                name="serviceDate[{{i}}]"
+                                                                                                [(ngModel)]="obituaryServiceArray[i].serviceDate "
+                                                                                                readonly>
+                                                                                            <mat-datepicker-toggle
+                                                                                                matSuffix
+                                                                                                [for]="serviceDatePicker">
+                                                                                            </mat-datepicker-toggle>
+                                                                                            <mat-datepicker
+                                                                                                #serviceDatePicker>
+                                                                                            </mat-datepicker>
+                                                                                        </mat-form-field>
+                                                                                        <span class="help-block"
+                                                                                            *ngIf="serviceDate.errors?.required">Date
+                                                                                            of service
+                                                                                            required</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-3 pad-5">
+                                                                                    <div class="form-group"
+                                                                                        [class.has-error]="(services.typeOfService>0)">
+                                                                                        <input class="form-control"
+                                                                                            [ngxTimepicker]="toggleServieTimepicker"
+                                                                                            #serviceStartTime="ngModel"
+                                                                                            [disableClick]="true"
+                                                                                            name="serviceStartTime[{{i}}]"
+                                                                                            [required]="obituaryServiceArray[i].typeOfService!=serviceId"
+                                                                                            [(ngModel)]="obituaryServiceArray[i].startTime"
+                                                                                            placeholder="Service Start Time"
+                                                                                            readonly>
+                                                                                        <ngx-material-timepicker-toggle
+                                                                                            [for]="toggleServieTimepicker">
+                                                                                        </ngx-material-timepicker-toggle>
+                                                                                        <ngx-material-timepicker
+                                                                                            #toggleServieTimepicker>
+                                                                                        </ngx-material-timepicker>
+                                                                                        <span class="help-block"
+                                                                                            *ngIf="serviceStartTime.errors?.required">Start
+                                                                                            Time
+                                                                                            required</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-3 pad-5">
+                                                                                    <div class="form-group">
+                                                                                        <input class="form-control"
+                                                                                            [ngxTimepicker]="toggleTimepicker"
+                                                                                            [disableClick]="true"
+                                                                                            #serviceEndTime="ngModel"
+                                                                                            name="serviceEndTime[{{i}}]"
+                                                                                            placeholder="Service End Time"
+                                                                                            [(ngModel)]="obituaryServiceArray[i].endTime"
+                                                                                            readonly>
+                                                                                        <ngx-material-timepicker-toggle
+                                                                                            [for]="toggleTimepicker">
+                                                                                        </ngx-material-timepicker-toggle>
+                                                                                        <ngx-material-timepicker
+                                                                                            #toggleTimepicker>
+                                                                                        </ngx-material-timepicker>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td data-label="Remove">
+                                                                    <div class="icon"><i class="fa fa-trash-o"
+                                                                            (click)="clearObitaryService(i)"
+                                                                            aria-hidden="true"></i></div>
+                                                                </td>
+                                                            </tr>
+                                                        </perfect-scrollbar>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="buttons"> <button class="btn btn-red btnCss"
+                                                    (click)="stepperNext('Previous',5)" matStepperPrevious>
+                                                    <i class="fa fa-angle-left" aria-hidden="true">
+                                                    </i> Previous </button>
+                                                <button class="btn btn-red btnCss" type="submit">
+                                                    Next <i class="fa fa-angle-right" aria-hidden="true">
+                                                    </i> </button>
+                                                <button class="btn btn-red btnCss" disabled>Preview</button>
+                                                <button class="btn btn-red btnCss"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="obituaryNarrativeForm">
+        <form #obituaryNarrativeForm="ngForm" name="obituaryNarrativeForm" novalidate>
+            <ng-template matStepLabel>Obituary Narrative</ng-template>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+                                <!---->
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Submit an Obituary - Obituary Narrative</h1>
+                                            </div>
+                                            <div class="whiteSpace"></div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="cardDiv">
+                                                <div class="cardHeader"> Narrative </div>
+                                                <div class="cardBody">
+                                                    <div class="form-group">
+                                                        <angular-editor [placeholder]="'Enter text here...'"
+                                                            name="narrative" [(ngModel)]="deceasedNarrative.narrative">
+                                                        </angular-editor>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="buttons"> <button class="btn btn-red btnCss"
+                                                    (click)="stepperNext('Previous',6)" matStepperPrevious>
+                                                    <i class="fa fa-angle-left" aria-hidden="true"></i> Previous
+                                                </button>
+                                                <button class="btn btn-red btnCss" matStepperNext
+                                                    (click)="stepperNext('Next',7)">
+                                                    Next <i class="fa fa-angle-right" aria-hidden="true"></i> </button>
+                                                <button class="btn btn-red btnCss" disabled>Preview</button>
+                                                <button class="btn btn-red btnCss"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="obituaryFinalNarrativeForm">
+        <form #obituaryFinalNarrativeForm="ngForm" name="obituaryFinalNarrativeForm" novalidate>
+            <ng-template matStepLabel>Final Narrative</ng-template>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+                                <!---->
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Submit an Obituary - Obituary Narrative</h1>
+                                            </div>
+                                            <div class="whiteSpace"></div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="cardDiv">
+                                                <div class="cardHeader"> Final Narrative </div>
+                                                <div class="cardBody">
+                                                    <div class="narrinfo">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="thumbInfo"
+                                                                    [class.two-images]="currentObituaryPhotos.length == 2">
+                                                                    <h1>{{currentDescIdentificationDetails.firstName}}
+                                                                        {{currentDescIdentificationDetails.lastName}}
+                                                                    </h1>
+                                                                    <div class="thumbImage">
+                                                                        <img *ngFor="let photo of currentObituaryPhotos"
+                                                                            [src]="photo" alt="image" />
+                                                                        <img src="assets/images/productimage.jpg"
+                                                                            alt="image"
+                                                                            *ngIf="currentObituaryPhotos.length == 0" />
+                                                                    </div>
+
+                                                                    <div class="thumbBasicInfo">
+                                                                        <h2>{{currentDescIdentificationDetails.dateOfBirth| date : 'mediumDate'}}
+                                                                            -
+                                                                            {{currentDecsDeathDates.dateOfDeath | date : 'mediumDate'}}
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div class="addressInfo">
+                                                                        <p>{{this.cityName}}
+                                                                            {{this.stateName}}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="thumbDesc"
+                                                                    [innerHtml]="currentDecsNarrative.narrative">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="buttons"> <button class="btn btn-red btnCss wd-210"
+                                                    (click)="stepperNext('Previous',7)" matStepperPrevious>
+                                                    <i class="fa fa-angle-left" aria-hidden="true"></i> Previous
+                                                </button>
+                                                <button class="btn btn-red btnCss wd-210"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button> <button
+                                                    class="btn btn-red btnCss wd-210" (click)="submitObituaryTest()"
+                                                    matStepperNext>Submit
+                                                    Obituary</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="loaderDiv" *ngIf="loading">
+                        <mat-spinner></mat-spinner>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-step>
+
+    <!-- <mat-step [stepControl]="obituaryPaymentForm">
+        <form #obituaryPaymentForm="ngForm" name="obituaryPaymentForm" novalidate>
+            <ng-template matStepLabel>Obituary Submission</ng-template>
+            <section class="bgImage1">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-1 col-md-12">
+                            <div class="adminWrapper">
+
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="boxHeder">
+                                                <h1>Submit an Obituary - Obituary Payments</h1>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="cardDiv">
+                                                <div class="cardHeader">Important message about items in your Cart
+                                                </div>
+                                                <div class="cardBody">
+                                                    <div class="narrinfo">
+                                                        <div class="row">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Cart Items</th>
+
+                                                                            <th class="text-right">
+                                                                                {{createObituaryRequest.length}}
+                                                                                {{createObituaryRequest.length > 1 ? 'items' : 'item'}}
+                                                                                in your Cart
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr
+                                                                            *ngFor="let data of createObituaryRequest;let i=index;">
+                                                                            <td>
+                                                                                <div class="thumbTitle">
+                                                                                    <h1>{{data.deceasedIdentificationDetail.firstName}}
+                                                                                        {{data.deceasedIdentificationDetail.lastName}}
+                                                                                    </h1>
+                                                                                </div>
+                                                                                <div class="thumbInner">
+                                                                                    <div class="thumbImage">
+                                                                                        <img [src]="data.obituaryPhotos.length > 0 && data.obituaryPhotos[0].firstImageBase64 ? data.obituaryPhotos[0].firstImageBase64 :'./assets/images/productimage.jpg'"
+                                                                                            alt="image" />
+                                                                                    </div>
+                                                                                    <div class="thumbImage"
+                                                                                        *ngIf="data.obituaryPhotos.length > 0 && data.obituaryPhotos[0].secondImageBase64">
+                                                                                        <img [src]="data.obituaryPhotos[0].secondImageBase64"
+                                                                                            alt="image" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="info"
+                                                                                    [innerHtml]="data.deceasedNarrative.narrative">
+                                                                                </div>
+                                                                                <div class="cartBtn">
+                                                                                    <button class="btn btn-red btnCss"
+                                                                                        (click)="calculateAmount('one',i)">
+                                                                                        Submit</button>
+                                                                                    <button class="btn btn-red btnCss"
+                                                                                        (click)="editCartObit(i,stepper)">
+                                                                                        Edit</button><button
+                                                                                        class="btn btn-red btnCss"
+                                                                                        (click)="confirmRemoveObit(i)">
+
+                                                                                        Remove</button></div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="buttons">
+                                                <button class="btn btn-red btnCss wd-220"
+                                                    (click)="placeAnotherObituary(stepper)">Place
+                                                    Another
+                                                    Obituary</button>
+                                                <button class="btn btn-red btnCss  wd-220"
+                                                    (click)="calculateAmount('all',1)">Submit All</button>
+                                                <button class="btn btn-red btnCss  wd-220"
+                                                    [routerLink]="['/admin/admin-panel']">Cancel</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="loaderDiv" *ngIf="loading">
+                    <mat-spinner></mat-spinner>
+                </div>
+            </section>
+        </form>
+    </mat-step> -->
+
+</mat-vertical-stepper>
+<ng-template #paymentModal>
+
+    <app-stripe-payment-form [singleItem]="singleItem" [amount]="amount" (handleClose)="closeModal()"
+        (submitForPayment)="submitForPayment($event)"></app-stripe-payment-form>
+
+</ng-template>

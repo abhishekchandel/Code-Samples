@@ -1,0 +1,248 @@
+<section class="mainContent">
+    <div class="container">
+        <div class="row">
+            <!--search panel-->
+            <div class="searchPanel">
+                <a [routerLink]="['/advance-search']">Continue Searching <i class="fa fa-search"></i></a>
+            </div>
+            <!---->
+            <div class="col-lg-12 col-sm-12">
+                <div class="row mb-20">
+                    <div class="col-sm-12">
+                        <div class="mainHeading">
+                            <h1>Send Flowers</h1>
+                            <p>Extend an offering of solace and peace with a comforting floral arrangement.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="navTabs">
+                            <mat-tab-group #tabGroup (selectedIndexChange)="getFreshScore($event)">
+                                <div class="tab-content">
+                                    <mat-tab label="Best Sellers">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+
+                                    <mat-tab label="Table Arrangements">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Baskets">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Sprays">
+
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Plants">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Inside Casket">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Wreaths">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Hearts">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Crosses">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Casket Sprays">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Urn Arrangements">
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-4 col-6 full"
+                                                *ngFor="let flowersData of flowersList| paginate: { itemsPerPage: 5, currentPage: currentPage,totalItems:totalItems}">
+                                                <div class="product">
+                                                    <div class="productImage"><img
+                                                            [src]='flowersData.Small? flowersData.Small:flowersData.Large'
+                                                            alt="image" /></div>
+                                                    <div class="productInfo">
+                                                        <h2><strong>{{flowersData.Name}}</strong></h2>
+                                                        <p>${{flowersData.Price}}</p>
+                                                    </div>
+                                                    <div class="proBtn"><button class="btn btn-blue btnCss"
+                                                            (click)="buyFlowers(flowersData)">Buy
+                                                            Now</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                </div>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagNav">
+                    <pagination-controls (pageChange)="getPage($event)" maxSize="9" directionLinks="true"
+                        responsive="true" previousLabel="Previous" nextLabel="Next">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+        <div class="loaderDiv" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+</section>

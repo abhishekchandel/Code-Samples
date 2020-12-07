@@ -1,0 +1,26 @@
+<form class="loginField" #emailForm="ngForm" name="emailForm" (ngSubmit)="emailForm.valid && sendEmail()" novalidate>
+<div id="emailSubmit" class="modal fade trashPopup" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button (click)="onDismiss()" type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Email</h4>
+        </div>
+        <div class="modal-body text-center emailSubmit">
+            <div class="form-group">						
+                <input type="text" #emailControl="ngModel" [(ngModel)]="email" name="emailControl" required class="form-control" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+                <span class="help-block" *ngIf="emailControl.errors?.required && emailForm.submitted">Email is
+                    required</span>
+                <span class="help-block" *ngIf="emailControl.errors?.pattern">Email is
+                    invalid</span>
+            </div>
+            <button class="btn btn-red btnCss">Submit</button>
+        </div>
+        </div>
+    </div>		
+</div>
+</form>
+  <!----> 
+  <div class="loaderWrapper" *ngIf="loading">
+    <div class="loader"></div>
+</div>

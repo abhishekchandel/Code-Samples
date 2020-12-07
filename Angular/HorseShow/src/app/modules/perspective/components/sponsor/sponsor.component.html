@@ -1,0 +1,577 @@
+<div class="innerContent">
+	<div class="sortData">
+		<div class="sponBtn"><button class="btn btn-red btnCss" (click)="resetForm()">Add new Sponsor</button></div>
+	</div>
+
+	<div class="gridTable addBlueStrip">
+		<div class="table-responsive">
+			<table class="table table-bordered tableBodyScroll">
+				<thead>
+					<tr>
+						<th (click)="sortData('SponsorId')">Sponsor Id
+							<span [ngClass]="getSort('SponsorId')">
+
+							</span>
+						</th>
+						<th (click)="sortData('SponsorName')">Sponsor
+							<span [ngClass]="getSort('SponsorName')">
+							</span>
+						</th>
+						<th>Remove</th>
+					</tr>
+				</thead>
+				<perfect-scrollbar class="nicescrollBar-1">
+					<tbody>
+
+						<tr *ngFor="let list of sponsorsList;let i = index" (click)="highlight(list.SponsorId,i)"
+							[ngClass]="{'blueRow': selectedRowIndex == i}">
+							<td data-label="Sponsor ID">{{list.SponsorId}}</td>
+							<td data-label="Sponsor">{{list.SponsorName}}</td>
+							<td data-label="Remove">
+								<button type="button" class="icon"
+									(click)="confirmRemoveSponsor($event, i,list.SponsorId)">
+									<span></span> <i class="fa fa-trash-o" aria-hidden="true"></i>
+								</button>
+							</td>
+						</tr>
+
+
+
+
+					</tbody>
+				</perfect-scrollbar>
+			</table>
+			<div [hidden]="totalItems == 0">
+				<mat-paginator #paginator [length]="totalItems" (page)="getNext($event)" [pageSizeOptions]="[5]">
+				</mat-paginator>
+			</div>
+		</div>
+	</div>
+
+	<div class="dataDesc gridTable twoCol">
+		<table class="table table-bordered tableBodyScroll">
+			<tbody>
+				<tr>
+					<td><span class="blueBox"></span><b>Sponsor ID:</b> {{sponsorInfo.SponsorId}}</td>
+					<td colspan="2"><span class="blueBox"></span><b>Sponsor Name:</b> <span
+							class="classNameExt1">{{sponsorInfo.SponsorName}}</span>
+						<p class="toolTipText">{{sponsorInfo.SponsorName}}</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="sponTabbing">
+
+
+	
+		<div class="tab-content">
+			<div class="tab-pane  active" id="home">
+				<mat-tab-group #tabGroup>
+					<mat-tab class="nav-link active nav nav-tabs" label="Sponsor Info">
+						<form #sponsorInfoForm="ngForm" name="sponsorInfoForm"
+							(ngSubmit)="sponsorInfoForm.valid && AddUpdateSponsor(sponsorInfoForm)" novalidate>
+							<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label>Sponsor Name <span>*</span></label>
+												<input type="text" class="form-control" placeholder="Sponsor Name"
+													#sponsorName="ngModel" name="sponsorName"
+													[(ngModel)]="sponsorInfo.SponsorName" required />
+												<span class="help-block"
+													*ngIf="sponsorName.errors?.required && (sponsorName.touched || sponsorInfoForm.submitted)">Sponsor
+													Name is
+													required</span>
+											</div>
+
+											<div class="form-group">
+												<label>Phone</label>
+												<input mask="(000) 000-0000" #phone="ngModel" name="phone"
+													[(ngModel)]="sponsorInfo.Phone" type="text" class="form-control"
+													placeholder="Phone" />
+											</div>
+
+											<div class="form-group">
+												<label>Address <span>*</span></label>
+												<input type="text" class="form-control" placeholder="Address"
+													#address="ngModel" name="address" [(ngModel)]="sponsorInfo.Address"
+													required />
+												<span class="help-block"
+													*ngIf="address.errors?.required && (address.touched || sponsorInfoForm.submitted)">Address
+													is
+													required</span>
+											</div>
+
+											<div class="form-group">
+												<label>State <span>*</span></label>
+												<input autocomplete="new-password" class="form-control" required
+													placeholder="State" name="state" #state="ngModel"
+													[(ngModel)]="seletedStateName"
+													(keyup)="filterStates($event.target.value,true)"
+													value="{{seletedStateName}}" type="search"
+													[matAutocomplete]="stateauto">
+
+												<mat-autocomplete #stateauto="matAutocomplete">
+													<mat-option *ngFor="let option of statefilteredOptions"
+														[value]="option.Name"
+														(onSelectionChange)="getFilteredCities(option.StateId);">
+														{{ option.Name }} </mat-option>
+												</mat-autocomplete>
+												<span class="help-block"
+													*ngIf="sponsorInfo.StateId==null && (state.touched || sponsorInfoForm.submitted)">
+													State is required</span>
+											</div>
+
+
+											<div class="form-group">
+												<label>Sponsor ID</label>
+												<input type="text" readonly="true" class="form-control" name="sponsorId"
+													#sponsorId="ngModel" [(ngModel)]="sponsorInfo.SponsorId"
+													placeholder="Sponsor ID" />
+											</div>
+
+
+										</div>
+										<div class="col-sm-6">
+
+											<div class="form-group">
+												<label>Contact Name</label>
+												<input type="text" #contactName="ngModel" name="contactName"
+													[(ngModel)]="sponsorInfo.ContactName" class="form-control"
+													placeholder="Contact Name" />
+											</div>
+
+											<div class="form-group">
+												<label>Email</label>
+												<input type="email" class="form-control" placeholder="Email"
+													#email="ngModel" name="email" [(ngModel)]="sponsorInfo.Email"
+													pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" />
+												<span class="help-block"
+													*ngIf="email.errors?.required && (email.touched || sponsorInfoForm.submitted)">Email
+													is
+													required</span>
+												<span class="help-block"
+													*ngIf="!email.errors?.required && email.errors?.pattern">Email is
+													invalid</span>
+											</div>
+
+
+
+
+
+											<div class="form-group">
+												<label>Amount Received</label>
+
+												<input type="number" class="form-control" #amountReceieved="ngModel"
+													name="amountReceieved" [(ngModel)]="sponsorInfo.AmountReceived"
+													placeholder="Amount Received"
+													(change)="setAmount($event.target.value)" />
+
+											</div>
+
+											<div class="row">
+												<div class="col-md-7">
+													<div class="form-group">
+														<label>City <span>*</span></label>
+														
+														<input type="text" class="form-control" placeholder="City"
+															#city="ngModel" name="city" [(ngModel)]="sponsorInfo.City"
+															required />
+
+														<span class="help-block"
+															*ngIf="sponsorInfo.City==null && (city.touched || sponsorInfoForm.submitted)">
+															City is required</span>
+													</div>
+												</div>
+
+												<div class="col-md-5">
+													<div class="form-group">
+														<label>Zip Code<span>*</span></label>
+													
+
+														<input type="text" appOnlynumber class="form-control"
+															placeholder="Zip Code" maxlength="5" #zipcode="ngModel"
+															name="zipcode" [(ngModel)]="sponsorInfo.ZipCode" required />
+
+														<span class="help-block"
+															*ngIf="zipcode.errors?.required && (zipcode.touched || sponsorInfoForm.submitted)">
+															Zip Code is required
+														</span>
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+										<div class="col-sm-12">
+											<div class="buttons text-right">
+												<button (click)='tabGroup.selectedIndex = 1'
+													class="btn btn-red btnCss roundBtn">Next</button>
+												<button type="submit"
+													class="btn btn-red btnCss roundBtn">Submit</button>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</form>
+					</mat-tab>
+
+					<mat-tab class="nav-link active nav nav-tabs" label="Exhibitor">
+						<div class="card dataEntriesTable">
+							<form #sponsorExhibitorForm="ngForm" name="sponsorExhibitorForm"
+								(ngSubmit)="sponsorExhibitorForm.valid && AddUpdateSponsorExhibitor()">
+
+								<div class="card-body">
+									<div class="table-responsive tableTab" id="contentscroll2">
+
+										<table id="gridTableDescPrint" style="display: none;" class="table pdfTable">
+											<tbody>
+												<tr>
+													<td><span class="blueBox"></span><b>Sponsor Id:</b>
+														{{sponsorInfo.SponsorId}} </td>
+													<td><span class="blueBox"></span><b>Sponsor Name:</b>
+														{{sponsorInfo.SponsorName}} </td>
+												</tr>
+											</tbody>
+										</table>
+
+
+
+										<table class="table table-bordered tableBodyScroll removeSpaceTop">
+											<thead>
+												<tr>
+													<th>Exhibitor ID</th>
+													<th>Exhibitor Name</th>
+													<th>Sponsor Type</th>
+													<th>Ad Type</th>
+													<th>ID Number</th>
+													<th>Birth Year</th>
+													<th class="non-print-element" style="display:none;">Remove</th>
+												</tr>
+											</thead>
+											<perfect-scrollbar class="nicescrollBar-2">
+												<tbody>
+													<tr *ngFor="let list of sponsorsExhibitorsList;let i = index">
+														<td data-label="Exhibitor ID">{{list.ExhibitorId}}</td>
+														<td data-label="Exhibitor Name">{{list.FirstName}}
+															{{list.LastName}}</td>
+														<td data-label="Sponsor Type">{{list.SponsorTypeName}}</td>
+														<td data-label="Ad Type">{{list.AdTypeName}}</td>
+														<td data-label="ID Number">{{list.IdNumber}}</td>
+														<td data-label="Birth Year">{{list.BirthYear}}</td>
+														<td data-label="Remove" class="non-print-element" style="display:none;">
+															<button class="icon"
+																(click)="confirmRemoveExhibitor($event,i,list.SponsorExhibitorId)">
+																<span></span> <i class="fa fa-trash-o"
+																	aria-hidden="true"></i>
+															</button></td>
+													</tr>
+
+													<tr id="sponsorExhibitorentry" style="display:none;">
+
+														<td data-label="Sponsor Exhibitor">
+
+															<input class="form-control" required
+																placeholder="Sponsor Exhibitor" name="sponsorexhibitor"
+																#sponsorexhibitor="ngModel"
+																[(ngModel)]="seletedsponsorexhibitorname"
+																value="{{seletedsponsorexhibitorname}}"
+																(keyup)="filtersponsorexhibitor($event.target.value,true)"
+																type="search" [matAutocomplete]="sponsorexhibitorauto">
+															<span class="help-block"
+																*ngIf="exhibitorId==null && (sponsorExhibitorForm.submitted || sponsorexhibitor.touched)">
+																Please select exhibitor</span>
+
+
+															<mat-autocomplete #sponsorexhibitorauto="matAutocomplete">
+																<mat-option
+																	*ngFor="let item of UnassignedSponsorExhibitorfilteredOptions"
+																	[value]="item.Name"
+																	(onSelectionChange)="setFilteredsponsorexhibitor(item.ExhibitorId,$event);">
+																	{{item.Name}} / {{item.ExhibitorId}}
+																</mat-option>
+															</mat-autocomplete>
+														</td>
+
+
+
+
+														<td>
+															<input type="number" class="form-control whitebg"
+																placeholder="Sponsor Amount" name="sponsorAmount"
+																required [(ngModel)]="sponsorAmount"
+																#amountControl="ngModel"
+																(change)="setsponsorAmount($event.target.value)">
+
+															<span class="help-block" *ngIf="(sponsorExhibitorForm.submitted || amountControl.touched) 
+												&& amountControl.invalid">Please Enter Sponsor Amount </span>
+
+														</td>
+
+														<td>
+															<input class="form-control" required
+																placeholder="Sponsor Horse Name" name="sponsorhorsename"
+																#sponsorhorsename="ngModel"
+																[(ngModel)]="seletedsponsorhorseName"
+																value="{{seletedsponsorhorseName}}"
+																(keyup)="filtersponsorhorses($event.target.value,true)"
+																type="search" [matAutocomplete]="sponsorhorseauto">
+															<span class="help-block"
+																*ngIf="linkedSponsorHorseId==null && (sponsorExhibitorForm.submitted || sponsorhorsename.touched)">
+																Please select sponsor horse</span>
+
+
+															<mat-autocomplete #sponsorhorseauto="matAutocomplete">
+																<mat-option
+																	*ngFor="let horse of filteredSponsorHorsesOption"
+																	[value]="horse.HorseName"
+																	(onSelectionChange)="setFilteredSponsorHorse(horse.HorseId,$event);">
+																	{{horse.HorseId}}-{{horse.HorseName}}
+																</mat-option>
+															</mat-autocomplete>
+
+
+														</td>
+
+														<td data-label="Sponsor Type" >
+															<select class="form-control dynDataSeclect"
+																name="sponsortype" required [(ngModel)]="sponsortypeId"
+																#sponsorTypeControl="ngModel"
+																(change)="setSponsorType($event.target.value)">
+																<option disabled="true" [ngValue]="null"
+																	class="selectDropdown">Select Sponsor Type</option>
+																<option class="selectDropdown"
+																	[value]="item.GlobalCodeId"
+																	*ngFor="let item of SponsorTypes">
+																	{{item.CodeName}}</option>
+															</select>
+															<span class="help-block"
+																*ngIf="(sponsorExhibitorForm.submitted || sponsorTypeControl.touched) && sponsorTypeControl.invalid">Please
+																select sponsor type
+															</span>
+														</td>
+
+														<td *ngIf="sponsortypeId==2" data-label="Type" >
+															<select class="form-control dynDataSeclect" name="type"
+																[required]="sponsortypeId==2" [(ngModel)]="typeId"
+																#typeControl="ngModel"
+																(change)="setType($event.target.value)">
+																<option disabled="true" [ngValue]="null"
+																	class="selectDropdown">Select Class</option>
+																<option class="selectDropdown" [value]="item.Id"
+																	*ngFor="let item of typeList">
+																	{{item.Name}}</option>
+															</select>
+															<span class="help-block"
+																*ngIf="(sponsorExhibitorForm.submitted || typeControl.touched) && typeControl.invalid">Please
+																select class
+															</span>
+														</td>
+
+														<td *ngIf="sponsortypeId==1" data-label="Type">
+
+															<input type="number" class="form-control whitebg"
+																placeholder="Ad Number" name="typeId"
+																required="sponsortypeId==1" [(ngModel)]="typeId"
+																#typeControl="ngModel"
+																(change)="setType($event.target.value)">
+
+															<span class="help-block" *ngIf="(sponsorExhibitorForm.submitted || typeControl.touched) 
+												&& typeControl.invalid">Please Add Ad Number
+															</span>
+														</td>
+
+
+														<td *ngIf="sponsortypeId==1" data-label="Type">
+
+															<select class="form-control dynDataSeclect" name="type"
+																[required]="sponsortypeId==1" [(ngModel)]="adTypeId"
+																#typeControl="ngModel"
+																(change)="setAdType($event.target.value)">
+																<option disabled="true" [ngValue]="null"
+																	class="selectDropdown">Select Ad Type</option>
+																<option class="selectDropdown"
+																	[value]="item.YearlyMaintainenceFeeId"
+																	*ngFor="let item of AdTypes">
+																	{{item.FeeName}}</option>
+															</select>
+
+															<span class="help-block"
+																*ngIf="(sponsorExhibitorForm.submitted || typeControl.touched) && typeControl.invalid">Please
+																select ad type
+															</span>
+
+														</td>
+
+														<td></td>
+
+													</tr>
+
+												</tbody>
+
+											</perfect-scrollbar>
+
+										</table>
+									</div>
+
+								</div>
+
+								<div class="actionBtn text-right mt-3 mb-3 ">
+									<button (click)='tabGroup.selectedIndex = 0'
+										class="btn btn-red btnCss roundBtn">Previous</button>
+									<button (click)='tabGroup.selectedIndex = 2'
+										class="btn btn-red btnCss roundBtn">Next</button>
+									<button (click)="printSponsorExhibitor()" id="inputprintbutton" type="button"
+										class="btn btn-red btnCss roundBtn">Display/Print</button>
+									<button (click)="goToLink('perspective/exhibitor')"
+										class="btn btn-red btnCss roundBtn">+ Exhibitor</button>
+									<button style="display:none;" type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+								</div>
+
+							</form>
+
+						</div>
+					</mat-tab>
+
+
+					<mat-tab class="nav-link active nav nav-tabs" label="Classes">
+						<div class="card">
+							<form #sponsorClassForm="ngForm" name="sponsorClassForm"
+								(ngSubmit)="sponsorClassForm.valid && AddUpdateSponsorClass()">
+								<div class="card-body">
+									<div class="table-responsive tableTab" id="tblSponsorClasses">
+
+										<table id="gridTableDescPrint1" style="display: none;" class="table pdfTable">
+											<tbody>
+												<tr>
+													<td><span class="blueBox"></span><b>Sponsor Id:</b>
+														{{sponsorInfo.SponsorId}} </td>
+													<td><span class="blueBox"></span><b>Sponsor Name:</b>
+														{{sponsorInfo.SponsorName}} </td>
+												</tr>
+											</tbody>
+										</table>
+
+
+										<table class="table table-bordered tableBodyScroll removeSpaceTop">
+											<thead>
+												<tr>
+													<th>Class Number</th>
+													<th>Class Name</th>
+													<th>Age Group</th>
+													<th class="non-print-element">Exhibitor/Horse Name</th>
+													<th class="non-print-element">Remove</th>
+												</tr>
+											</thead>
+											<perfect-scrollbar class="nicescrollBar-2">
+												<tbody>
+													<tr *ngFor="let list of sponsorClassesList; let i=index">
+														<td data-label="Class Number">{{list.ClassNumber}}</td>
+														<td data-label="Class Name">{{list.Name}}</td>
+														<td data-label="Age Group">{{list.AgeGroup}}</td>
+														<td data-label="Exhibitor" class="non-print-element">
+
+														
+
+															<input class="form-control"
+																placeholder="Exh Name/Horse Name" name="exbhorsename"
+																(keyup)="filterExhibitorhorses($event.target.value)"
+																(click)="getSelectedRow(i)" type="search"
+																[matAutocomplete]="exbhorsenameauto">
+
+
+
+															<mat-autocomplete #exbhorsenameauto="matAutocomplete">
+																<mat-option
+																	*ngFor="let item of list.tempexbhorselist;let i=index"
+																	[value]="item">
+																	{{item}}
+																</mat-option>
+															</mat-autocomplete>
+
+
+
+
+
+														</td>
+
+														<td data-label="Remove" class="non-print-element">
+															<button type="button" class="icon"
+																(click)="confirmRemoveSponsorClass($event,i,list.ClassSponsorId)">
+																<span></span> <i class="fa fa-trash-o"
+																	aria-hidden="true"></i>
+															</button>
+														</td>
+
+													</tr>
+													<tr id="sponsorClassesentry">
+
+														<td data-label="Class Name" colspan="2">
+
+
+
+
+															<input class="form-control" required
+																placeholder="Sponsor Class" name="sponsorclass"
+																#sponsorclass="ngModel"
+																[(ngModel)]="seletedsponsorclassname"
+																value="{{seletedsponsorclassname}}"
+																(keyup)="filtersponsorclass($event.target.value,true)"
+																type="search" [matAutocomplete]="sponsorclassauto">
+															<span class="help-block"
+																*ngIf="sponsorClassId==null && (sponsorClassForm.submitted || sponsorclass.touched)">
+																Please select class</span>
+
+
+															<mat-autocomplete #sponsorclassauto="matAutocomplete">
+																<mat-option
+																	*ngFor="let item of UnassignedSponsorClassesfilteredOptions"
+																	[value]="item.Name"
+																	(onSelectionChange)="setFilteredsponsorclass(item.ClassId,$event);">
+																	{{item.Name}}/
+																	{{item.ClassNumber}}/
+																	{{item.AgeGroup}}
+																</mat-option>
+															</mat-autocomplete>
+														</td>
+
+														<td colspan="3"></td>
+													</tr>
+												</tbody>
+											</perfect-scrollbar>
+										</table>
+									</div>
+
+								</div>
+
+								<div class="actionBtn mt-3 mb-3 text-right">
+									<button (click)='tabGroup.selectedIndex = 1'
+										class="btn btn-red btnCss roundBtn">Previous</button>
+									<button (click)="printSponsorClasses()" id="inputprintbutton" type="button"
+										class="btn btn-red btnCss">Display/Print</button>
+									<button (click)="goToLink('perspective/class')"
+										class="btn btn-red btnCss roundBtn">+ Class</button>
+									<button type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+								</div>
+							</form>
+						</div>
+					</mat-tab>
+				</mat-tab-group>
+
+			</div>
+
+
+
+		</div>
+		
+
+	</div>
+</div>
+<div class="loaderWrapper" *ngIf="loading">
+	<div class="loader"></div>
+</div>

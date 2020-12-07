@@ -1,0 +1,107 @@
+<section class="bgImage">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="searchPanel">
+                <a [routerLink]="['/admin/admin-panel']">Back To Admin Panel <i class="fa fa-th"></i></a>
+            </div>
+            <div class="col-lg-10 offset-lg-1 col-md-12">
+                <div class="adminWrapper">
+                    <!---->
+                    <div class="wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="boxHeder">
+                                    <h1>Maintain Admin Settings</h1>
+                                </div>
+                                <div class="whiteSpace"></div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="cardDiv">
+                                    <div class="cardHeader">Maintain Account Settings</div>
+                                    <div class="cardBody">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Account Name</label>
+                                                    <input type="text" class="form-control" char-mask
+                                                        placeholder="Company Account Name" readonly name="accountName"
+                                                        #accountName="ngModel" [(ngModel)]="bindingModel.accountName">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Contact Name</label>
+                                                    <input type="text" class="form-control" placeholder="Contact Name"
+                                                        char-mask readonly name="contactName" #contactName="ngModel"
+                                                        [(ngModel)]="bindingModel.contactName">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Account Email</label>
+                                                    <input type="text" class="form-control" placeholder="Email Address"
+                                                        readonly name="accountEmail" #accountEmail="ngModel"
+                                                        [(ngModel)]="bindingModel.accountEmail">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Phone</label>
+                                                    <input type="text" readonly class="form-control" placeholder="Phone"
+                                                        mask="(000) 000-0000" name="phone" #phone="ngModel"
+                                                        [(ngModel)]="bindingModel.phone">
+                                                </div>
+                                            </div>
+                                            <!--tabbing-->
+                                            <div class="col-sm-12">
+                                                <div class="navTabs">
+                                                    <mat-tab-group #tabGroup>
+                                                        <div class="tab-content">
+                                                            <mat-tab label="Billing Info">
+                                                                <app-maintain-billing-info
+                                                                    *ngIf="tabGroup.selectedIndex === 0"
+                                                                    [accountId]="accountId">
+                                                                </app-maintain-billing-info>
+                                                            </mat-tab>
+                                                            <mat-tab label="Add User">
+                                                                <app-add-user [accountId]="accountId"
+                                                                    *ngIf="tabGroup.selectedIndex === 1"></app-add-user>
+                                                            </mat-tab>
+                                                            <mat-tab label="Update User">
+
+                                                                <app-update-user *ngIf="tabGroup.selectedIndex === 2"
+                                                                    [accountId]="accountId">
+                                                                </app-update-user>
+                                                            </mat-tab>
+                                                            <mat-tab label="Account Billing History">
+
+                                                                <app-account-billing-history
+                                                                    *ngIf="tabGroup.selectedIndex === 3"
+                                                                    [accountId]="accountId">
+                                                                </app-account-billing-history>
+                                                            </mat-tab>
+                                                            <mat-tab label="Account Information">
+
+                                                                <app-account-comments
+                                                                    *ngIf="tabGroup.selectedIndex === 4"
+                                                                    (pageRefresh)="getAccountDetails($event)"
+                                                                    [accountId]="accountId">
+                                                                </app-account-comments>
+                                                            </mat-tab>
+                                                        </div>
+                                                    </mat-tab-group>
+                                                </div>
+                                            </div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

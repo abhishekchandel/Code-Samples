@@ -1,0 +1,84 @@
+<div class="headerBlueStrip"></div>
+<div class="loginWrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="commonCol text-center">
+                    <a href="#" class="logoSection text-center">
+                        <img src="assets/images/logo-1.png" alt="image" class="img-fluid"/>
+                    </a>
+                    <form class="loginField" #registerForm="ngForm" name="registerForm" (ngSubmit)="registerForm.valid && submit(registerForm)" novalidate>
+                        <div class="form-group userIcon mb-4">
+                            <input #firstName="ngModel" [(ngModel)]="register.firstName" [ngClass]= "{'disable' : disable}" name="firstName" type="text" placeholder="First Name" required >
+                            <span class="faIcon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <span class="help-block" *ngIf="firstName.errors?.required && registerForm.submitted">FirstName is
+                                required</span>
+                        </div>
+                        <div class="form-group userIcon mb-4">
+                            <input #lastName="ngModel" [(ngModel)]="register.lastName" [ngClass]= "{'disable' : disable}" name="lasttName" type="text" placeholder="Last Name" required >    
+                            <span class="faIcon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <span class="help-block" *ngIf="lastName.errors?.required && registerForm.submitted">LastName is
+                                required</span>                        
+                        </div>
+
+                        <div class="form-group userIcon mb-4">
+                            <input #userName="ngModel" [(ngModel)]="register.userName" [ngClass]= "{'disable' : disable}" name="userName" type="text" placeholder="User Name" required >    
+                            <span class="faIcon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <span class="help-block" *ngIf="userName.errors?.required && registerForm.submitted">Username is
+                                required</span>                        
+                        </div>
+
+                        <div class="form-group emailIcon mb-4">
+                            <input type="text" class="form-control" [ngClass]= "{'disable' : disable}" placeholder="Enter Email Address" id="email"
+                                    name="email" #email="ngModel"
+                                    pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                                    [(ngModel)]="register.email" required>
+                                    <span class="faIcon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                                    <span class="help-block" *ngIf="email.errors?.required && registerForm.submitted">Email is
+                                    required</span>
+                                <span class="help-block" *ngIf="email.errors?.pattern">Email is
+                                    invalid</span>                            
+                        </div>
+                        <div class="form-group passIcon mb-0">
+                            <input type="password" class="form-control" [ngClass]= "{'disable' : disable}" placeholder="Enter Password" minlength="8"  id="password"
+                                    name="password" #password="ngModel" [(ngModel)]="register.password"
+                                    required>
+                                    <span class="faIcon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                                <span class="help-block" *ngIf="password.errors?.required && registerForm.submitted">Password is
+                                    required</span>  
+                                    <span class="help-block" *ngIf="!password.errors?.required && password.errors?.minlength">Password must be at least
+                                        8 characters</span>                         
+                        </div>
+                        <div class="form-group text-right">
+                            <a [routerLink]="['/login']">Back to Login <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="form-group mb-0">
+                            <button [ngClass]= "{'disable' : disable}" type="submit">Register</button>
+                        </div>
+                        <!--div class="form-group text-right">
+                            <a href="#">Create a New Account <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        </div-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+<footer class="loginFooter">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="commonCol text-center">
+                    <ul class="footerLink">
+                        <li><a href="#">Red<span>G</span>ware, LLC</a></li>
+                        <li>© 2020 - 2030</li>
+                        <li><a href="#">All Rights Reserved</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+

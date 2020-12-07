@@ -1,0 +1,117 @@
+.form-group {
+	position: relative;
+	.help-block {
+		display: none;
+		font-size: 13px;
+		color: #f00;
+		position: absolute;
+		bottom: -22px;
+		left: 0;
+	}
+	&.has-error {
+		.help-block {
+			display: block;
+		}
+	}
+	.mat-form-field {
+		display: block;
+		position: relative;
+		text-align: left;
+		left: 0;
+		::ng-deep .mat-form-field-wrapper {
+			padding-bottom: 0;
+			.mat-form-field-infix {
+				padding: 0;
+				border-top: 0;
+				.form-control {
+					background-color: #F7F9FB!important;
+					height: 32px;
+					font-size: 12px!important;
+					border-radius: 4px!important;
+					border: 1px solid #A2968A!important;
+					padding: 3px 6px!important;
+					margin-bottom: 0;
+				}
+				.mat-form-field-label-wrapper {
+					top: 0;
+					padding-top: 0;
+					.mat-form-field-label {
+						font-size: 12px;
+						position: absolute;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						line-height: 32px;
+						top: 0;
+						margin: 0;
+						span {
+							position: relative;
+							left: 7px;
+						}
+					}
+				}
+			}
+			.mat-form-field-suffix {
+				white-space: nowrap;
+				flex: none;
+				position: absolute;
+				right: 0;
+				top: 8px;
+				.mat-datepicker-toggle {
+					position: absolute;
+					right: 0;
+					top: 0px;
+					button{
+					 &:focus{
+					  outline:none;
+					 }
+					}
+				}
+			}
+			.mat-form-field-underline {
+				display: none;
+			}
+			.mat-form-field-subscript-wrapper {
+				margin: 0px;
+			}
+		}
+	}
+}
+.cardNumber {
+	width: 50%;
+	display: inline-block;
+	}
+	.cardMonth {
+		width: 23%;
+		display: inline-block;
+		margin: 0 1%;
+		}
+		.cardYear {
+			width: 25%;
+			display: inline-block;
+			}
+			.loaderDiv
+				{
+					position: absolute;
+					left: 0;
+					top: 0;
+					background: rgba(255, 255, 255, 0.75);
+					height: 100%!important;
+					width: 100%!important;
+					z-index:1;
+					.mat-progress-spinner{
+					    width: 50px !important;
+						height: 50px !important;
+						position: absolute;
+						left: 50%;
+						transform: translate(-50% , -50%);
+						top: 50%;
+						::ng-deep svg{
+							width: 50px!important;
+							height: 50px!important;	
+							circle{
+								stroke:  #b4523d;
+							}
+						}
+					}
+				}

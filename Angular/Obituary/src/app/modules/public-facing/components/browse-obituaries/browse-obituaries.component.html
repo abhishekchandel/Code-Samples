@@ -1,0 +1,66 @@
+<section class="mainContent">
+    <div class="container">
+        <div class="row">
+            <!--search panel-->
+            <div class="searchPanel">
+                <a [routerLink]="['/advance-search']">Continue Searching <i class="fa fa-search"></i></a>
+            </div>
+            <!---->
+            <div class="col-sm-12">
+                <div class="row mb-20">
+                    <div class="col-sm-12">
+                        <div class="mainHeading">
+                            <h1>Browse Obituaries</h1>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <!---->
+                        <div class="searchSection">
+                            <div class="input-group">
+                                <input type="email" class="form-control" #searchTerm="ngModel"
+                                    [(ngModel)]="searchRequest.searchTerm" name="searchTerm"
+                                    placeholder="Search - Name,city or state">
+                                <label><i class="fa fa-search" aria-hidden="true"></i></label>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-red" type="submit"
+                                        (click)="searchBrowseObits()">Submit</button>
+                                </span>
+                            </div>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"
+                        *ngFor="let obitData of obituaryResponse | paginate: { itemsPerPage: 10, currentPage: currentPage,totalItems:totalItems}; let i=index">
+                        <div class="thumbBox">
+                            <div class="thumbImage" *ngFor="let imageData of obitData.Images;let i=index"><img
+                                    onError="this.src='./assets/images/productimage.jpg'" *ngIf="i < 1"
+                                    [src]="assetsUrl+imageData.FirstImage" alt="image" /></div>
+                            <div class="thumbImage" *ngIf="obitData.Images.length==0"><img
+                                    src="./assets/images/no-image.jpg" alt="image" /></div>
+                            <div class="thumbContent">
+                                <h2><a (click)="getDetailedObit(obituaryResponse,i)">{{obitData.FirstName}}
+                                        {{obitData.LastName}}</a>
+                                </h2>
+                                <div class="narrative" [innerHtml]="obitData.Narrative | slice: 0:250"></div>
+                                <a class="readMore" (click)="getDetailedObit(obituaryResponse,i)">Read
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="pagNav">
+                            <pagination-controls *ngIf="enablePagination" (pageChange)="getPage($event)" maxSize="9"
+                                directionLinks="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+                            </pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loaderDiv" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,109 @@
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "./assets/scss/public-common.scss";
+@import "../node_modules/font-awesome/css/font-awesome.css";
+
+//for public-facing module style
+.mainContent {
+	background: -webkit-gradient(linear, center top, center bottom, from(#E0EDEF), color-stop(100%, #FFFFFF));
+	padding: 50px 0;
+    position: relative;
+    min-height:70vh;
+	.mainHeading {
+		// margin: 0 0 20px 0;
+		h1 {
+			color: #a2968a;
+			font-size: 30px;
+			text-transform: uppercase;
+			margin: 0 0 10px 0;
+			font-family: Helvetica, Helvetica Neue, Arial, sans-serif;
+			@media (max-width: 767px) {
+				margin: 20px 0 20px 0;
+			}
+		}
+		p {
+			font-size: 16px;
+			margin: 0 0 15px 0;
+			@media (max-width: 767px) {
+				font-size:14px;
+			}
+			a {
+				color: #B4523D;
+			}
+		}
+	}
+	.searchSection {
+		max-width: 355px;
+		margin-left: auto;
+		margin-bottom: 20px;
+		@media (max-width: 640px) {
+			max-width:100%;
+		}
+		.input-group {
+			.form-control {
+				height: 40px;
+				padding-left: 32px;
+			}
+			label {
+				position: absolute;
+				z-index: 9;
+				display: block;
+				text-align: center;
+				pointer-events: none;
+				color: #aaa;
+				top: 50%;
+				left: 0;
+				width: 35px;
+				height: 35px;
+				line-height: 35px;
+				transform: translateY(-50%);
+				i {
+					font-size: 13px;
+				}
+			}
+		}
+		.btn {
+			display: inline-block;
+			padding: 7px 12px;
+			position: relative;
+			border-radius: 0 4px 4px 0;
+		}
+	}
+	/*--inner page --*/
+	.thumbHaeding {
+		margin: 0 0 10px 0;
+		@media (max-width: 767px) {
+			margin:30px 0 10px 0;
+		}
+		h1 {
+			font-size: 35px;
+			color: #B4523D;
+			@media (max-width: 1199px) {
+				font-size:28px;
+			}
+			@media (max-width:767px) {
+				text-align: center;
+			}
+		}
+	}
+	.searchPanel {
+		border-width: 0px;
+		border-color: transparent;
+		background-color: #B4523D;
+		border-radius: 0px 0px 14px 14px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		a {
+			color: #fff;
+			display: block;
+			padding: 15px;
+			font-size: 14px;
+			i {
+				padding-left: 5px;
+			}
+		}
+		&:hover {
+			background-color: #7D1914;
+		}
+	}
+}

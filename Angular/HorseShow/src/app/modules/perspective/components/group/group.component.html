@@ -1,0 +1,566 @@
+<div class="innerContent">
+
+    <div class="sortData">
+        <div class="sponBtn"><button class="btn btn-red btnCss" (click)="resetForm()">Add new Group</button></div>
+    </div>
+
+    <div class="gridTable addBlueStrip">
+        <div class="table-responsive">
+            <table class="table table-bordered tableBodyScroll">
+                <thead>
+                    <tr>
+                        <th (click)="sortData('GroupId')">Group Id
+                            <span [ngClass]="getSort('GroupId')"></span>
+                        </th>
+
+                        <th (click)="sortData('GroupName')">Group Name
+                            <span [ngClass]="getSort('GroupName')"></span>
+                        </th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <perfect-scrollbar class="nicescrollBar-1">
+                    <tbody>
+                        <tr *ngFor="let list of groupsList;let i = index" (click)="highlight(list.GroupId,i)"
+                            [ngClass]="{'blueRow': selectedRowIndex == i}">
+                            <td data-label="Group ID">{{list.GroupId}}</td>
+                            <td data-label="Group Name">{{list.GroupName}}</td>
+
+                            <td data-label="Remove">
+                                <button class="icon" (click)="confirmRemoveGroup($event,i,list.GroupId)">
+                                    <span></span> <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </perfect-scrollbar>
+            </table>
+            <div [hidden]="totalItems == 0">
+                <mat-paginator #paginator [length]="totalItems" (page)="getNext($event)" [pageSizeOptions]="[5]">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+  
+
+
+
+    <div class="dataDesc gridTable twoCol">
+        <table class="table table-bordered tableBodyScroll">
+            <tbody>
+                <tr>
+                    <td><span class="blueBox"></span><b>Group Id:</b> {{groupInfo.GroupId}} </td>
+                    <td><span class="blueBox"></span><b>Group Name:</b> <span
+                            class="classNameExt1">{{groupInfo.GroupName}}</span>
+                        <p class="toolTipText">{{groupInfo.GroupName}}</p>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+   
+    <div class="sponTabbing">
+
+
+        <div class="tab-content">
+            <div class="tab-pane  active" id="home">
+                <mat-tab-group #tabGroup> 
+                    <mat-tab class="nav-link active nav nav-tabs" label="Group Info">
+
+                        <form #groupInfoForm="ngForm" name="groupInfoForm"
+                            (ngSubmit)="groupInfoForm.valid && AddUpdateGroup(groupInfoForm)" novalidate>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+
+                                            <div class="form-group">
+                                                <label>Group name <span>*</span></label>
+                                                <input type="text" class="form-control" placeholder="Group Name"
+                                                    #groupName="ngModel" name="groupName"
+                                                    [(ngModel)]="groupInfo.GroupName" required />
+                                                <span class="help-block" *ngIf="groupName.errors?.required &&
+                                     (groupName.touched || groupInfoForm.submitted)">
+                                                    Group Name is required</span>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Phone</label>
+                                                <input mask="(000) 000-0000" #phone="ngModel" name="phone"
+                                                    [(ngModel)]="groupInfo.Phone" type="text" class="form-control"
+                                                    placeholder="Phone" />
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <input type="email" class="form-control" placeholder="Email"
+                                                    #email="ngModel" name="email" [(ngModel)]="groupInfo.Email"
+                                                    pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" />
+                                                <span class="help-block"
+                                                    *ngIf="email.errors?.required && (email.touched || groupInfoForm.submitted)">Email
+                                                    is
+                                                    required</span>
+                                                <span class="help-block"
+                                                    *ngIf="!email.errors?.required && email.errors?.pattern">Email is
+                                                    invalid</span>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Address <span>*</span></label>
+                                                <input type="text" class="form-control" placeholder="Address"
+                                                    #address="ngModel" name="address" [(ngModel)]="groupInfo.Address"
+                                                    required />
+                                                <span class="help-block"
+                                                    *ngIf="address.errors?.required && (address.touched || groupInfoForm.submitted)">Address
+                                                    is
+                                                    required</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>State <span>*</span></label>
+                                                <input  autocomplete="new-password"
+                                                 class="form-control" required placeholder="State" name="state"
+                                                #state="ngModel" [(ngModel)]="seletedStateName" (keyup)="filterStates($event.target.value,true)"
+                                                value="{{seletedStateName}}" type="search" [matAutocomplete]="stateauto">
+
+                                                <mat-autocomplete #stateauto="matAutocomplete">
+                                                    <mat-option *ngFor="let option of statefilteredOptions"
+                                                    [value]="option.Name" (onSelectionChange)="getFilteredCities(option.StateId);">
+                                                        {{ option.Name }} </mat-option></mat-autocomplete>
+                                                <span class="help-block"
+                                                *ngIf="groupInfo.StateId==null && (state.touched || groupInfoForm.submitted)">
+                                                State is required</span>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <div class="form-group">
+                                                        <label>City <span>*</span></label>
+                                                        <!-- <input  autocomplete="new-password"
+                                                         class="form-control" required placeholder="City" name="city"
+                                                        #city="ngModel" [(ngModel)]="seletedCityName" (keyup)="filterCities($event.target.value,true)"
+                                                        value="{{seletedCityName}}" type="search" [matAutocomplete]="cityauto">
+        
+                                                        <mat-autocomplete #cityauto="matAutocomplete">
+                                                            <mat-option *ngFor="let option of cityfilteredOptions"
+                                                            [value]="option.Name" (onSelectionChange)="getFileredZipCodes(option.Name,option.CityId,$event);">
+                                                                {{ option.Name }}  </mat-option> </mat-autocomplete> -->
+                                                                <input type="text" class="form-control" placeholder="City"
+															#city="ngModel" name="city" [(ngModel)]="groupInfo.City"
+                                                            required />
+                                                            
+                                                        <span class="help-block" *ngIf="groupInfo.City==null && (city.touched || groupInfoForm.submitted)">
+                                                            City is required</span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label>Zip Code<span>*</span></label>
+                                                        <!-- <select required class="form-control" placeholder="Zip Code" #zipcodeid="ngModel" name="zipcodeid"
+                                                             [(ngModel)]="groupInfo.ZipCodeId" (change)="getZipNumber($event)">
+                                                            <option value="null" disabled="true" [selected]="true">
+                                                                Select Zip Code
+                                                            </option>
+                                                            <option *ngFor="let code of zipCodesResponse"
+                                                                [value]="code.ZipCodeId">{{code.ZipCode}}
+                                                            </option>
+                                                        </select> -->
+
+                                                        <input type="text" appOnlynumber class="form-control"
+                                                        placeholder="Zip Code" maxlength="5" #zipcode="ngModel"
+                                                        name="zipcode" [(ngModel)]="groupInfo.ZipCode" required />
+                                                            
+                                                        <span class="help-block"
+                                                            *ngIf="zipcode.errors?.required && (zipcode.touched || groupInfoForm.submitted)">
+                                                            Zip Code is required
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Contact Name</label>
+                                                <input type="text" #contactName="ngModel" name="contactName"
+                                                    [(ngModel)]="groupInfo.ContactName" class="form-control"
+                                                    placeholder="Contact Name" />
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Amount Received</label>
+                                                <input type="number" class="form-control" #amountReceieved="ngModel"
+                                                    name="amountReceieved" [(ngModel)]="groupInfo.AmountReceived"
+                                                    placeholder="Amount Received"
+                                                    (change)="setAmount($event.target.value)" />
+                                            </div>
+
+
+
+                                            <div class="form-group">
+                                                <label>Group ID</label>
+                                                <input type="text" readonly="true" class="form-control" name="groupId"
+                                                    #groupId="ngModel" [(ngModel)]="groupInfo.GroupId"
+                                                    placeholder="Group ID" />
+                                            </div>
+
+
+
+
+
+
+
+                                            <div class="quantityWrapper">
+                                                <div class="form-group">
+                                                    <label>Horse Stall Quantity</label>
+                                                    <div class="uantityField stallQuantity">
+                                                        <input type="text" class="form-control"
+                                                            [value]="horsestalllength" />
+                                                        <button type="button" (click)="openStallDiagram('horse')"
+                                                            class="btn btn-red btnCss roundBtn whitebg">Stall</button>
+                                                    </div>
+                                                </div>
+                                                <div class="divideLine"></div>
+                                                <div class="form-group mb-0">
+                                                    <label>Tack Stall Quantity</label>
+                                                    <div class="uantityField stallQuantity">
+                                                        <input type="text" class="form-control"
+                                                            [value]="tackstalllength" />
+                                                        <button type="button" (click)="openStallDiagram('tack')"
+                                                            class="btn btn-red btnCss roundBtn whitebg">
+                                                            Stall</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="buttons text-right mb-3">
+                                                <button (click)='tabGroup.selectedIndex = 1'
+                                                    class="btn btn-red btnCss roundBtn">Next</button>
+                                                <button type="submit"
+                                                    class="btn btn-red btnCss roundBtn">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </mat-tab>
+
+
+                    <mat-tab class="nav-link nav nav-tabs" label="Exhibitor">
+                        <div class="card dataEntriesTable">
+                            <div class="card-body">
+                                <div class="table-responsive tableTab" id="contentscroll2">
+
+                                    <table id="gridTableDescPrint" style="display: none;" class="table pdfTable">
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="blueBox"></span><b>Group Id:</b>
+                                                    {{groupInfo.GroupId}} </td>
+                                                <td><span class="blueBox"></span><b>Group Name:</b>
+                                                    {{groupInfo.GroupName}} </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <table class="table table-bordered tableBodyScroll removeSpaceTop">
+                                        <thead>
+                                            <tr>
+                                                <th>Exhibitor Id </th>
+                                                <th>Exhibitor Name</th>
+                                                <th class="non-print-element">Horse Name</th>
+                                                <th>Birth Year</th>
+                                                <th class="non-print-element">Remove</th>
+                                            </tr>
+                                        </thead>
+                                        <perfect-scrollbar class="nicescrollBar-2">
+                                            <tbody>
+                                                <tr *ngFor="let list of groupExhibitorsList; let i=index">
+                                                    <td data-label="Exhibitor Id">{{list.ExhibitorId}}</td>
+                                                    <td data-label="Exhibitor Name">{{list.ExhibitorName}}</td>
+
+                                                    <td data-label="Group Exhibitor" class="non-print-element">
+                                                        <select class="form-control dynDataSeclect">
+                                                            <option class="selectDropdown"
+                                                                *ngFor="let item of list.getGroupExhibitorHorses">
+                                                                {{item.HorseName}}</option>
+                                                        </select>
+                                                    </td>
+
+                                                    <td data-label="Birth Year">{{list.BirthYear}}</td>
+
+                                                    <td data-label="Remove" class="non-print-element">
+                                                        <button class="icon"
+                                                            (click)="confirmRemoveGroupExhibitor($event,i,list.GroupExhibitorId)">
+                                                            <span></span> <i class="fa fa-trash-o"
+                                                                aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </perfect-scrollbar>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="actionBtn text-right mb-3 ">
+                                <button (click)='tabGroup.selectedIndex = 0'
+                                    class="btn btn-red btnCss roundBtn">Previous</button>
+                                <button (click)='tabGroup.selectedIndex = 2'
+                                    class="btn btn-red btnCss roundBtn">Next</button>
+                                <button (click)="printGroupExhibitor()" id="inputprintbutton" type="button"
+                                    class="btn btn-red btnCss">Display/Print</button>
+                                <!-- <button class="btn btn-red btnCss roundBtn">Submit</button> -->
+                            </div>
+                        </div>
+                    </mat-tab>
+
+
+                    <mat-tab class="nav-link nav nav-tabs" label="Financials">
+                        <div class="card dataEntriesTable">
+                            <form #groupFinancialForm="ngForm" name="groupFinancialForm"
+                                (ngSubmit)="groupFinancialForm.valid && AddUpdateGroupFinancials()">
+                                <div class="card-body">
+                                    <div class="table-responsive tableTab" id="print-entries">
+
+                                        <table id="gridTableDescPrint" style="display: none;" class="table pdfTable">
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="blueBox"></span><b>Group Id:</b>
+                                                        {{groupInfo.GroupId}} </td>
+                                                    <td><span class="blueBox"></span><b>Group Name:</b>
+                                                        {{groupInfo.GroupName}} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table class="table table-bordered tableBodyScroll removeSpaceTop">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Pre/Post</th>
+                                                    <th>Type of fee</th>
+                                                    <th>Amount</th>
+                                                    <th class="non-print-element">Update</th>
+                                                    <th class="non-print-element">Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <perfect-scrollbar class="nicescrollBar-2">
+                                                <tbody>
+                                                    <tr *ngFor="let list of groupFinancialsList;let i=index">
+                                                        <td data-label="Date">{{list.Date | date:'MM-dd-yyyy'}}</td>
+                                                        <td data-label="Pre/Post">{{list.TimeFrameName}}</td>
+                                                        <td data-label="Type of free">{{list.FeeTypeName}}</td>
+                                                        <td data-label="Amount"
+                                                            *ngIf="updatemode==false || (updatemode==true && updateRowIndex!=i)">
+                                                            ${{list.Amount | mask :'separator.2':','}}</td>
+                                                        <td data-label="Amount"
+                                                            *ngIf="updatemode==true && updateRowIndex==i">
+                                                            <input type="number" class="form-control whitebg"
+                                                                placeholder="Amount" name="updateamount" required
+                                                                [(ngModel)]="list.Amount"
+                                                                #groupUpdatedAmountControl="ngModel"
+                                                                (change)="setUpdatedFinancialAmount($event.target.value)">
+                                                        </td>
+
+                                                        <td data-label="Remove" class="non-print-element">
+
+                                                            <button
+                                                                *ngIf="updatemode==false  || (updatemode==true && updateRowIndex!=i)"
+                                                                type="button" class="icon"
+                                                                (click)="editFinancialsAmount($event,i,list.GroupFinancialId,list.Amount)">
+                                                                <span></span> <i class="fa fa-edit"
+                                                                    aria-hidden="true"></i>
+                                                            </button>
+
+                                                            <button *ngIf="updatemode==true && updateRowIndex==i"
+                                                                type="button" class="icon"
+                                                                (click)="updateGroupFinancialsAmount($event,i,list.GroupFinancialId,list.TimeFrameName)"> 
+                                                                <span></span> <i class="fa fa-edit"
+                                                                aria-hidden="true"></i>
+                                                            </button>
+                                                            <button *ngIf="updatemode==true && updateRowIndex==i"
+                                                                type="button" class="icon"
+                                                                (click)="cancelUpdateFinancialsAmount($event,i,list.GroupFinancialId)"> 
+                                                                <span></span> <i class="fa fa-times-circle"
+                                                                aria-hidden="true"></i>
+                                                            </button>
+
+                                                        </td>
+                                                        <td data-label="Remove" class="non-print-element">
+                                                            <button type="button" class="icon"
+                                                                (click)="confirmRemoveGroupFinancials($event,i,list.GroupFinancialId)">
+                                                                <span></span> <i class="fa fa-trash-o"
+                                                                    aria-hidden="true"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="groupFinancialsentry">
+                                                        <td data-label="Date">{{currentDate | date:'MM-dd-yyyy'}}</td>
+                                                       
+                                                        <td data-label="Pre/Post">
+                                                            <div class="prePostField">
+                                                                <label *ngFor="let fee of TimeFrameTypes;let i=index"
+                                                                    class="radioBtn">{{fee.CodeName}}
+
+                                                                    <input type="radio" *ngIf="fee.CodeName=='Pre'"
+                                                                        [value]="fee.GlobalCodeId" checked="checked"
+                                                                        name="fee.CodeName"
+                                                                        (change)="setFinancialsTimeFrameType($event.target.value,'Pre')">
+
+                                                                    <input type="radio" *ngIf="fee.CodeName=='Post'"
+                                                                        [value]="fee.GlobalCodeId" name="fee.CodeName"
+                                                                        (change)="setFinancialsTimeFrameType($event.target.value,'Post')">
+
+                                                                    <span class="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+
+                                                        <td data-label="Fee Type">
+                                                            <select class="form-control dynDataSeclect" name="horsefeetypes" required
+                                                                [(ngModel)]="FinancialsFeeTypeId"
+                                                                #groupFeeTypeControl="ngModel"
+                                                                (change)="setFinancialsFeeType($event.target.value)">
+                                                                <option disabled="true" [ngValue]="null"
+                                                                    class="selectDropdown">Select Fee Type</option>
+                                                                <option class="selectDropdown"
+                                                                    [value]="item.FeeTypeId"
+                                                                    *ngFor="let item of FeeTypesfiltered">
+                                                                    {{item.FeeName}}</option>
+                                                            </select>
+                                                            <span class="help-block"
+                                                                *ngIf="(groupFinancialForm.submitted || groupFeeTypeControl.touched) && groupFeeTypeControl.invalid">Please
+                                                                select fee type
+                                                            </span>
+                                                        </td>
+
+                                                     
+
+                                                        <td data-label="Amount">
+
+                                                            <input type="number" class="form-control"
+                                                                placeholder="Amount" name="horsefeeamount" required
+                                                                [(ngModel)]="FinancialsAmount"
+                                                                #groupAmountControl="ngModel"
+                                                                (change)="setFinancialsAmount($event.target.value)">
+
+                                                            <span class="help-block" *ngIf="(groupFinancialForm.submitted || groupAmountControl.touched) 
+                                            && groupAmountControl.invalid">Please select amount
+                                                            </span>
+
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+
+
+
+                                                </tbody>
+
+                                            </perfect-scrollbar>
+
+
+                                        </table>
+
+                                        <table class="wideSpace tableBodyScroll">
+
+                                            <tr
+                                                *ngIf="groupFinancialsList!=null && groupFinancialsList.length>0 && groupFinancialsTotals!=null">
+                                                <td colspan="2"><b>Pre Total :
+                                                        ${{PreTotal  | mask :'separator.2':','}}</b></td>
+                                                <td colspan="2"><b>Post Total :
+                                                        ${{PostTotal | mask :'separator.2':','}}</b></td>
+                                                <td colspan="2"><b>Total :
+                                                        ${{PrePostTotal  | mask :'separator.2':','}}</b></td>
+
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="actionBtn text-right mb-3 ">
+                                    <button type="button" (click)='tabGroup.selectedIndex = 1'
+                                        class="btn btn-red btnCss roundBtn">Previous</button>
+                                    <button type="button" (click)='tabGroup.selectedIndex = 3'
+                                        class="btn btn-red btnCss roundBtn">Next</button>
+                                    <button (click)="printGroupFinancials()" id="inputprintbutton" type="button"
+                                        class="btn btn-red btnCss">Display/Print</button>
+                                    <button type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab class="nav-link nav nav-tabs" label="Statements">
+                        <div class="card dataEntriesTable">
+                            <div class="card-body">
+                                <div class="table-responsive tableTab ssReports" id="contentscroll2">
+                                    <table class="table table-bordered tableBodyScroll">
+                                        <thead>
+                                            <tr>
+                                                <th>Report Name</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <perfect-scrollbar class="nicescrollBar-2">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Group Statement Report(#17)</td>
+                                                    <td>
+                                                        <button type="button"
+                                                        (click)="setreportType('display','GroupStatementReport')" class="icon"><span></span>
+                                                        <i class="fa fa-eye"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('email','GroupStatementReport')" class="icon"><span></span>
+                                                        <i class="fa fa-envelope-o"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('print','GroupStatementReport')" class="icon"><span></span>
+                                                        <i class="fa fa-print"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('download','GroupStatementReport')" class="icon"><span></span> 
+                                                        <i class="fa fa-download"
+                                                                aria-hidden="true"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </perfect-scrollbar>
+                                    </table>
+
+                                
+                                    <div class="actionBtn text-right mb-3 mt-3">
+                                        <button type="button" (click)='tabGroup.selectedIndex = 2'
+                                           
+                                        class="btn btn-red btnCss roundBtn">Previous</button>
+                                     
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loaderWrapper" *ngIf="loading">
+    <div class="loader"></div>
+</div>

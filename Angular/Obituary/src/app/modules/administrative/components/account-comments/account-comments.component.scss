@@ -1,0 +1,57 @@
+.loaderDiv
+				{
+					position: absolute;
+					left: 0;
+					top: 0;
+					background: rgba(255, 255, 255, 0.75);
+					height: 100%!important;
+					width: 100%!important;
+					z-index:1;
+					.mat-progress-spinner{
+					    width: 50px !important;
+						height: 50px !important;
+						position: absolute;
+						left: 50%;
+						transform: translate(-50% , -50%);
+						top: 50%;
+						::ng-deep svg{
+							width: 50px!important;
+							height: 50px!important;	
+							circle{
+								stroke:  #b4523d;
+							}
+						}
+					}
+				}
+				.form-group {
+					position: relative;
+					.help-block {
+						display: none;
+						font-size: 13px;
+						color: #f00;
+						position: absolute;
+						bottom: -22px;
+						left: 0;
+					}
+					.text-danger {
+						font-size: 13px;
+						color: #f00;
+						position: absolute;
+						right: 10px;
+						z-index: 2;
+					}
+					&.has-error {
+						.help-block {
+							display: block;
+						}
+					}
+				}
+				.logo{
+					position: relative;
+					img{
+						width: 40px;
+                        position: absolute;
+                        top: -8px;
+                        right: 3px;
+					}
+				}

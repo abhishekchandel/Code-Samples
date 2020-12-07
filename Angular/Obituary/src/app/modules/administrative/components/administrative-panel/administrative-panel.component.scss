@@ -1,0 +1,89 @@
+
+	.boxWrapper{
+     	box-shadow: 6px 6px 8px rgba(0,0,0,0.36);
+			border-color: #000000;
+			background-color: #CBD3BB;
+			border-radius: 0px 0px 14px 14px;
+			max-width: 435px;
+        margin: 0 auto;
+		.boxHeder {
+		background-color: #fff;
+		padding: 20px 0;
+		text-align: center;
+	
+			h1{
+		     color: #a2968a;
+			 font-size:30px;
+			}
+		}
+		.bgColor{
+		     height: 11px;
+			background-color: #a2968a;
+			position: relative;
+		}
+        .adminChoices {
+            padding:20px 45px;
+            @media screen and (max-width:576px)
+            {
+              padding:20px;	 
+               }
+            ul {
+                margin: 0px;
+                padding: 0px;
+                list-style: none;
+                li {
+                    background-color: #A2968A;
+                    border-radius: 12px;
+                    margin: 0 0 20px 0;
+                    position: relative;
+                    transition: 0.5s;
+                    @media screen and (max-width:576px)
+                    {
+                      font-size:14px;
+                     }
+                    a {
+                        display: block;
+                        color: #fff;
+                        padding: 15px 15px 15px 78px;
+                        height: 60px;
+                        line-height: 32px;
+                        @media screen and (max-width:576px){
+                            padding: 7px 15px 7px 78px;
+                            height: 45px;
+                        }
+                        .icon {
+                            position: absolute;
+                            left: 22px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            img {
+                                width: 25px;
+                            }
+                            &.newUser {
+                                img {
+                                    width: 35px;
+                                }
+                            }
+                        }
+                    }
+                    &:last-child {
+                        margin: 0px;
+                    }
+                    &:hover {
+                        background-color: #747070;
+                        transition: 0.5s;
+                    }
+                }
+            }
+        }
+    }
+    .fa-shopping-cart {
+        content: "\f07a";
+        font-size: 30px;
+    }
+
+
+
+
+
+

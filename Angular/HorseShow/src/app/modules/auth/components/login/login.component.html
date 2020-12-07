@@ -1,0 +1,59 @@
+<div class="headerBlueStrip"></div>
+<div class="loginWrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="commonCol text-center">
+                    <a href="#" class="logoSection text-center">
+                        <img src="assets/images/logo-1.png" alt="image" class="img-fluid"/>
+                    </a>
+                    <form class="loginField" #loginForm="ngForm" name="loginForm" (ngSubmit)="loginForm.valid && login(loginForm)" novalidate>
+                        <div class="form-group userIcon mb-4">
+                            <input [ngClass]= "{'disable' : disable}" type="text"  placeholder="Enter User Name" id="username"
+                             name="userName" #userName="ngModel" [(ngModel)]="loginData.userName"
+                            required>
+                            <span class="faIcon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                             <span class="help-block" *ngIf="userName.errors?.required && loginForm.submitted">Username is
+                                required</span>
+                        </div>
+                        <div class="form-group passIcon mb-0">
+                            <input [ngClass]= "{'disable' : disable}" type="password" placeholder="Password" name="password" #password="ngModel" [(ngModel)]="loginData.password"
+                            required >
+                            <span class="faIcon"><i class="fa fa-lock" aria-hidden="true"></i></span> 
+                            <span class="help-block" *ngIf="password.errors?.required && loginForm.submitted">Password
+                                is
+                                required</span>                           
+                        </div>
+                        <div class="form-group text-right">
+                            <a [routerLink]="['/forgot-password']">Forgot your password? <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="form-group mb-0">
+                            <button [ngClass]= "{'disable' : disable}" type="submit">Log In</button>
+                        </div>
+                        <div class="form-group text-right">
+                            <a [routerLink]="['/register']">Create a New Account <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<footer class="loginFooter">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="commonCol text-center">
+                    <ul class="footerLink">
+                        <li><a href="#">Red<span>G</span>ware, LLC</a></li>
+                        <li>© 2020 - 2030</li>
+                        <li><a href="#">All Rights Reserved</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

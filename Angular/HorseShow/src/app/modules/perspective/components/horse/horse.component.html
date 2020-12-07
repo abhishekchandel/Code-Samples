@@ -1,0 +1,226 @@
+<div class="innerContent">
+	<div class="sortData">
+		<div class="sponBtn"><button class="btn btn-red btnCss"(click)="resetForm()">Add new Horse</button></div>
+	</div>
+	<!---->
+	<div class="gridTable addBlueStrip">
+		<div class="table-responsive">
+			<table class="table table-bordered tableBodyScroll">
+				<thead>
+					<tr>
+						<th (click)="sortData('Name')">Horse Name
+							<span [ngClass]="getSort('Name')">
+							</span>
+						</th>
+						<th (click)="sortData('HorseType')">Horse Type
+							<span [ngClass]="getSort('HorseType')"></span>
+						</th>
+						<th (click)="sortData('HorseId')">Horse ID
+							<span [ngClass]="getSort('HorseId')"></span>
+						</th>					
+						<th>Remove</th>
+					</tr>
+				</thead>
+				<perfect-scrollbar class="nicescrollBar-1">
+					<tbody>
+						<tr *ngFor="let horse of horsesList;let i = index " (click)="highlight(horse.HorseId,i)" [ngClass]="{'blueRow': selectedRowIndex == i}">
+							<td data-label="Horse Name">{{horse.Name}}</td>
+							<td data-label="Horse Type">{{horse.HorseType}}</td>
+							<td data-label="Horse ID">{{horse.HorseId}}</td>							
+							<td data-label="Remove">
+								<div (click)="confirmRemoveHorse($event, i,horse.HorseId)" class="icon"><i
+										class="fa fa-trash-o" aria-hidden="true"></i></div>
+							</td>
+						</tr>
+
+				</perfect-scrollbar>
+			</table>
+			<div [hidden]="totalItems == 0">
+				<mat-paginator #paginator [length]="totalItems" (page)="getNext($event)" [pageSizeOptions]="[5]">
+				</mat-paginator>
+			</div>
+		</div>
+	</div>
+	<!---->
+	<div class="dataDesc gridTable twoCol">
+		<table class="table table-bordered tableBodyScroll">
+			<tbody>
+				<tr>
+					<td><span class="blueBox"></span><b>Horse ID:</b> {{horseInfo.HorseId}} </td>
+					<td><span class="blueBox"></span><b>Horse Name:</b> <span class="classNameExt1">{{horseInfo.Name}}</span>
+						<p class="toolTipText">{{horseInfo.Name}}</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!---->
+	<div class="sponTabbing">
+
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div class="tab-pane  active" id="home">
+				<mat-tab-group #tabGroup>
+					<mat-tab class="nav-link active nav nav-tabs" label="Horse Info">
+						<form #horseInfoForm="ngForm" name="horseInfoForm"
+							(ngSubmit)="horseInfoForm.valid && addHorse()" novalidate>
+							<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label>Horse ID </label>
+												<input #horseId="ngModel" readonly="true" name="horseId" [(ngModel)]="horseInfo.HorseId"
+													type="text" class="form-control" placeholder="Horse ID" />
+											</div>
+											<div class="form-group">
+												<label>Horse Name <span>*</span></label>
+												<input #name="ngModel" name="name" [(ngModel)]="horseInfo.Name" required
+													type="text" class="form-control" placeholder="Horse Name" />
+												<span class="help-block"
+													*ngIf="name.errors?.required && (name.touched || horseInfoForm.submitted)">Horse
+													Name is required</span>
+											</div>
+										
+										
+										</div>
+
+										<div class="col-sm-6">
+
+											<!-- <div class="form-group">
+												<label>Group</label>
+												<select #groupId="ngModel" name="groupId" 
+													[(ngModel)]="horseInfo.GroupId" class="form-control">
+													<option [ngValue]="null">
+														Select Group
+													</option>
+													<option *ngFor="let group of groups" [value]="group.GroupId">
+														{{group.GroupName}}
+													</option>
+												</select>
+											</div> -->
+
+											<div class="form-group">
+												<label>Horse Type <span>*</span></label>
+												<select #horseTypeId="ngModel" name="horseTypeId" required
+													[(ngModel)]="horseInfo.HorseTypeId" class="form-control">
+													<!-- <option [ngValue]="null">
+														Select Horse Type
+													</option> -->
+													<option  *ngFor="let height of horseType"
+														[value]="height.GlobalCodeId">
+														{{height.CodeName}}
+													</option>
+												</select>
+												<span class="help-block"
+													*ngIf="horseTypeId.errors?.required && (horseTypeId.touched || horseInfoForm.submitted)">Horse
+													Type is required</span>
+											</div>
+
+
+											<div class="form-group">
+												<label>Jump Height </label>
+												<select #jumpHeightId="ngModel" name="jumpHeightId"
+													[(ngModel)]="horseInfo.JumpHeightId" class="form-control">
+													<option [ngValue]="null">
+														Select Jump Height
+													</option>
+													<option  *ngFor="let height of jumpHeight"
+														[value]="height.GlobalCodeId">
+														{{height.CodeName}}
+													</option>
+												</select>
+											</div>
+
+											<!-- <div class="form-group text-left">
+												<div class="checkbox">
+													<label class="customCheckbox">NSBA Indicator
+														<input #nsbaIndicator="ngModel" name="nsbaIndicator" [(ngModel)]="horseInfo.NSBAIndicator" type="checkbox" value="" class="ciCheckbox">
+														<span class="checkmark"></span>
+													</label>
+													//label><input type="checkbox"  #nsbaIndicator="ngModel"
+															name="nsbaIndicator" [(ngModel)]="horseInfo.NSBAIndicator"
+															class="ciCheckbox">NSBA Indicator</label//
+												</div>
+											</div> -->
+										</div>
+
+
+									</div>
+									<div class="col-sm-12 mb-3">
+										<div class="buttons text-right">
+											<button type="button" (click)='tabGroup.selectedIndex = 1'
+												class="btn btn-red btnCss roundBtn">Next</button>
+											<button type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</form>
+					</mat-tab>
+
+					<mat-tab class="nav-link active nav nav-tabs" label="Exhibitors Linked">
+						<div class="card dataEntriesTable">
+							<div class="card-body">
+								<form class="form-inline mb-3">
+
+									<div class="searchFormWrapper">
+										<input class="form-control form-control-sm mr-3 w-75" type="text" name="searchTerm" [(ngModel)]="searchTerm"
+											placeholder="Search" aria-label="Search">
+										<i class="fa fa-search" aria-hidden="true"></i>
+									</div>
+								</form>
+								<div id="print-linkedExhibitors" class="table-responsive">
+
+									<table id="gridTableDescPrint" style="display: none;"
+											class="table pdfTable">
+											<tbody>
+												<tr>
+													<td><span class="blueBox"></span><b>Horse Name:</b>
+														{{horseInfo.Name}} </td>
+												
+												</tr>
+											</tbody>
+										</table>
+
+									<table class="table table-bordered tableBodyScroll pdfdataTable">
+										<thead>
+											<tr>
+												<th>Exhibitor ID</th>
+												<th>Exhibitor Name</th>
+												<th>Date of Birth</th>
+											</tr>
+										</thead>
+										<perfect-scrollbar class="nicescrollBar-2">
+											<tbody>
+												<tr *ngFor="let exhibitor of linkedExhibitors | search:searchTerm">
+													<td data-label="Exhibitor ID">{{exhibitor.ExhibitorId}}</td>
+													<td data-label="Exhibitor Name">{{exhibitor.ExhibitorName}}</td>
+													<td data-label="Date of Birth">{{exhibitor.BirthYear}}</td>
+												</tr>
+											</tbody>
+										</perfect-scrollbar>
+									</table>
+								</div>
+							</div>
+							<div class="actionBtn text-right mt-3 mb-3">
+								<button (click)='tabGroup.selectedIndex = 0'
+									class="btn btn-red btnCss">Previous</button>
+									<button (click)="print()" id="inputprintbutton" type="button"
+										class="btn btn-red btnCss">Print</button>
+							</div>
+
+
+						</div>
+					</mat-tab>
+				</mat-tab-group>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="loaderWrapper" *ngIf="loading">
+	<div class="loader"></div>
+</div>
+<!---->

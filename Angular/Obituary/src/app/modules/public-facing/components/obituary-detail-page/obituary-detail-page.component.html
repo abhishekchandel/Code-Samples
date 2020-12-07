@@ -1,0 +1,150 @@
+<section class="mainContent">
+    <div class="container">
+        <div class="row">
+            <!--search panel-->
+            <div class="searchPanel">
+                <a [routerLink]="['/advance-search']">Continue Searching <i class="fa fa-search"></i></a>
+            </div>
+            <!---->
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="thumbHaeding">
+                            <h1>{{detailedResponse.FirstName}} {{detailedResponse.LastName}}</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="thumbWrapper">
+                            <div class="thumbInner">
+                                <div class="thumbImage"
+                                    [class.hasOneImage]="detailedResponse.Images?detailedResponse.Images.length==1:[]">
+                                    <img onError="this.src='./assets/images/productimage.jpg'"
+                                        *ngFor="let imageData of detailedResponse.Images"
+                                        [src]="assetsUrl+imageData.FirstImage" alt="image" /></div>
+                            </div>
+
+                            <div class="thumbDate">
+                                <p>{{detailedResponse.DateOfBirth | date : 'mediumDate'}} -
+                                    {{detailedResponse.DeathDate | date : 'mediumDate'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+                        <div class="thumbContent">
+                            <div class="imageicon"><img *ngFor="let emblemData of detailedResponse.Emblems"
+                                    [src]="assetsUrl+emblemData.Emblem" alt="image" /></div>
+                            <div class="thumbContentInner">
+                                <p [innerHTML]="detailedResponse.Narrative"></p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!---->
+<section class="browseListing">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+                <perfect-scrollbar>
+                    <div class="widget ">
+                        <div class="widgetTitle">
+                            <div class="icon"></div>Service Details
+                        </div>
+                        <p class="serInfo" *ngIf="detailedResponse.Services&&detailedResponse.Services.length==0">
+                            Service Information Is Not Available. Please see the obituary above for details.</p>
+                        <!-- <i class="fa fa-map-marker" aria-hidden="true"></i> -->
+                        <div class="widgetBody brBtm" *ngFor="let servicesData of detailedResponse.Services">
+                            <div class="calendar">
+                                <div class="year">{{servicesData.ServiceDate|yearConversion}}</div>
+                                <div class="date">{{servicesData.ServiceDate|monthConversion}}
+                                    <span>{{servicesData.ServiceDate|dateConversion}}</span></div>
+                            </div>
+                            <div class="serInfo">
+                                <p>{{servicesData.StartTime |timeConversion}} <span
+                                        *ngIf="servicesData.EndTime!=null">to </span>
+                                    <span
+                                        *ngIf="servicesData.EndTime!=null">{{servicesData.EndTime |timeConversion}}</span>
+                                </p>
+                                <p style="font-size: 22px;">{{servicesData.Service}}</p>
+                                <p><b>{{detailedResponse.AccountName| titlecase}}</b></p>
+                                <p>{{servicesData.Address| titlecase}}{{servicesData.City}}
+                                    , {{servicesData.State}}
+                                    {{servicesData.Zip}}</p>
+                                <p style="cursor: pointer;" (click)="sendFlowers()"><i class="fa fa-leaf color"
+                                        aria-hidden="true"></i> <b> Send
+                                        Flowers </b> <i class="fa fa-angle-right" aria-hidden="true"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+
+            </div>
+            <div class="col-lg-4 col-md-6 borderRgt">
+                <div class="widget">
+                    <div class="widgetTitle" (click)="sendFlowers()">
+                        <div class="icon"><i class="fa fa-leaf" aria-hidden="true"></i></div>Send Flowers
+                    </div>
+                    <div class="widgetBody">
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widgetTitle">
+                        <div class="icon"><i class="fa fa-share" aria-hidden="true"></i></div>Share This Obituary
+                    </div>
+                    <div class="widgetBody">
+                        <div class="socialMedias">
+                            <ul>
+                                <li><button [socialShare]="'fb'"><i class="fa fa-facebook"></i></button>
+                                </li>
+                                <li><button [socialShare]="'in'"><i class="fa fa-linkedin"></i></button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="widget">
+                    <div class="widgetTitle">
+                        <div class="icon"></div>
+                        {{detailedResponse.AccountName| titlecase}}
+                        <!-- <i class="fa fa-users" aria-hidden="true"></i> -->
+                    </div>
+                    <div class="widgetBody">
+                        <div class="info">
+                            <ul>
+                                <li><a>
+                                        <div class="icon"><i class="fa fa-map-marker"></i></div>
+                                        {{detailedResponse.AccountAddress| titlecase}}{{detailedResponse.AccountCity}}
+                                        , {{detailedResponse.AccountState}}
+                                        {{detailedResponse.AccountZip}}
+                                    </a>
+                                </li>
+                                <li><a href="tel:{{detailedResponse.AccountPhone}}">
+                                        <div class="icon"><i class="fa fa-phone"></i></div>
+                                        {{detailedResponse.AccountPhone| mask: '(000) 000-0000'}}
+                                    </a></li>
+                                <li *ngIf="detailedResponse.WebsiteUrl!=null"><a [href]="detailedResponse.WebsiteUrl"
+                                        target="_blank">
+                                        <div class="icon"><i class="fa fa-link"></i></div>
+                                        {{detailedResponse.WebsiteUrl}}
+                                    </a></li>
+                                <li *ngIf="detailedResponse.Logo!=null"><a [href]="detailedResponse.WebsiteUrl"
+                                        target="_blank">
+                                        <div class="icon"></div>
+                                        <img [src]="logoUrl+detailedResponse.Logo" />
+                                    </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loaderDiv" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+</section>

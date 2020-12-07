@@ -1,0 +1,17 @@
+.mfActionBtn {
+    min-height: 34px;
+    display: flex;
+    font-size: 22px;
+    justify-content: center;
+}
+.mmHoverContent {
+    position: relative;
+    background-color: #fff;
+    z-index: 999;
+    padding: 15px;
+    min-width: 250px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    right: 0;
+    margin-bottom: 15px;
+}

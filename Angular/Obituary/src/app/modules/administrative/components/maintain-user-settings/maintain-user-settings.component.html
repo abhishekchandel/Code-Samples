@@ -1,0 +1,131 @@
+<section class="bgImage">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="searchPanel">
+            <a [routerLink]="['/admin/admin-panel']">Back To Admin Panel <i class="fa fa-th"></i></a>
+         </div>
+         <div class="col-lg-10 offset-lg-1 col-md-12">
+            <div class="adminWrapper">
+               <!---->
+               <div class="wrapper">
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="boxHeder">
+                           <h1>Maintain Users </h1>
+                        </div>
+                        <div class="whiteSpace"></div>
+                     </div>
+                     <div class="col-sm-3">
+                        <nav class="navbar">
+                           <input class="form-control" placeholder="Search" type="text" name="search"
+                              [(ngModel)]="filter">
+                        </nav>
+                     </div>
+                     <div class="col-sm-12">
+                        <div class="table-responsive">
+                           <table class="table table-bordered table-responsive-md">
+                              <thead>
+                                 <tr>
+                                    <th>Select</th>
+                                    <th>User Name </th>
+                                    <th>Name of Person</th>
+                                    <th>Type of User</th>
+                                    <th>Status</th>
+                                    <th>Delete</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr
+                                    *ngFor="let userData of userResponse | filter:filter | paginate: { itemsPerPage: 10, currentPage: currentPage,totalItems:totalItems}; let i=index">
+                                    <td data-label="Select">
+                                       <div class="form-check">
+                                          <label class="checkbox">
+                                             <input type="checkbox" id=checkbox_{{i}} [checked]="personCheckedIndex===i"
+                                                (change)="getDataById(userData,($event),i)" />
+                                             <span class="primary"></span>
+                                          </label>
+                                       </div>
+
+                                    </td>
+                                    <td data-label="User Name" *ngIf="!isEditable">
+                                       <span (keyup)="changeValue(i, 'loginName', $event)"
+                                          contenteditable="false">{{userData.LoginName | titlecase}}</span>
+                                    </td>
+                                    <td data-label="User Name" *ngIf="isEditable">
+                                       <span (keyup)="changeValue(i, 'loginName', $event)"
+                                          contenteditable="true">{{userData.LoginName | titlecase}}</span>
+                                    </td>
+
+                                    <td data-label="Person Name" *ngIf="!isEditable">
+                                       <span (keyup)="changeValue(i, 'personName', $event)"
+                                          contenteditable="false">{{userData.PersonName | titlecase}}</span>
+                                    </td>
+
+                                    <td data-label="Person Name" *ngIf="isEditable">
+                                       <span (keyup)="changeValue(i, 'personName', $event)"
+                                          contenteditable="true">{{userData.PersonName | titlecase}}</span>
+                                    </td>
+                                    <td data-label="Type of User">
+                                       <div class="form-group">
+                                          <select class="form-control" (click)="getUserType($event)"
+                                             (change)="changeValue(i, 'userType', $event)" id=userType_{{i}}
+                                             [(ngModel)]="userData.ProfileTypeId" contenteditable="true">
+                                             <option [value]="null" selected>Choose one</option>
+                                             <option *ngFor="let profile of profileTypes"
+                                                [value]="profile.GlobalCodeId">
+                                                {{profile.CodeName}}
+                                             </option>
+                                          </select>
+                                       </div>
+                                    </td>
+                                    <td class="lastCol" data-label="Status">
+                                       <div class="inputRadio">
+                                          <label class="radioButton">Active
+                                             <input type="radio" [disabled]="disableButtons"
+                                                (change)="changeValue(i, 'status', $event)"
+                                                [(ngModel)]="userData.Active" value="1" name="status_{{i}}"
+                                                contenteditable="true">
+                                             <span class="checkmark"></span>
+                                          </label>
+                                       </div>
+                                       <div class="inputRadio">
+                                          <label class="radioButton">Inactive
+                                             <input type="radio" [disabled]="disableButtons"
+                                                (change)="changeValue(i, 'status', $event)"
+                                                [(ngModel)]="userData.Active" value="0" name="status_{{i}}"
+                                                contenteditable="true">
+                                             <span class="checkmark"></span>
+                                          </label>
+                                       </div>
+                                    </td>
+
+                                    <td data-label="Delete">
+                                       <div class="icon"><i class="fa fa-trash-o" (click)="deleteUser(i)"
+                                             aria-hidden="true"></i></div>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                           <div class="pagNav">
+                              <pagination-controls (pageChange)="getPage($event)" maxSize="9" directionLinks="true"
+                                 responsive="true" previousLabel="Previous" nextLabel="Next">
+                              </pagination-controls>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="col-sm-12">
+                        <div class="buttons"><button class="btn btn-red btnCss" (click)="updateRecord()">Update</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!---->
+            </div>
+         </div>
+      </div>
+      <div class="loaderDiv" *ngIf="loading">
+         <mat-spinner></mat-spinner>
+      </div>
+   </div>
+</section>

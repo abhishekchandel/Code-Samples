@@ -1,0 +1,241 @@
+<div class="sortData mb-4">
+    <h4>Modules Financial</h4>
+</div>
+
+<!---->
+<div class="tab-content">
+    <div class="tab-pane  active" id="home">
+        <mat-tab-group #tabGroup>
+            <mat-tab class="nav-link active nav nav-tabs" label="Exhibitor">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <!---->
+                            <div class="col-sm-12">
+                                <div class="dataDesc gridTable rmStrip twoCol mt-0">
+                                    <table class="table table-bordered tableBodyScroll">
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="blueBox"></span><b>Exhibitor Financials For:</b> <span class="classNameExt1">{{firstName}} {{lastName}}</span>
+                                                <td><span class="blueBox"></span><b>Exhibitor:</b>&nbsp; {{exhibitorId}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="form-group">
+                                <!-- <input type="text" class="form-control" placeholder="Search Exhibitor Name" /> -->
+                                <label>Exhibitor <span></span></label>
+                                <input class="form-control smPad" 
+                                type="search" 
+                                placeholder="Select Exhibitor" name="exhibitor"
+                                #exhibitor="ngModel" [(ngModel)]="selectedExhibitor"
+                                value="{{selectedExhibitor}}"
+                                (keyup)="filterExhibitor($event.target.value)"
+                                [matAutocomplete]="exhibitorauto">                               
+                                <mat-autocomplete #exhibitorauto="matAutocomplete">
+                                    <mat-option *ngFor="let exhibitor of filterExhibitorList"
+                                    [value]="exhibitor.FirstName" (onSelectionChange)="getBilllingDetails(exhibitor,$event);">
+                                    {{exhibitor.FirstName}} {{exhibitor.LastName}}
+                                    </mat-option>
+                                </mat-autocomplete>                                 
+                             </div>
+                            </div>
+                            <div class="col-sm-12 col-md-5">
+                                <div class="mfActionBtn">
+                                    <button (click)="downloadExhibitorSummaryReport('display')" type="button" class="icon"><span></span>
+                                    <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                    <button (click)="setreportType('email')" type="button" class="icon"><span></span>
+                                    <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                    <button (click)="downloadExhibitorSummaryReport('print')" type="button" class="icon"><span></span>
+                                    <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-lg-7">
+                                <h3 class="tableCaption">Summary of Fees Billed to Exhibitor</h3>
+                                <div class="table-responsive tableTab" id="contentscroll2">
+                                    <table class="table table-bordered tableBodyScroll">
+                                        <thead>
+                                            <tr>
+                                                <th>Qty</th>
+                                                <th>Fee</th>
+                                                <th>View Details</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <perfect-scrollbar class="nicescrollBar-2">
+                                            <tbody>
+                                                <tr *ngFor="let fee of billedSummary">
+                                                    <td>{{fee.Qty}}</td>
+                                                    <td>{{fee.FeeType}}</td>
+                                                    <td>
+                                                        <div class="icon"></div>
+                                                        <button type="button" class="icon"
+                                                            (click)="openTransactionDetails(fee.FeeTypeId)"><span></span><i
+                                                                class="fa fa-external-link"
+                                                                aria-hidden="true"></i></button>
+                                                    </td>
+                                                    <td>$ {{fee.Amount}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td (click)="showFinancialTransaction()" colspan="2"><button
+                                                            class="btn btn-red btnCss roundBtn">Detail</button>
+                                                    </td>
+                                                    <td colspan="2"><b>TOTAL:</b> ${{feeBilledTotal}}</td>
+                                                </tr>                                      
+                                            </tbody>
+                                        </perfect-scrollbar>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-lg-5">
+                                <h3 class="tableCaption">Money Received from Exhibitor</h3>
+                                <div class="table-responsive" id="contentscroll2">
+                                    <table class="table table-bordered tableBodyScroll">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <perfect-scrollbar class="nicescrollBar-4">
+                                            <tbody>
+                                                <tr *ngFor="let row of receievedSummary">
+                                                    <td>{{row.Date | date : 'MM-dd-yyyy'}}</td>
+                                                    <td>${{row.Amount}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2"><b>TOTAL:</b> ${{moneyReceivedTotal}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </perfect-scrollbar>
+                                    </table>
+                                    <table class="table table-bordered tableBodyScroll mt-4">
+                                        <tbody>
+                                            <tr>
+                                                <td>Outstanding:</td>
+                                                <td>${{outstanding}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Over Payment:</td>
+                                                <td>${{overPayment}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Refund:</td>
+                                                <td>${{refunds}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab class="nav-link active nav nav-tabs" label="Group">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-4">
+                                <h6 class="captionBorder">Group Stall Totals</h6>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-5">
+                                <form #groupForm="ngForm" name="groupForm">
+                                <div class="col-sm-12 col-md-12 col-lg-5 mb-4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="mmHoverContent">
+                                                <div class="prePostField mb-4 multiCheckBtn">
+                                                    <div class="form-group">
+                                                        <label class="radioBtn">
+                                                            <input type="radio" name="radio" value="all" checked (change)="setGroup('All')">
+                                                            <span class="checkmark"></span>All
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="radioBtn">
+                                                            <input type="radio" name="radio" value="one" (change)="setGroup('One')">
+                                                            <span class="checkmark"></span>One Group
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">    
+                                                    <input class="form-control smPad" 
+                                                    type="search" 
+                                                    placeholder="Select Group" name="group"
+                                                    #group="ngModel" [(ngModel)]="selectedGroup"
+                                                    value="{{selectedGroup}}"
+                                                    (keyup)="filterGroup($event.target.value)"
+                                                    [matAutocomplete]="groupauto">
+                                                    
+                                                    <mat-autocomplete #groupauto="matAutocomplete">
+                                                        <mat-option *ngFor="let group of filterGroupList"
+                                                        [value]="group.GroupName" (onSelectionChange)="getAllGroupFinancials(group.GroupId,$event);">
+                                                        {{group.GroupName}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>     
+                                                </div>
+        
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="mfActionBtn">
+                                                <button (click)="downloadFinancial('display')" type="button" class="icon"><span></span>
+                                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+            
+                                                <button (click)="setEmail()" type="button" class="icon"><span></span>
+                                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+            
+                                                <button (click)="downloadFinancial('print')" type="button" class="icon"><span></span>
+                                                <i class="fa fa-print" aria-hidden="true"></i></button>
+            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-7 mb-4">
+                                <div class="table-responsive tableTab" id="contentscroll2">
+                                    <table class="table table-bordered tableBodyScroll">
+                                        <thead>
+                                            <tr>
+                                                <th>Group Name</th>
+                                                <th>Pre Total</th>
+                                                <th>Post</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <perfect-scrollbar class="nicescrollBar-2">
+                                            <tbody>
+                                                <tr *ngFor="let financial of groupFinancials">
+                                                    <td>{{financial.GroupName}}</td>
+                                                    <td>${{financial.PreTotal}}</td>
+                                                    <td>${{financial.PostTotal}}</td>
+                                                    <td>${{financial.PrePostTotal}}</td>
+                                                </tr>
+                                             </tbody>
+                                        </perfect-scrollbar>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+<div class="loaderWrapper" *ngIf="loading">
+    <div class="loader"></div>
+</div>

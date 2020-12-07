@@ -1,0 +1,35 @@
+<div id="downLoadDoc" class="modal fade trashPopup" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <form #exportForm="ngForm" name="exportForm" (ngSubmit)="exportForm.valid && onConfirm()" novalidate>
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" (click)="onDismiss()">&times;</button>
+      <h4 class="modal-title">Confirm Action</h4>
+    </div>
+    <div class="modal-body text-center">
+      <div class="form-group">
+        <div class="dwnFile">
+          <input type="radio" name="format" required #format="ngModel" value="pdf" [(ngModel)]="formatToDownlaod.format">
+          <span class="checkmark">Download Pdf </span>
+        </div>
+        <div class="dwnFile">
+          <input type="radio" name="format" required #format="ngModel" value="excel" [(ngModel)]="formatToDownlaod.format" >
+          <span class="checkmark">Download Excel </span>
+        </div>
+        <span class="help-block" *ngIf="format.errors?.required && exportForm.submitted">
+          Please select format to download
+        </span>
+
+      </div>
+    </div>
+    <div class="modal-footer text-center">
+      <button type="button" class="btn btn-default" (click)="onDismiss()">Cancel</button>
+      <button type="submit" class="btn btn-default">Yes</button>
+    </div>
+  </form>
+    </div>
+
+  </div>
+</div>

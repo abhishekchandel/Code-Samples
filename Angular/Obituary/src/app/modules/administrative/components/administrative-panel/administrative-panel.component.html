@@ -1,0 +1,41 @@
+<section class="bgImage">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="boxWrapper">
+                    <div class="boxHeder">
+                        <h1>Administrative Panel</h1>
+                    </div>
+                    <div class="bgColor"></div>
+                    <!---->
+                    <div class="adminChoices">
+                        <ul>
+                            <li><a [routerLink]="['/admin/create-obituary']">
+                                    <div class="icon"><img src="assets/images/editimage.svg" alt="image" /></div> Place
+                                    An Obituary
+                                </a></li>
+                            <li><a *ngIf="isAdmin" [routerLink]="['/admin/create-user']">
+                                    <div class="icon newUser"><img src="assets/images/newuser.svg" alt="image" /></div>
+                                    Create A New User
+                                </a></li>
+                            <li><a [routerLink]="['/admin/maintain-user-settings']">
+                                    <div class="icon newUser"><img src="assets/images/newuser.svg" alt="image" /></div>
+                                    Maintain
+                                    Users
+                                </a></li>
+                            <li><a [routerLink]="['/admin/admin-settings']">
+                                    <div class="icon"><img src="assets/images/settings.svg" alt="image" /></div>
+                                    Maintain Admin Settings
+                                </a></li>
+                            <li><a [routerLink]="['/admin/obit-cart']">
+                                    <div class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+                                    Maintain Cart Obits
+                                </a></li>
+                        </ul>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

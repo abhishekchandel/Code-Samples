@@ -1,0 +1,20 @@
+.tabAutoWidth  {
+    .table-responsive {
+        .table {
+            thead{
+                tr {
+                    th {
+                        text-align: left;
+                    }
+                } 
+            }
+            tbody {
+                tr {
+                    td {
+                        text-align: left;
+                    }
+                }
+            }
+        }
+    }
+}

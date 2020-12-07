@@ -1,0 +1,65 @@
+<div id="classSplit" class="modal fade trashPopup" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="table-responsive">
+                    <form #splitClassForm="ngForm">
+                    <table class="table table-bordered splitTable tableBodyScroll ">
+                        <thead>
+                            <tr>
+                                <th>CLASS SPLIT SCREEN</th>
+                                <th>CLASS NUMBER: {{classNumber}}</th>
+                            </tr>
+                        </thead>
+                        <perfect-scrollbar class="nicescrollBar-3">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-group text-left">
+                                        <label>Class Name</label>
+                                        <input type="text" name="className" class="form-control" placeholder="Class Name" #classControl="ngModel" [(ngModel)]="className" />
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label>Split Number</label>
+                                        <input type="number" value={{splitNumber}} name="splitNumber" class="form-control" placeholder="Split Number" #classControl="ngModel" [(ngModel)]="splitNumber" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group text-left" *ngFor="let entry of entriesArray; let i = index;">
+                                        <label>Entries</label>
+                                        <input type="number" class="form-control" [value]="entry.Entries" placeholder="Entries" (change)="entryChanged($event, i)" />
+
+                                        <button class="icon btn btn-default mt-3" (click)="removeEntry(i)" *ngIf="i > 1">Remove</button>
+                                    </div>
+
+                                    <div class="form-group text-left">
+                                        <button type="button" class="btn btn-default" (click)="addEntry()">+ Split</button>
+
+                                    </div>
+
+                                    <div class="form-group text-left">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" name="championshipControl" (change)="!championshipIndicator" #championshipControl="ngModel" [(ngModel)]="championshipIndicator" class="ciCheckbox">Championship
+                                                Indicator</label>
+                                        </div>
+                                    </div>
+
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </perfect-scrollbar>
+                    </table>
+                </form>
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-default" (click)="onDismiss()">Cancel</button>
+                <button type="button" class="btn btn-default" (click)="onSubmit()">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,207 @@
+//  stall diagram  
+
+
+.card {
+  border: 1px solid #a0b8f9;
+  border-radius: 0 0 15px 15px;
+  height: 100%;
+  overflow: auto;
+  max-height: 455px;
+  min-height: 455px;
+}
+/* custom scrollbar */
+.card{
+&::-webkit-scrollbar {
+width: 10px;
+}
+&::-webkit-scrollbar-track {
+box-shadow: inset 0 0 5px grey;
+border-radius: 10px;
+}
+&::-webkit-scrollbar-thumb {
+background: #98b0ff ;
+border-radius: 10px;
+}
+}
+
+
+.stallDiagram {
+  margin-right: 20px; 
+  &:last-child{
+    padding-right: 15px;
+  }
+}
+  
+  .stallWrapper {
+  display: flex;
+  padding-bottom: 10px; }
+  .stallWrapper::-webkit-scrollbar {
+    width: 6px; }
+  .stallWrapper::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 6px; }
+  .stallWrapper::-webkit-scrollbar-thumb {
+    background: #98b0ff;
+    border-radius: 6px; }
+  
+  .stallControll {
+  display: flex;
+  flex-flow: wrap;
+  max-width: 360px;
+  margin: 0 auto; }
+  .stallControll .dwnFile {
+    font-size: 18px;
+    width: 50%;
+    padding: 0 4px; }
+    .stallControll .dwnFile .checkmark {
+      padding: 5px 0;
+      background-color: transparent;
+      border: 1px solid #b5cbf7; }
+      .stallControll .dwnFile .checkmark:before {
+        width: 30px;
+        height: 30px;
+        left: 4px;
+        top: 3px; }
+      .stallControll .dwnFile .checkmark:after {
+        left: 16px;
+        top: 11px;
+        width: 7px;
+        height: 12px; }
+  
+  
+  
+  @media (max-width: 767px) {
+  .stallDiagram .table-responsive .table tbody tr td {
+    display: table-cell;
+    padding: 5px 10px; } }
+  
+  
+    ::ng-deep .mat-tab-labels {
+        .mat-tab-label{
+          background-color: #a0b8f9;
+          opacity: 1;
+          color: #000;
+          height: auto;
+          padding: 8px 10px;
+          border-radius: 5px 5px 0 0;
+          margin-right: 5px;
+            &.mat-tab-label-active {
+              background-color: #7b1124;
+              color: #fff;
+              opacity: 1;
+              border-radius: 5px 5px 0 0;
+              margin-right: 5px;
+          }
+        }
+    }
+    .bookedstall{
+      background-color: #e61919 !important;
+      //pointer-events: none;
+    }
+    
+    .bookedgroupstall{
+      background-color: #2e19e6 !important;
+      color: #fff !important;
+      
+    }
+
+    
+    .unassignedgroupstall{
+      background-color: rgb(156, 149, 149) !important;
+      color: #fff !important;
+    }
+
+    .clstackstall{
+      background-color: #7b1124;
+      color: #fff !important ;
+    }
+
+    .loaderWrappers {
+      background-color: rgba(0,0,0,0.5);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      height: 100%;
+      z-index: 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .loaders {
+          border: 8px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 8px solid #a0b8f9;
+          width: 50px;
+          height: 50px;
+          -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+        }
+    }
+
+
+    .hoverContent {
+      display: none;
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      border-radius: 5px;
+      max-width: 370px;
+      width: 100%;
+      //background-color: #a7bfff;
+      border: 1px solid #7ea6f6;
+      z-index: 9999;
+      .labelCol {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      margin-bottom: 8px;
+      padding: 0 10px;
+      &:last-child{
+      margin-bottom: 0px;
+
+      }
+      label {
+      width: 40%;
+      padding-right: 10px;
+      justify-content: flex-start;
+      display: flex;
+      word-break: break-all;
+      font-weight: 600;
+      font-size: 14px;
+      text-align: left;
+      line-height: 15px;
+
+      }
+      span {
+      justify-content: flex-start;
+      display: flex;
+      text-align: left;
+      width: 60%;
+      word-break: break-all;
+      font-size: 14px;
+      line-height: 15px;
+      }
+      }
+          .modal-header {
+            background-color: #273992;
+            color: #fff;
+            padding: 5px 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            .close {
+              color: #fff;
+              opacity: 1;
+              position: absolute;
+              right: 10px;
+              padding: 13px;
+          }
+          h4{
+            font-size: 16px;
+            margin: 0;
+          }
+        }
+      }
+  
+

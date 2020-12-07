@@ -1,0 +1,1159 @@
+<div class="innerContent">
+    <div class="sortData">
+        <div class="sponBtn"><button class="btn btn-red btnCss" (click)="resetForm()">Add new Exhibitor</button></div>
+    </div>
+    <!---->
+    <div class="gridTable addBlueStrip">
+        <div class="table-responsive">
+            <table class="table table-bordered tableBodyScroll">
+                <thead>
+                    <tr>
+                        <th (click)="sortData('ExhibitorId')">Exhibitor Id
+                            <span [ngClass]="getSort('ExhibitorId')"></span>
+                        </th>
+                        <th (click)="sortData('FirstName')">Exhibitor Name
+                            <span [ngClass]="getSort('FirstName')"></span>
+                        </th>
+                        <th (click)="sortData('BirthYear')">Birth Year
+                            <span [ngClass]="getSort('BirthYear')"></span>
+                        </th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <perfect-scrollbar class="nicescrollBar-1">
+                    <tbody>
+                        <tr *ngFor="let exhibitor of exhibitorsList;let i = index "
+                            (click)="highlight(exhibitor.ExhibitorId,i)" [ngClass]="{'blueRow': selectedRowIndex == i}">
+                            <td data-label="Exhibitor Id">{{exhibitor.ExhibitorId}}</td>
+                            <td data-label="Name">{{exhibitor.FirstName | titlecase}} {{exhibitor.LastName | titlecase}}
+                            </td>
+                            <td data-label="Birth Year">{{exhibitor.BirthYear}}</td>
+                            <td data-label="Remove">
+                                <div (click)="confirmRemoveExhibitor($event, i,exhibitor.ExhibitorId)" class="icon"><i
+                                        class="fa fa-trash-o" aria-hidden="true"></i></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </perfect-scrollbar>
+            </table>
+            <div [hidden]="totalItems == 0">
+                <mat-paginator #paginator [length]="totalItems" (page)="getNext($event)" [pageSizeOptions]="[5]">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <div class="dataDesc gridTable multiCol">
+        <table class="table table-bordered tableBodyScroll">
+            <tbody>
+                <tr>
+                    <td><span class="blueBox"></span><b>Exhibitor Id:</b>
+                        <span class="classNameExt">
+                             {{exhibitorInfo.ExhibitorId}} 
+                            </span>
+                            </td>
+                    <td><span class="blueBox"></span><b>Exhibitor Name:</b>
+                         <span class="classNameExt">
+                             {{this.exhibitorInfo.FirstName }}
+                            {{this.exhibitorInfo.LastName}}
+                        </span>
+                        <p class="toolTipText">{{this.exhibitorInfo.FirstName }} {{this.exhibitorInfo.LastName}}</p>
+                    </td>
+                    <td><span class="blueBox"></span><b>Group Name: </b> 
+                        <span class="classNameExt">
+                            {{this.exhibitorInfo.GroupName}}
+                        </span>
+                        <p class="toolTipText">{{this.exhibitorInfo.GroupName}}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!---->
+    <div class="sponTabbing">
+
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane  active" id="home">
+                <mat-tab-group #tabGroup>
+                    <mat-tab class="nav-link active nav nav-tabs" name="einfo" label="Exhibitor Info">
+                        <form     #exhibitorInfoForm="ngForm" name="exhibitorInfoForm"
+                            (ngSubmit)="exhibitorInfoForm.valid && addUpdateExhibitor()" novalidate >
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="customCheckbox">NSBA Indicator
+                                                    <input #nsbaIndicator="ngModel" name="nsbaIndicator"
+                                                        [(ngModel)]="exhibitorInfo.IsNSBAMember" type="checkbox"
+                                                        value="" class="ciCheckbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+
+
+                                                <!--label><input #nsbaIndicator="ngModel" name="nsbaIndicator" [(ngModel)]="exhibitorInfo.IsNSBAMember" type="checkbox" value="" class="ciCheckbox">NSBA Indicator</label-->
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Back Number </label>
+                                                <input #backNumber="ngModel" appOnlynumber name="backNumber"
+                                                    [(ngModel)]="exhibitorInfo.BackNumber" type="text"
+                                                    class="form-control" placeholder="Back Number" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>First name <span>*</span></label>
+                                                <input #firstName="ngModel" name="firstName"
+                                                    [(ngModel)]="exhibitorInfo.FirstName" required type="text"
+                                                    class="form-control" placeholder="First Name" />
+                                                <span class="help-block"
+                                                    *ngIf="firstName.errors?.required && (firstName.touched || exhibitorInfoForm.submitted)">First
+                                                    Name is required</span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Last name <span>*</span></label>
+                                                <input #lastName="ngModel" name="lastName"
+                                                    [(ngModel)]="exhibitorInfo.LastName" required type="text"
+                                                    class="form-control" placeholder="Last Name" />
+                                                <span class="help-block"
+                                                    *ngIf="lastName.errors?.required && (lastName.touched || exhibitorInfoForm.submitted)">Last
+                                                    Name is required</span>
+                                            </div>
+
+                                           
+                                          
+
+                                            <div class="form-group">
+                                                <label>State <span>*</span></label>
+                                                <input     
+                                                class="form-control" 
+                                                required
+                                                placeholder="State" name="state"
+                                                #state="ngModel" [(ngModel)]="seletedStateName"
+                                                (keyup)="filterStates($event.target.value,true)"
+                                                value="{{seletedStateName}}" 
+                                                autocomplete="new-password"  type="search" [matAutocomplete]="stateauto">
+
+
+                                                <mat-autocomplete #stateauto="matAutocomplete">
+                                                    <mat-option *ngFor="let option of statefilteredOptions"
+                                                    [value]="option.Name" (onSelectionChange)="getFilteredCities(option.StateId);">
+                                                        {{ option.Name }}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                                <span class="help-block"
+                                                *ngIf="exhibitorInfo.StateId==null && (state.touched || exhibitorInfoForm.submitted)">State
+                                                is
+                                                required</span>
+                                            </div>
+
+
+
+
+
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    
+
+                                                    <div class="form-group">
+                                                        <label>City <span>*</span></label>
+                                                        <!-- <input     
+                                                        class="form-control" 
+                                                        required
+                                                        placeholder="City" name="city"
+                                                        #city="ngModel" [(ngModel)]="seletedCityName"
+                                                        (keyup)="filterCities($event.target.value,true)"
+                                                        value="{{seletedCityName}}" 
+                                                        autocomplete="new-password"  type="search" [matAutocomplete]="cityauto">
+          
+                                                        <mat-autocomplete #cityauto="matAutocomplete">
+                                                            <mat-option *ngFor="let option of cityfilteredOptions"
+                                                            [value]="option.Name" (onSelectionChange)="getFileredZipCodes(option.Name,option.CityId,$event);">
+                                                                {{ option.Name }}
+                                                            </mat-option>
+                                                        </mat-autocomplete> -->
+
+                                                        <input  #city="ngModel" name="city"
+                                                        [(ngModel)]="exhibitorInfo.City" type="text" class="form-control"
+                                                        placeholder="City" />
+
+                                                        <span class="help-block"
+                                                        *ngIf="exhibitorInfo.City==null && (city.touched || exhibitorInfoForm.submitted)">City
+                                                        is
+                                                        required</span>
+                                                    </div>
+
+
+
+
+                                                </div>
+
+
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label>Zip Code<span>*</span></label>
+                                                        <!-- <select required class="form-control" placeholder="Zip Code"
+                                                            #zipcodeid="ngModel" name="zipcodeid"
+                                                            [(ngModel)]="exhibitorInfo.ZipCodeId"
+                                                            (change)="getZipNumber($event)">
+                                                            <option value="null" disabled="true" [selected]="true">
+                                                                Select Zip Code
+                                                            </option>
+                                                            <option *ngFor="let code of zipCodesResponse"
+                                                                [value]="code.ZipCodeId">{{code.ZipCode}}
+                                                            </option>
+                                                        </select> -->
+
+                                                        <input  #zipCode="ngModel" name="zipCode"
+                                                        [(ngModel)]="exhibitorInfo.ZipCode" type="text" class="form-control" maxlength="5" appOnlynumber required
+                                                        placeholder="Zip Code" />
+
+                                                        <span class="help-block"
+                                                            *ngIf="zipCode.errors?.required && (zipCode.touched || exhibitorInfoForm.submitted)">
+                                                            Zip Code is required
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Quantity Programs </label>
+                                                <input #quantityPrograms="ngModel" appOnlynumber name="quantityPrograms"
+                                                    [(ngModel)]="exhibitorInfo.QTYProgram" type="text"
+                                                    class="form-control" placeholder="Quantity Programs" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="customCheckbox">Doctor/Vet Note Indicator
+                                                    <input #doctorVetNoteIndicator="ngModel"
+                                                        name="doctorVetNoteIndicator"
+                                                        [(ngModel)]="exhibitorInfo.IsDoctorNote" type="checkbox"
+                                                        value="" class="ciCheckbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <!--label><input type="checkbox"  #doctorVetNoteIndicator="ngModel" name="doctorVetNoteIndicator" [(ngModel)]="exhibitorInfo.IsDoctorNote" value="" class="ciCheckbox">Doctor/Vet Note Indicator</label-->
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Birth Year</label>
+                                                <select class="form-control" placeholder="Birth Year" name="birthYear"
+                                                    #birthYear="ngModel" [(ngModel)]="exhibitorInfo.BirthYear"
+                                                    (change)="setBirthYear($event)">
+                                                    <option value="null" disabled="true" [selected]="true">
+                                                        Select Birth Year
+                                                    </option>
+                                                    <option *ngFor="let year of years" [value]="year">{{year}}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Phone </label>
+                                                <input mask="(000) 000-0000" #phone="ngModel" name="phone"
+                                                    [(ngModel)]="exhibitorInfo.Phone" type="text" class="form-control"
+                                                    placeholder="Phone" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Email 1 </label>
+                                                <input #primaryEmail="ngModel" name="primaryEmail"
+                                                    [(ngModel)]="exhibitorInfo.PrimaryEmail"
+                                                    pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                                                    type="text" class="form-control" placeholder="Email 1" />
+                                                <span class="help-block"
+                                                    *ngIf="primaryEmail.errors?.required && (primaryEmail.touched || exhibitorInfoForm.submitted)">Email
+                                                    is
+                                                    required</span>
+                                                <span class="help-block"
+                                                    *ngIf="!primaryEmail.errors?.required && primaryEmail.errors?.pattern">Primary
+                                                    Email is
+                                                    invalid</span>
+                                            </div>
+                                            <!-- <div class="form-group">
+                                                <label>Email 2 </label>
+                                                <input #secondaryEmail="ngModel" name="secondaryEmail"
+                                                    [(ngModel)]="exhibitorInfo.SecondaryEmail"
+                                                    pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                                                    type="text" class="form-control" placeholder="Email 2" />
+                                                <span class="help-block"
+                                                    *ngIf="secondaryEmail.errors?.required && (secondaryEmail.touched || exhibitorInfoForm.submitted)">Email
+                                                    is
+                                                    required</span>
+                                                <span class="help-block"
+                                                    *ngIf="!secondaryEmail.errors?.required && secondaryEmail.errors?.pattern">Secondary
+                                                    Email is
+                                                    invalid</span>
+                                            </div> -->
+
+                                            <div class="form-group">
+                                                <label>Address </label>
+                                                <input #Address="ngModel" name="Address"
+                                                    [(ngModel)]="exhibitorInfo.Address"
+                                                  
+                                                    type="text" class="form-control" placeholder="Address" />
+                                                <span class="help-block"
+                                                    *ngIf="Address.errors?.required && (Address.touched || exhibitorInfoForm.submitted)">Address
+                                                    is
+                                                    required</span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Choose Group </label>
+                                                <select #groupId="ngModel" name="groupId" class="form-control"
+                                                    [(ngModel)]="exhibitorInfo.GroupId" class="form-control">
+                                                    <option [ngValue]="null" disabled="true">
+                                                        Select Group
+                                                    </option>
+                                                    <option *ngFor="let group of groups" [value]="group.GroupId">
+                                                        {{group.GroupName}}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+
+                                            <div class="quantityWrapper mt-3">
+                                                <div class="form-group">
+                                                    <label>Horse Stall Quantity</label>
+                                                    <div class="uantityField stallQuantity">
+                                                        <input type="text" class="form-control" placeholder="4"
+                                                            [value]="horsestalllength" />
+                                                        <button type="button" (click)="openStallDiagram('horse')"
+                                                            class="btn btn-red btnCss roundBtn whitebg">
+                                                            Stall</button>
+                                                    </div>
+                                                </div>
+                                                <div class="divideLine"></div>
+                                                <div class="form-group mb-0">
+                                                    <label>Tack Stall Quantity</label>
+                                                    <div class="uantityField stallQuantity">
+                                                        <input type="text" class="form-control" placeholder="2"
+                                                            [value]="tackstalllength" />
+                                                        <button type="button" (click)="openStallDiagram('tack')"
+                                                            class="btn btn-red btnCss roundBtn whitebg">
+                                                            Stall</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-12" style="margin-top: 15px;">
+                                            <div class="buttons text-right mb-3">
+                                                <button (click)='tabGroup.selectedIndex = 1'
+                                                    class="btn btn-red btnCss roundBtn">Next</button>
+                                                <button type="submit"
+                                                    class="btn btn-red btnCss roundBtn">Submit</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-tab>
+                    <mat-tab class="nav-link nav nav-tabs"  name="ehorse" label="Horses">
+                        <div class="card">
+                            <form     #horsesForm="ngForm" (ngSubmit)="horsesForm.valid && addHorseToExhibitor()"
+                                class="formScroll">
+                                <div class="card-body">
+                                    <div class="table-responsive tableTab" id="contentscroll2">
+                                        <table class="table table-bordered tableBodyScroll">
+                                            <thead>
+                                                <tr>
+                                                    <th>Horse Name</th>
+                                                    <th>Horse Type</th>
+                                                    <th>Back Number</th>
+                                                    <th>Date</th>
+                                                    <th>Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <perfect-scrollbar class="nicescrollBar-2">
+                                                <tbody>
+
+                                                    <tr *ngFor="let horse of exhibitorHorses;let i=index">
+                                                        <td>{{horse.HorseName}}</td>
+                                                        <td>{{horse.HorseType}}</td>
+                                                        <td>{{horse.BackNumber}}</td>
+                                                        <td>{{horse.Date | dateTimeFormatFilter : 'MM-DD-yyyy'}}</td>
+                                                        <td>
+                                                            <button type="button" class="icon"
+                                                                (click)="confirmRemoveExhibitorHorse(horse.ExhibitorHorseId)"><span></span>
+                                                                <i class="fa fa-trash-o"
+                                                                    aria-hidden="true"></i></button>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+
+                                                            <input
+                                                               
+                                                            class="form-control" 
+                                                            required
+                                                            placeholder="Horse Name" name="horsename"
+                                                            #horsename="ngModel" [(ngModel)]="seletedhorseName"
+                                                            value="{{seletedhorseName}}"
+                                                            (keyup)="filterhorses($event.target.value,true)"
+                                                            type="search" [matAutocomplete]="horseauto">
+                                                            <span class="help-block"
+                                                            *ngIf="linkedHorseId==null && (horsesForm.submitted || horsename.touched)">
+                                                            Please select horse</span>
+                                                        
+            
+                                                            <mat-autocomplete #horseauto="matAutocomplete">
+                                                                <mat-option *ngFor="let horse of filteredHorsesOption"
+                                                                [value]="horse.Name" (onSelectionChange)="setFilteredHorse(horse.HorseId,$event);">
+                                                                {{horse.HorseId}}-{{horse.Name}} 
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                           
+                                                       
+                                                        </td>
+
+
+
+                                                        <td>{{horseType}}</td>
+                                                        <td>
+                                                            <span *ngIf="(!isFirstBackNumber && horseType)">
+                                                                <input appOnlynumber type="text" [required]="horseType"
+                                                                    class="form-control" name="backNumberControl"
+                                                                    #backNumberControl="ngModel"
+                                                                    [(ngModel)]="backNumberLinked"
+                                                                    placeholder="Back Number" />
+                                                                <span class="help-block"
+                                                                    *ngIf="(horsesForm.submitted || backNumberControl.touched) && backNumberControl.invalid">Please
+                                                                    enter back number
+                                                                </span>
+                                                            </span>
+                                                            <span *ngIf="(isFirstBackNumber && horseType)">
+                                                                {{exhibitorInfo.BackNumber}}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span *ngIf="horseType">
+                                                                <mat-form-field>
+                                                                    <input matInput 
+                                                                        [matDatepicker]="horseDatePicker"
+                                                                        class="form-control"
+                                                                        #horseAddDateControl="ngModel"
+                                                                        name="horseAddDateControls"
+                                                                        [(ngModel)]="horseDate" required
+                                                                         readonly>
+
+                                                                    <mat-datepicker-toggle matSuffix
+                                                                        [for]="horseDatePicker">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #horseDatePicker></mat-datepicker>
+                                                                </mat-form-field>
+                                                                <span class="help-block"
+                                                                    *ngIf="(horsesForm.submitted || horseAddDateControl.touched) && horseAddDateControl.invalid">Date
+                                                                    is
+                                                                    required</span>
+                                                            </span>
+
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </perfect-scrollbar>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                                <div class="actionBtn text-right mb-4 mt-3">
+                                    <button (click)='tabGroup.selectedIndex = 0'
+                                        class="btn btn-red btnCss roundBtn">Previous</button>
+                                    <button (click)='tabGroup.selectedIndex = 2'
+                                        class="btn btn-red btnCss roundBtn">Next</button>
+                                    <a [routerLink]="['/perspective/horse']" target="_blank"><button type="button"
+                                            class="btn btn-red btnCss roundBtn">+ Horse</button></a>
+                                    <button type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab class="nav-link nav nav-tabs" name="esponsor" label="Sponsors">
+                        <div class="card dataEntriesTable">
+                            <form     #sponsorsForm="ngForm" (ngSubmit)="sponsorsForm.valid && addSponsorToExhibitor()"
+                                class="formScroll">
+                                <div class="card-body">
+                                    <div class="table-responsive tableTab" id="contentscroll2">
+                                        <table class="table table-bordered tableBodyScroll">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sponsor/Donor </th>
+                                                    <th>Detail Info</th>
+                                                    <th>Email</th>
+                                                    <th>Total $ Received</th>
+                                                    <th>Horse Name</th>
+                                                    <th>Sponsor Type</th>
+                                                    <th>Id Number</th>
+                                                    <th>Ad Size</th>
+                                                    <th>Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <perfect-scrollbar class="nicescrollBar-2">
+                                                <tbody>
+                                                    <tr *ngFor="let sponsor of exhibitorSponsors;let i=index ">
+                                                        <td>{{sponsor.Sponsor}}</td>
+                                                        <td>
+                                                            <button type="button" class="icon"
+                                                                (click)="showSponsorInfo(sponsor,false)"><span></span>
+                                                                <i class="fa fa-external-link"
+                                                                    aria-hidden="true"></i></button>
+                                                        </td>
+                                                        <td>{{sponsor.Email}}</td>
+                                                        <td>${{sponsor.SponsorAmount}}</td>
+                                                        <td>{{sponsor.HorseName}}</td>
+                                                        <td>{{sponsor.SponsorTypeName}}</td>
+                                                        <td>{{sponsor.IdNumber}}</td>
+                                                        <td>{{sponsor.AdTypeName}}</td>
+                                                        <td>
+                                                            <button type="button" class="icon"
+                                                                (click)="confirmRemoveExhibitorSponsor(sponsor.SponsorExhibitorId)"><span></span>
+                                                                <i class="fa fa-trash-o"
+                                                                    aria-hidden="true"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           
+
+                                                                 <input     
+                                                                    class="form-control smPad" 
+                                                                    required
+                                                                    placeholder="Sponsor Name" name="sponsorname"
+                                                                    #sponsorname="ngModel" [(ngModel)]="seletedsponsorName"
+                                                                    value="{{seletedsponsorName}}"
+                                                                    (keyup)="filtersponsor($event.target.value,true)"
+                                                                    type="search" [matAutocomplete]="sponsorauto">
+                                                                    <span class="help-block"
+                                                                    *ngIf="linkedSponsorId==null && (sponsorsForm.submitted || sponsorname.touched)">
+                                                                    Please select sponsor</span>
+                                                                
+                    
+                                                                    <mat-autocomplete #sponsorauto="matAutocomplete">
+                                                                        <mat-option *ngFor="let sponsor of filteredSponsorOption"
+                                                                        [value]="sponsor.SponsorName" (onSelectionChange)="setFilteredSponsor(sponsor.SponsorId,$event);">
+                                                                        {{sponsor.SponsorName}} 
+                                                                        </mat-option>
+                                                                    </mat-autocomplete>
+
+
+
+                                                        </td>
+                                                        <td>
+                                                            <button *ngIf="linkedSponsorId" type="button" class="icon"
+                                                                (click)="showSponsorInfo('',true)"><span></span> <i
+                                                                    class="fa fa-external-link"
+                                                                    aria-hidden="true"></i></button>
+                                                        </td>
+                                                        <td>{{sponsorDetails.Email}}</td>
+                                                        <td>
+                                                                <input type="number" class="form-control whitebg"
+                                                                    placeholder="Sponsor Amount" name="sponsorAmount"
+                                                                    required [(ngModel)]="sponsorAmount"
+                                                                    #amountControl="ngModel"
+                                                                    (change)="setsponsorAmount($event.target.value)">
+    
+                                                                <span class="help-block" *ngIf="(sponsorsForm.submitted || amountControl.touched) 
+                                                    && amountControl.invalid">Please Enter Sponsor Amount                                                                </span>
+                                                           
+                                                        </td>
+
+                                                        <td>
+                                                            <input class="form-control" required
+                                                            placeholder="Sponsor Horse Name" name="sponsorhorsename"
+                                                            #sponsorhorsename="ngModel" [(ngModel)]="seletedsponsorhorseName"
+                                                            value="{{seletedsponsorhorseName}}" (keyup)="filtersponsorhorses($event.target.value,true)"
+                                                            type="search" [matAutocomplete]="sponsorhorseauto">
+                                                            <span class="help-block"
+                                                            *ngIf="linkedSponsorHorseId==null && (sponsorsForm.submitted || sponsorhorsename.touched)">
+                                                            Please select sponsor horse</span>
+                                                        
+            
+                                                            <mat-autocomplete #sponsorhorseauto="matAutocomplete">
+                                                                <mat-option *ngFor="let horse of filteredSponsorHorsesOption"
+                                                                [value]="horse.HorseName" (onSelectionChange)="setFilteredSponsorHorse(horse.HorseId,$event);">
+                                                                {{horse.HorseId}}-{{horse.HorseName}} 
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                           
+                                                       
+                                                        </td>
+
+
+
+
+
+
+
+                                                        <td>
+                                                            <span *ngIf="linkedSponsorId">
+                                                                <select class="dynDataSeclect" name="sponsortype"
+                                                                    required [(ngModel)]="sponsortypeId" class="form-control"
+                                                                    #sponsorTypeControl="ngModel"
+                                                                    (change)="setSponsorType($event.target.value)">
+                                                                    <option disabled="true" [ngValue]="null"
+                                                                        class="selectDropdown">Select Sponsor Type
+                                                                    </option>
+                                                                    <option class="selectDropdown"
+                                                                        [value]="item.GlobalCodeId"
+                                                                        *ngFor="let item of sponsorTypes">
+                                                                        {{item.CodeName}}</option>
+                                                                </select>
+                                                                <span class="help-block"
+                                                                    *ngIf="(sponsorsForm.submitted || sponsorTypeControl.touched) && sponsorTypeControl.invalid">Please
+                                                                    select sponsor type
+                                                                </span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span *ngIf="(linkedSponsorId && sponsortypeId==1)">
+                                                                <input appOnlynumber type="text"
+                                                                    (change)="setType($event.target.value)"
+                                                                    [required]="linkedSponsorId" class="form-control"
+                                                                    name="addNumberControl" #addNumberControl="ngModel"
+                                                                    [(ngModel)]="addnumber" placeholder="Add Number" />
+                                                                <span class="help-block"
+                                                                    *ngIf="(sponsorsForm.submitted || addNumberControl.touched) && addNumberControl.invalid">Please
+                                                                    enter add number
+                                                                </span>
+                                                            </span>
+                                                            <span *ngIf="(linkedSponsorId && sponsortypeId==2)">
+                                                                <select class="dynDataSeclect" name="type" class="form-control"
+                                                                    [required]="sponsortypeId==2" [(ngModel)]="typeId"
+                                                                    #typeControl="ngModel"
+                                                                    (change)="setType($event.target.value)">
+                                                                    <option disabled="true" [ngValue]="null"
+                                                                        class="selectDropdown">Select</option>
+                                                                    <option class="selectDropdown"
+                                                                        [value]="item.ClassId"
+                                                                        *ngFor="let item of sponsorClassesList">
+                                                                        {{item.Name}}</option>
+                                                                </select>
+                                                                <span class="help-block"
+                                                                    *ngIf="(sponsorsForm.submitted || typeControl.touched) && typeControl.invalid">Please
+                                                                    select class
+                                                                </span>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span *ngIf="(linkedSponsorId && sponsortypeId==1)">
+                                                                <select class="dynDataSeclect" name="type" class="form-control"
+                                                                    [required]="sponsortypeId==1" [(ngModel)]="adTypeId"
+                                                                    #addTypeControl="ngModel"
+                                                                    (change)="setAdType($event.target.value)">
+                                                                    <option disabled="true" [ngValue]="null"
+                                                                        class="selectDropdown">Select Ad Type</option>
+                                                                    <option class="selectDropdown"
+                                                                        [value]="item.YearlyMaintainenceFeeId"
+                                                                        *ngFor="let item of AdTypes">
+                                                                        {{item.FeeName}}</option>
+                                                                </select>
+                                                                <span class="help-block"
+                                                                    *ngIf="(sponsorsForm.submitted || addTypeControl.touched) && addTypeControl.invalid">Please
+                                                                    select ad type
+                                                                </span>
+                                                            </span>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </perfect-scrollbar>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="actionBtn text-right mb-4 mt-3">
+                                    <button (click)='tabGroup.selectedIndex = 1'
+                                        class="btn btn-red btnCss roundBtn">Previous</button>
+                                    <button (click)='tabGroup.selectedIndex = 3'
+                                        class="btn btn-red btnCss roundBtn">Next</button>
+                                    <a [routerLink]="['/perspective/sponsor']" target="_blank"> <button type="button"
+                                            class="btn btn-red btnCss roundBtn">+ Sponsors</button></a>
+                                    <button class="btn btn-red btnCss roundBtn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab class="nav-link nav nav-tabs" name="eclasses" label="Classes">
+                        <div class="card dataEntriesTable">
+                            <form     #classesForm="ngForm" (ngSubmit)="classesForm.valid && addClassToExhibitor()"
+                                class="formScroll">
+                                <div class="card-body">
+                                    <div class="table-responsive tableTab" id="contentscroll2">
+                                        <table class="table table-bordered tableBodyScroll">
+                                            <thead>
+                                                <tr>
+                                                    <th>Class Number</th>
+                                                    <th>Class Name</th>
+                                                    <th>Age Group</th>
+                                                    <th>Entries</th>
+                                                    <th>Date</th>
+                                                    <th>Scratch</th>
+                                                    <th>Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <perfect-scrollbar class="nicescrollBar-2">
+                                                <tbody>
+                                                    <tr *ngFor="let class of exhibitorClasses;let i=index ">
+                                                        <td>{{class.ClassNumber}}</td>
+                                                        <td>{{class.Name}}</td>
+                                                        <td>{{class.AgeGroup}}</td>
+                                                        <td>{{class.Entries}}</td>
+                                                        <td>{{class.Date | dateTimeFormatFilter : 'MM-DD-yyyy'}}</td>
+                                                        <td>
+                                                            <div class="scratchimage"
+                                                                (click)="confirmScratch(!class.Scratch,class.ExhibitorClassId)">
+                                                                <img class="non-print-element"
+                                                                    [src]="class.Scratch===true ? 'assets/images/sizzer-icon.png' : 'assets/images/sizzer-icon-1.png'">
+                                                                <img class="print-element"
+                                                                    [src]="class.Scratch===true ? '../assets/images/sizzer-icon.png' : '../assets/images/sizzer-icon-1.png'">
+                                                            </div>
+                                                           
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="icon"
+                                                                (click)="confirmRemoveExhibitorClass(class.ExhibitorClassId)"><span></span>
+                                                                <i class="fa fa-trash-o"
+                                                                    aria-hidden="true"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                                <input      
+                                                                    class="form-control" 
+                                                                    required
+                                                                    placeholder="Class Name" name="classname"
+                                                                    #classname="ngModel" [(ngModel)]="seletedclassName"
+                                                                    value="{{seletedclassName}}"
+                                                                    (keyup)="filterclass($event.target.value,true)"
+                                                                    type="search" [matAutocomplete]="classauto">
+                                                                    <span class="help-block"
+                                                                    *ngIf="linkedClassId==null && (classesForm.submitted || classname.touched)">
+                                                                    Please select class</span>
+                                                               
+                    
+                                                                    <mat-autocomplete #classauto="matAutocomplete">
+                                                                        <mat-option *ngFor="let class of filteredClassesOption"
+                                                                        [value]="class.Name" 
+                                                                        (onSelectionChange)="setFilteredClass(class.ClassId,$event);">
+                                                                        {{class.ClassNumber}} / {{class.Name}} / {{class.AgeGroup}}
+                                                                        </mat-option>
+                                                                    </mat-autocomplete>
+
+
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control dynDataSeclect" name="addexhibitorhorse"
+                                                                required [(ngModel)]="addHorseId"
+                                                                (change)="setLinkedHorse($event.target.value)"
+                                                                #addHorseControl="ngModel">
+                                                                <option [ngValue]="null">
+                                                                    Select Horse
+                                                                </option>
+                                                                <option *ngFor="let horse of exhibitorHorses"
+                                                                    [value]="horse.HorseId">{{horse.HorseName}} /
+                                                                    {{horse.HorseType}} / {{horse.BackNumber}}
+                                                                </option>
+                                                            </select>
+                                                            <span class="help-block"
+                                                                *ngIf="(classesForm.submitted || addHorseControl.touched) && addHorseControl.invalid">Please
+                                                                select horse</span>
+                                                        </td>
+
+                                                        <td>{{classDetails.Entries}}</td>
+                                                        <td>
+                                                            <span *ngIf="(linkedClassId)">
+                                                                <mat-form-field>
+                                                                    <input matInput [min]="minDate"
+                                                                        [matDatepicker]="classDatePicker"
+                                                                        class="form-control"
+                                                                        #classAddDateControl=ngModel
+                                                                        name="classAddDateControl"
+                                                                        [(ngModel)]="classDate" required
+                                                                         readonly>
+
+                                                                    <mat-datepicker-toggle matSuffix
+                                                                        [for]="classDatePicker">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #classDatePicker></mat-datepicker>
+                                                                </mat-form-field>
+                                                                <span class="help-block"
+                                                                    *ngIf="(classesForm.submitted || classAddDateControl.touched) && classAddDateControl.invalid">Date
+                                                                    is
+                                                                    required</span>
+                                                            </span>
+
+                                                        </td>
+                                                        <td>
+                                                            <div *ngIf="showScratch" class="scratchimage">
+                                                                <img src="/assets/images/sizzer-icon-1.png">
+                                                            </div>
+                                                          
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </perfect-scrollbar>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="actionBtn text-right mb-4 mt-3">
+                                    <button (click)='tabGroup.selectedIndex = 2'
+                                        class="btn btn-red btnCss roundBtn">Previous</button>
+                                    <button (click)='tabGroup.selectedIndex = 4'
+                                        class="btn btn-red btnCss roundBtn">Next</button>
+                                    <a [routerLink]="['/perspective/class']" target="_blank"> <button type="button"
+                                            class="btn btn-red btnCss roundBtn">+ Class</button></a>
+                                    <button type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab class="nav-link nav nav-tabs" name="efinacials" label="Financials">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+
+                                    </div>
+                                    <div class="col-sm-12 col-lg-7">
+                                        <h3 class="tableCaption">Summary of Fees Billed to Exhibitor</h3>
+                                        <div class="table-responsive tableTab" id="contentscroll2">
+                                            <table class="table table-bordered tableBodyScroll">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Qty</th>
+                                                        <th>Fee</th>
+                                                        <th>View Details</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <perfect-scrollbar class="nicescrollBar-2">
+                                                    <tbody>
+                                                        <tr *ngFor="let fee of billedSummary">
+                                                            <td>{{fee.Qty}}</td>
+                                                            <td>{{fee.FeeType}}</td>
+                                                            <td>
+                                                                <div class="icon"></div>
+                                                                <button type="button" class="icon"
+                                                                    (click)="openTransactionDetails(fee.FeeTypeId)"><span></span><i
+                                                                        class="fa fa-external-link"
+                                                                        aria-hidden="true"></i></button>
+                                                            </td>
+                                                            <td>$ {{fee.Amount}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td (click)="showFinancialTransaction()" colspan="2"><button
+                                                                    class="btn btn-red btnCss roundBtn">Detail</button>
+                                                            </td>
+                                                            <td colspan="2"><b>TOTAL:</b> ${{feeBilledTotal}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </perfect-scrollbar>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-5">
+                                        <h3 class="tableCaption">Money Received from Exhibitor</h3>
+                                        <div class="table-responsive" id="contentscroll2">
+                                            <table class="table table-bordered tableBodyScroll">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <perfect-scrollbar class="nicescrollBar-4">
+                                                    <tbody>
+                                                        <tr *ngFor="let row of receievedSummary">
+                                                            <td>{{row.Date | date : 'MM-dd-yyyy'}}</td>
+                                                            <td>${{row.Amount}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2"><b>TOTAL:</b> ${{moneyReceivedTotal}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </perfect-scrollbar>
+                                            </table>
+                                            <table class="table table-bordered tableBodyScroll mt-4">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Outstanding:</td>
+                                                        <td>${{outstanding}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Over Payment:</td>
+                                                        <td>${{overPayment}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Refund:</td>
+                                                        <td>${{refunds}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <div class="actionBtn text-left p-0 ">
+                                                                <button (click)="recalculate()"
+                                                                    class="btn btn-red btnCss roundBtn">Recalculate</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class=" text-right mt-4 ftButtonSection mb-3">
+                                    <button (click)='tabGroup.selectedIndex = 3'
+                                        class="btn btn-red btnCss roundBtn">Previous</button>
+                                    <button (click)='tabGroup.selectedIndex = 5'
+                                        class="btn btn-red btnCss roundBtn">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab class="nav-link nav nav-tabs" label="Sponsor Giving">
+                        <div class="card dataEntriesTable">
+                            <form class="formScroll">
+                                <div class="card-body">
+                                    <div class="table-responsive" id="contentscroll2">
+                                        <table class="table table-bordered tableBodyScroll">
+                                            <thead>
+                                                <tr>
+                                                    <th>Horse </th>
+                                                    <th>Sponsor/Donor</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <perfect-scrollbar class="nicescrollBar-2">
+                                                <tbody>
+                                                    <tr *ngFor="let refund of sponsorRefunds">
+                                                        <td>{{refund.HorseName}}</td>
+                                                        <td>{{refund.SponsorName}}</td>
+                                                        <td>${{refund.Amount}}</td>
+                                                    </tr>
+                                                                                                                                                                                                                                                         
+                                                </tbody>
+                                            </perfect-scrollbar>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="actionBtn text-right mb-4 mt-3">
+                                    <button (click)='tabGroup.selectedIndex = 4'
+                                        class="btn btn-red btnCss roundBtn">Previous</button>
+                                    <button (click)='tabGroup.selectedIndex = 6'
+                                        class="btn btn-red btnCss roundBtn">Next</button>                                  
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                    <mat-tab class="nav-link nav nav-tabs" name="estatements" label="Statements">
+                        <div class="card dataEntriesTable">
+                            <div class="card-body">
+                                <div class="table-responsive tableTab ssReports" id="contentscroll2">
+                                    <table class="table table-bordered tableBodyScroll" id="reporttable">
+                                        <thead>
+                                            <tr>
+                                                <th>Report Name</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <perfect-scrollbar class="nicescrollBar-2">
+                                            <tbody>
+                                                <tr>
+                                                    <td> Exhibitor Entry and Stall Confirmation(#15)</td>
+
+                                                    <td>
+                                                        <button type="button"
+                                                        (click)="setreportType('display','ExhibitorRegistrationReport')" class="icon"><span></span>
+                                                        <i class="fa fa-eye"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('email','ExhibitorRegistrationReport')" class="icon"><span></span>
+                                                        <i class="fa fa-envelope-o"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('print','ExhibitorRegistrationReport')" class="icon"><span></span>
+                                                        <i class="fa fa-print"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('download','ExhibitorRegistrationReport')" class="icon"><span></span> 
+                                                        <i class="fa fa-download"
+                                                                aria-hidden="true"></i></button>
+                                                    </td>
+
+
+                                                </tr>                                          
+                                                <tr>
+                                                    <td>Exhibitor Sponsor Confirmation Statement(#3)</td>
+                                                    <td>
+                                                        <button type="button"
+                                                        (click)="setreportType('display','ExhibitorSponsorConfirmationStatement')" class="icon"><span></span>
+                                                        <i class="fa fa-eye"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('email','ExhibitorSponsorConfirmationStatement')" class="icon"><span></span>
+                                                        <i class="fa fa-envelope-o"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('print','ExhibitorSponsorConfirmationStatement')" class="icon"><span></span>
+                                                        <i class="fa fa-print"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('download','ExhibitorSponsorConfirmationStatement')" class="icon"><span></span> 
+                                                        <i class="fa fa-download"
+                                                                aria-hidden="true"></i></button>
+                                                    </td>
+
+                                                </tr>                                     
+                                                <tr>
+                                                    <td>Exhibitor Sponsor Refund Statement (#3a)</td>
+                                                    <td>
+                                                        <button type="button"
+                                                        (click)="setreportType('display','ExhibitorSponsorRefundStatement')" class="icon"><span></span>
+                                                        <i class="fa fa-eye"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('email','ExhibitorSponsorRefundStatement')" class="icon"><span></span>
+                                                        <i class="fa fa-envelope-o"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('print','ExhibitorSponsorRefundStatement')" class="icon"><span></span>
+                                                        <i class="fa fa-print"
+                                                                aria-hidden="true"></i></button>
+
+                                                        <button type="button"
+                                                        (click)="setreportType('download','ExhibitorSponsorRefundStatement')" class="icon"><span></span> 
+                                                        <i class="fa fa-download"
+                                                                aria-hidden="true"></i></button>
+                                                </td>
+                                                </tr>                                                                         
+                                            </tbody>
+                                        </perfect-scrollbar>
+                                    </table>
+                                   
+                                </div>
+                            </div>
+                            <div class="actionBtn text-right mb-3">
+                                <button (click)='tabGroup.selectedIndex = 5'
+                                    class="btn btn-red btnCss roundBtn">Previous</button>
+                                <button (click)='tabGroup.selectedIndex = 7'
+                                    class="btn btn-red btnCss roundBtn">Next</button>
+                                <!-- <button class="btn btn-red btnCss roundBtn" (click)="submitReports()">Submit</button> -->
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab class="nav-link nav nav-tabs" name="escans" label="Scans">
+                        <div class="card dataEntriesTable">
+                            <form     #scanForm="ngForm" (ngSubmit)="scanForm.valid && uploadDocument()">
+                                <div class="card-body">
+                                    <div class="browseDoc row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Choose Scans</label>
+                                                <select class="form-control" name="document" required
+                                                    [(ngModel)]="documentId"
+                                                    (change)="setDocumentType($event.target.value)"
+                                                    #documentControl="ngModel">
+                                                    <option [ngValue]="null" disabled>
+                                                        Select Document
+                                                    </option>
+                                                    <option *ngFor="let document of documentTypes"
+                                                        [value]="document.GlobalCodeId">{{document.CodeName}} 
+                                                    </option>
+                                                </select>
+                                                <span class="help-block"
+                                                    *ngIf="(scanForm.submitted || documentControl.touched) && documentControl.invalid">Please
+                                                    select document</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Choose File</label>
+                                                <div class="form-group">
+                                                    <input type="file" #file="ngModel" [(ngModel)]="pdf"
+                                                        (change)="onFileChange($event)" class="form-control" required
+                                                        name="file" />
+                                                    <span class="help-block"
+                                                        *ngIf="file.errors?.required && file.touched || scanForm.submitted && file.invalid">File
+                                                        is
+                                                        required</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive tableTab ssReports" id="contentscroll2">
+                                        <table class="table table-bordered tableBodyScroll">
+                                            <thead>
+                                                <tr>
+                                                    <th>Document Type</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <perfect-scrollbar class="nicescrollBar-2">
+                                                <tbody>
+                                                    <tr *ngFor="let document of scannedDocuments">
+                                                        <td>{{document.DocumentType}}</td>
+                                                        <td>
+                                                            <button type="button"
+                                                                (click)="viewDocument(document.DocumentPath)"
+                                                                class="icon"><span></span><i class="fa fa-eye"
+                                                                    aria-hidden="true"></i></button>
+                                                            <button type="button"
+                                                                (click)="openEmailModal(document.DocumentPath)"
+                                                                class="icon"><i class="fa fa-envelope-o"
+                                                                    aria-hidden="true"></i></button>
+                                                            <button type="button"
+                                                                (click)="printDocument(document.DocumentPath)"
+                                                                class="icon"><i class="fa fa-print"
+                                                                    aria-hidden="true"></i></button>
+                                                            <button type="button"
+                                                                (click)="downloadFile(document.DocumentPath)"
+                                                                class="icon"><i class="fa fa-download"
+                                                                    aria-hidden="true"></i></button>
+                                                            <button type="button"
+                                                                (click)="confirmRemoveDocument(document.ScansId,document.DocumentPath)"
+                                                                class="icon"><span></span> <i class="fa fa-trash-o"
+                                                                    aria-hidden="true"></i></button>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </perfect-scrollbar>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="actionBtn text-right mb-3">
+                                    <button (click)='tabGroup.selectedIndex =6'
+                                        class="btn btn-red btnCss roundBtn">Previous</button>
+                                    <button type="submit" class="btn btn-red btnCss roundBtn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+
+
+
+        </div>
+
+        <input   type="text" id="noauto" value="noauto" name="noauto" style="visibility: hidden;">
+    </div>
+
+
+</div>
+<!---->
+<div class="loaderWrapper" *ngIf="loading">
+    <div class="loader"></div>
+</div>

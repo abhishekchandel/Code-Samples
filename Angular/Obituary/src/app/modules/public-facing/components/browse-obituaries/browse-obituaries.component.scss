@@ -1,0 +1,157 @@
+.thumbBox {
+	position: relative;
+	margin: 0 0 30px 0;
+	min-height: 170px;
+	@media (max-width: 640px) {
+		text-align:center;
+	}
+	.thumbImage {
+		position: absolute;
+		left: 0;
+		border-radius: 4px;
+		@media (max-width: 640px) {
+			position: relative;
+			border-radius: 4px;
+			margin: 0 auto 20px;
+		}
+		img {
+			width: 150px;
+			height: 150px;
+			border: 1px solid #7DB4BF;
+			padding: 2px;
+		}
+	}
+	.thumbContent {
+		padding-left: 165px;
+		@media (max-width: 640px) {
+			padding-left: 0;
+			max-width: 500px;
+			margin: 0 auto;
+		}
+		h2 {
+			line-height: 24px;
+			font-size: 20px;
+			margin: 0 0 5px 0;
+			font-family: 'open_sanssemibold';
+			a {
+				color: #B4523D;
+			}
+		}
+		.narrative {
+			line-height: 22px;
+			margin: 0 0 6px 0;
+			font-size: 14px;
+			::ng-deep h1 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h2 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h3 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h4 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h5 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep h6 {
+				font-size: 14px!important;
+				line-height: 22px!important;
+			}
+			::ng-deep ul{
+			   padding-left: 20px;	
+			   li{
+				font-size: 14px!important;
+				line-height: 22px!important;   
+			   }
+			}
+		}
+		.readMore {
+			color: #B4523D;
+			font-style: italic;
+			font-size: 13px;
+			cursor: pointer;
+		}
+	}
+}
+
+.loaderDiv {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(255, 255, 255, 0.75);
+	height: 100%!important;
+	width: 100%!important;
+	z-index: 1;
+	.mat-progress-spinner {
+		width: 50px !important;
+		height: 50px !important;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		::ng-deep svg {
+			width: 50px!important;
+			height: 50px!important;
+			circle {
+				stroke: #b4523d;
+			}
+		}
+	}
+}
+
+.pagNav {
+	text-align: center;
+	width: 100%;
+	display: block;
+	::ng-deeppagination-controls {
+		width: 100%;
+		display: block;
+		.ngx-pagination {
+			padding-top: 10px!important;
+			padding-bottom: 10px!important;
+			display: flex!important;
+			justify-content: flex-end!important;
+			li {
+				height: 30px!important;
+				width: auto!important;
+				&.current {
+					background: #b4523d!important;
+					line-height: normal;
+					height: 30px!important;
+				}
+				&.disabled {
+					color: #808080!important;
+					cursor: default!important;
+					&:before {
+						position: absolute;
+						left: auto;
+					}
+					span {
+						margin: 0 0 0 16px;
+					}
+				}
+				a {
+					cursor: pointer;
+					&:after {
+						position: absolute;
+						right: auto;
+					}
+					&:focus{
+						outline:none;
+					 }
+					 &:hover{
+						background-color: transparent;
+					 }
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,109 @@
+.bannerBg{
+	// background-image: url("./assets/images/bgimagenew.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+    padding: 0 0 22px 0;
+    min-height:80vh;
+		.boxWrapper{
+				    box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.36);
+					border-color: #000000;
+					background: rgba(255, 255, 255, 0.47);
+					border-radius: 0px 0px 14px 14px;
+					max-width: 435px;
+					margin: 0 auto;
+				.boxHeder {
+					    background-color: transparent;
+						padding: 20px 0;
+						text-align: center;
+					h1 {
+							color: #A2968A;
+							font-size: 28px;
+						    text-transform: uppercase;
+							@media (max-width:991px)
+							{
+							 font-size:24px;
+							}
+						    @media (max-width:480px)
+							{
+							 font-size:20px;
+							}
+						}
+				}
+				.formBox{
+				 padding:20px 45px;
+				 text-align:center;
+					.form-group{
+						margin-bottom:15px;
+						label{
+						color: #464646;
+						font-size: 14px;
+						font-family: 'open_sansregular';
+						display: block;
+						margin: 0 0 5px 0;
+						text-align:left;
+						}
+					    span {
+							background: #fff;
+							display: block;
+							padding: 8px 12px;
+							border-radius: 4px;
+							text-align: left;
+							color: #464646;
+							font-size: 14px;
+						    font-family: 'open_sansregular';
+						}
+						p{
+						  font-size: 18px;
+                          color: #464646;
+						}
+						input{
+						height:35px;
+						font-size: 12px;
+						}
+						.form-control{
+						    background-color: rgba(162, 150, 138, 0.54) !important;
+						    color:#fff!important;
+							&::placeholder{
+							 color:#fff;
+							}
+						}
+
+					}
+					 .btnCss{
+						 width:200px;
+						 padding: 6px 14px;
+						}
+					.btn-blue {
+						width: auto;
+						padding: 10px 50px;
+						font-size: 16px;
+					}
+				}
+			}
+        }
+		.form-group {
+			position: relative;
+			.help-block {
+				display: none;
+				font-size: 13px;
+				color: #f00;
+				position: absolute;
+				bottom: -19px;
+				right: auto;
+			   left: 0;
+			   width: 100%;
+			   text-align: center;
+		}
+		.text-danger {
+			font-size: 13px;
+			color: #f00;
+			position: absolute;
+			right: 10px;
+			z-index: 2;
+		}
+			&.has-error {
+				.help-block {
+					display: block;
+				}
+			}
+		}

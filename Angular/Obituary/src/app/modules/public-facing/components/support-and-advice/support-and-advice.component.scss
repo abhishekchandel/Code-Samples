@@ -1,0 +1,253 @@
+.supportAdvice {
+	width: 100%;
+	.thumbImage {
+		width: 100%;
+		position: relative;
+		img {
+			width: 100%;
+		}
+		.imageText {
+			    background-color: #B4523D;
+				border-radius: 36px 36px 0px 0px;
+				padding: 30px;
+				position: absolute;
+				max-width: 500px;
+				bottom: 0;
+				right: 0;
+					@media (max-width:767px){
+                      position: relative;
+					  border-radius:0px;
+						max-width:100%;
+					}
+				  p{
+					color: #fff;
+					font-size: 16px;
+					margin: 0 0 12px 0;
+					  @media (max-width:1199px){
+						font-size:14px;
+					  }
+					  span{
+						  font-size:22px;
+						   @media (max-width:1199px){
+						   font-size:18px;
+					     }
+					  } 
+			 }
+		}
+	}
+	.greyBg{
+		background-color: #A2968A;
+		border-radius: 0px 0px 26px 0px;
+		height: 65px;
+	}
+	.thumbBoxDiv{
+		margin: -75px auto;
+        position: relative;
+         left: 50px;
+		@media (max-width:1199px){
+		margin: -50px auto;
+		}
+		@media (max-width:991px){
+		margin: -20px auto;
+		}
+		@media (max-width:767px){
+		max-width:400px;
+		margin:0 auto;
+		left:0px;
+		}
+		.thumbBoxRed{
+		   background-color: #B4523D;	
+		   width: 428px;
+		   height: 279px;
+		   box-shadow: 0px 0px 36px rgba(255,255,255,0.5), 0px 0px 36px rgba(255,255,255,0.5);
+		   transform: matrix(0.9816,0.1908,-0.1908,0.9816,-22,-38);
+			@media (max-width:1199px){
+			width:400px;
+			}
+			@media (max-width:991px){
+			 width:310px;height:250px;
+			}
+		 }
+          .thumbBoxBlue{
+		   border-width: 0px;
+			border-color: transparent;
+			background-color: #7DB4BF;
+			height: 279px;
+			padding: 30px 10px;
+			position: relative;
+			left: 12px;
+			width: 420px;
+			position: absolute;
+			top: -46px;
+			left: 1px;
+			  @media (max-width:1199px){
+			   width:370px;
+			  }
+			  @media (max-width:991px){
+			   width:310px;height:250px;
+			   }
+			  .icon {
+				position: absolute;
+				left:10px;
+				  i{
+					color: #7D1914;
+    				font-size: 52px
+				  }
+			}
+			  p{
+				padding: 0 0 0 41px;
+                margin: 30px 0 0 56px;
+				color: #fff;
+				font-size: 16px;
+				  @media (max-width:1199px){
+					font-size: 14px;
+					}
+				  span{
+						  font-size:22px;
+					  @media (max-width:1199px){
+						 font-size:18px;
+					  }
+					  } 
+			  }
+		}
+	}
+	.thumbBody{
+	   .thumbText{
+		    margin: -43px 0 28px 0;
+		   @media (max-width:767px){
+			 margin:0 0 28px 0;
+		   }
+		   h3{
+			    color: #fff;
+				text-transform: uppercase;
+				position: relative;
+				padding: 0 0 0 48px;
+			   @media (max-width:767px){
+				   color:#000;
+			   }
+			   .icon {
+					position: absolute;
+					left: 0;
+					top: -7px;
+				   .mobile{
+					  display:none;
+					   @media (max-width:767px){
+						  display:block;
+					   }
+				   }
+				   .desk{
+					  display:block;
+					   @media (max-width:767px){
+						  display:none;
+					   }
+				   }
+				}
+		   }
+		}
+		.thumbListing{
+			margin: 0 0 24px 0;
+			ul{
+				list-style: none;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				li{
+					flex: 1 0 50%;
+					font-size: 14px;
+					margin: 0 0 10px 0;
+					position: relative;
+					padding: 0 0 0 20px;
+					@media (max-width:991px){
+					font-size:12px;
+					}
+					&:before {
+					    content: "";
+						position: absolute;
+						left: 0;
+						top: 6px;
+						width: 10px;
+						height: 10px;
+						background-color: #7DB4BF;
+						border-radius: 50%;
+					}
+					a{
+					  color: #416575;
+					}
+				}
+			}
+		}
+		.pagNav {
+			text-align: center;
+			width: 100%;
+			display: block;
+			::ng-deeppagination-controls {
+				width: 100%;
+				display: block;
+				.ngx-pagination {
+					padding-top: 10px!important;
+					padding-bottom: 10px!important;
+					display: flex!important;
+					justify-content: flex-end!important;
+					li {
+						height: 30px!important;
+						width: auto!important;
+						&.current {
+							background: #b4523d!important;
+							line-height: normal;
+							height: 30px!important;
+						}
+						&.disabled {
+							color: #808080!important;
+							cursor: default!important;
+							&:before {
+								position: absolute;
+								left: auto;
+							}
+							span {
+								margin: 0 0 0 16px;
+							}
+						}
+						a {
+							cursor: pointer;
+							&:after {
+								position: absolute;
+								right: auto;
+							}
+							&:focus{
+								outline:none;
+							 }
+							 &:hover{
+								background-color: transparent;
+							 }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.loaderDiv {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(255, 255, 255, 0.75);
+	height: 100%!important;
+	width: 100%!important;
+	z-index: 1;
+	.mat-progress-spinner {
+		width: 50px !important;
+		height: 50px !important;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		::ng-deep svg {
+			width: 50px!important;
+			height: 50px!important;
+			circle {
+				stroke: #b4523d;
+			}
+		}
+	}
+}
+		

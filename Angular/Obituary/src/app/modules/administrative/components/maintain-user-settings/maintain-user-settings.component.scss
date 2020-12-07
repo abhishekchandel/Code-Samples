@@ -1,0 +1,318 @@
+.table-responsive {
+	.table {
+		tr{
+			th{
+				&:first-child {
+					width: 80px!important;
+					
+			}
+			}
+		}
+		tbody {
+			tr {
+				td {
+					&:first-child {
+						width: 80px!important;
+						@media screen and (max-width:640px) {
+							width:100%!important;
+						}
+				}
+			    .form-check {
+					margin: 0px;
+					text-align: center;
+					padding: 0px;
+						.checkbox {
+							background-color: #fff;
+							display: inline-block!important;
+							height: 20px;
+							margin: 0 0.25em;
+							width: 20px;
+							border-radius: 4px;
+							border: 1px solid #ccc;
+							position: relative;
+							vertical-align: middle;
+							span {
+								display: block;
+								height: 20px;
+								position: absolute;
+								width: 20px;
+								padding: 0;
+								top: 0;
+								left: 0;
+								&:after {
+									-moz-transform: scaleX(-1) rotate(135deg);
+									-ms-transform: scaleX(-1) rotate(135deg);
+									-webkit-transform: scaleX(-1) rotate(135deg);
+									transform: scaleX(-1) rotate(135deg);
+									-moz-transform-origin: left top;
+									-ms-transform-origin: left top;
+									-webkit-transform-origin: left top;
+									transform-origin: left top;
+									border-right:2px solid #fff;
+									border-top: 2px solid #fff;
+									content: '';
+									height: 14px;
+									left: 3px;
+									position: absolute;
+									top: 12px;
+									width: 6px;
+								}
+							}
+							input {
+								display: none;
+								&:checked {
+									&+span {
+										&:after {
+											-webkit-animation: check 0.8s;
+											-moz-animation: check 0.8s;
+											-o-animation: check 0.8s;
+											animation: check 0.8s;
+											border-color: #555;
+										}
+									}
+									&+.primary {
+										&:after {
+											border-color: #A2968A;
+										}
+									}
+								}
+							}
+						}
+						.checkActive {
+							display: inline-block;
+							vertical-align: middle;
+							height: 28px;
+							line-height: 28px;
+							padding: 0 14px 0 3px;
+							color:#fff;
+						}
+					@media screen and (max-width:640px){
+						text-align: right;
+					}
+				}
+				&.lastCol {
+					width: 200px;
+					@media screen and (max-width:640px) {
+						width:100%!important;
+					}
+				}
+			}
+		}
+	}
+}
+}
+.loaderDiv {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(255, 255, 255, 0.75);
+	height: 100%!important;
+	width: 100%!important;
+	z-index: 1;
+	.mat-progress-spinner {
+		width: 50px !important;
+		height: 50px !important;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		::ng-deep svg {
+			width: 50px!important;
+			height: 50px!important;
+			circle {
+				stroke: #b4523d;
+			}
+		}
+	}
+}
+@media screen and (max-width:767px){
+	tbody {
+		width: 100%;
+		display: table;
+		vertical-align: middle;
+	}
+}
+.adminWrapper {
+		box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.36);
+		border-color: #000000;
+		background-color: #CBD3BB;
+		border-radius: 0px 0px 14px 14px;
+		margin: 0 auto;
+		margin-right: 75px;
+		@media screen and (max-width:1024px){
+			margin-right: 0px;
+		}
+		@media screen and (max-width:767px){
+		margin:0 auto 30px;
+		}
+		.wrapper {
+			padding: 15px;
+			@media screen and (max-width:1199px){     
+				margin-top: 65px;
+			}
+			@media screen and (max-width:767px){     
+				margin-top: 45px;
+			}
+			
+			.boxHeder {
+				background-color: #fff;
+				padding:12px;
+				text-align: center;
+				
+				h1 {
+					color: #a2968a;
+					font-size:24px;
+					@media (max-width:991px)
+					{
+					 font-size:20px;
+					}
+					@media (max-width:767px)
+					{
+					 font-size:18px;
+					}
+					@media (max-width:576px)
+					{
+					 font-size:18px;
+					}
+				}
+			}
+			.whiteSpace{
+			 height:15px;
+			}
+			.previewBtn {
+				padding: 20px 0;
+				text-align: center;
+			}
+			.text {
+				max-width: 800px;
+				margin: 0 auto 20px;
+				p {
+					line-height: 20px;
+					font-size:14px;
+					color: #000;
+				}
+			}
+			.cardDiv {
+			     margin:0 0 20px 0;
+				.cardHeader {
+					background-color: #A2968A;
+					line-height: 23px;
+					font-size: 19px;
+					color: #FFFFFF;
+					padding: 15px;
+					text-align: center;
+					 @media screen and (max-width:767px)
+					 {
+					 font-size:16px;padding:10px;
+					}
+				}
+				.cardBody {
+					padding:20px 40px;
+					border: 1px solid #A2968A;
+					height: 100%;
+					border-radius: 0 0px 4px 4px;
+					@media (max-width:991px){
+					padding:15px;
+					}
+					&.locationpage {
+						min-height: auto;
+					}
+					.form-group {
+						margin-bottom:25px;
+						textarea {
+							&.form-control {
+								height:200px;
+								padding:20px;
+							}
+						}
+						label{
+						 font-size:14px;
+						}
+					}
+				}
+			}
+			.buttons {
+				text-align: center;
+				margin-top:20px;
+				.btnCss {
+					margin: 0 5px 10px 0;
+				}
+			}
+	
+		}
+	}
+	.navbar{
+		padding:0;
+		margin-bottom: 4px;
+	}
+	.pagNav{
+		text-align: center;
+    width: 100%;
+    display: block;
+		::ng-deeppagination-controls{
+			width: 100%;
+			display: block;
+			.ngx-pagination{
+				padding-top: 10px!important;
+				padding-bottom: 10px!important;
+				display: flex!important;
+				justify-content: flex-end!important;
+				li{
+					height: 30px!important;
+					width: auto!important;
+                  &.current{
+					background: #b4523d!important;
+					line-height: normal;
+					height: 30px!important;
+				  }
+				  &.disabled{
+					color: #808080!important;
+					cursor: default!important;
+					&:before{
+					    position: absolute;
+    					left: auto;
+					}
+					span{
+						margin: 0 0 0 16px;
+					}
+				  }
+				  a{
+					 cursor: pointer;
+					 &:after{
+						position: absolute;
+						right: auto;
+					 }
+				  }
+				}
+			  }
+		}
+	}
+	.searchPanel {
+		border-width: 0px;
+		border-color: transparent;
+		background-color: #B4523D;
+		border-radius: 0px 0px 14px 14px;
+		position: absolute;
+		right: 0;
+		top: 95px;
+		z-index: 9;
+		@media screen and (max-width:1199px){     
+			top: 82px;
+		}
+
+		@media screen and (max-width:1024px){     
+			top: 73px;
+		}
+		a {
+			color: #fff;
+			display: block;
+			padding: 15px;
+			font-size: 13px;
+			i {
+				padding-left: 5px;
+			}
+		}
+		&:hover {
+			background-color: #7D1914;
+		}
+	}

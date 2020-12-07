@@ -1,0 +1,177 @@
+.notifications{
+	.thumbColor{
+	  background-color:#7DB4BF;
+	  box-shadow: 6px 6px 8px rgba(0,0,0,0.36);
+	  padding:30px 100px;
+		@media (max-width:767px){
+			padding:30px;
+			}
+		.thumbImage {
+			text-align: right;
+			@media (max-width:767px){
+		     text-align: left;
+			}
+			img{
+			  max-width:100%;
+			}
+		}
+		.thumbText {
+		   margin: 122px 0 30px -50px;
+			@media (max-width:767px){
+			margin: 0 0 30px 0;
+			}
+			h2{
+			color: #fff;
+			text-transform: uppercase;
+			margin: 0 0 14px 0;
+			}
+			h3{
+				color: #b4523d;
+				text-transform: uppercase;
+				}
+			span{
+				h3{
+				color: #b4523d;
+				text-transform: uppercase;
+				margin: -65px 0 30px 67px;
+				@media (max-width:767px){
+					margin: 0 0 30px 0;
+					}
+				}
+			}
+			p{
+			color: #fff;
+			font-size: 16px;
+			margin: 0 0 15px 0;
+				span{
+				 font-size:20px;
+				}
+			}
+		}
+		.thumbBox {
+			position: relative;
+			margin: 0 0 30px -51px;
+			text-align:left;
+			@media (max-width:767px){
+			margin: 0 0 30px 0;
+			}
+			 .form-group {
+			margin-bottom:30px;
+			label{
+			    margin: 0 0 4px 0;
+				color: #fff;
+				font-size: 13px;
+				text-align: left;
+				display: block;
+				}
+			}
+		}
+	}
+}
+.form-group {
+	position: relative;
+	.help-block {
+		display: none;
+		font-size: 13px;
+		color: #f00;
+		position: absolute;
+		left: 0;
+	}
+	&.has-error {
+		.help-block {
+			display: block;
+		}
+	}
+	.mat-form-field {
+		display: block;
+		position: relative;
+		text-align: left;
+		left: 0;
+		::ng-deep .mat-form-field-wrapper {
+			padding-bottom: 0;
+			.mat-form-field-infix {
+				padding: 0;
+				border-top: 0;
+				.form-control {
+					background-color: #F7F9FB!important;
+					height: 32px;
+					font-size: 12px!important;
+					border-radius: 4px!important;
+					border: 1px solid #A2968A!important;
+					padding: 3px 6px!important;
+					margin-bottom: 0;
+				}
+				.mat-form-field-label-wrapper {
+					top: 0;
+					padding-top: 0;
+					.mat-form-field-label {
+						font-size: 12px;
+						position: absolute;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						line-height: 32px;
+						top: 0;
+						margin: 0;
+						span {
+							position: relative;
+							left: 7px;
+						}
+					}
+				}
+			}
+			.mat-form-field-suffix {
+				white-space: nowrap;
+				flex: none;
+				position: absolute;
+				right: 0;
+				top: 8px;
+				.mat-datepicker-toggle {
+					position: absolute;
+					right: 0;
+					top: 0px;
+					button{
+					 &:focus{
+					  outline:none;
+					 }
+					}
+				}
+			}
+			.mat-form-field-underline {
+				display: none;
+			}
+			.mat-form-field-subscript-wrapper {
+				margin: 0px;
+			}
+		}
+	}
+}	
+
+button.btn.btn-blue.btnCss {
+    background-color: #A2968A;
+}
+
+.loaderDiv {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(255, 255, 255, 0.75);
+	height: 100%!important;
+	width: 100%!important;
+	z-index: 1;
+	.mat-progress-spinner {
+	width: 50px !important;
+	height: 50px !important;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	::ng-deep svg {
+	width: 50px!important;
+	height: 50px!important;
+	circle {
+	stroke: #b4523d;
+	}
+	}
+	}
+	}

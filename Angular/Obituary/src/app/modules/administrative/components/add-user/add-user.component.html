@@ -1,0 +1,113 @@
+<div class="tab-pane  fade show active" id="menu1">
+   <div class="cardDiv">
+      <div class="cardHeader"> Add User</div>
+      <form #userForm="ngForm" name="userForm" (ngSubmit)="userForm.valid &&onSubmit(userForm)" novalidate>
+         <div class="cardBody">
+            <div class="row">
+               <div class="col-sm-6">
+                  <div class="form-group" [class.has-error]="isInvalidField(userForm,loginName)">
+                     <span class="text-danger">*</span>
+                     <input type="text" class="form-control" name="loginName" appTitleCase #loginName="ngModel"
+                        [(ngModel)]="user.loginName" placeholder="User Name" required>
+                     <span class="help-block" *ngIf="loginName.errors?.required">User Name is
+                        required</span>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-group" [class.has-error]="isInvalidField(userForm,personName)">
+                     <span class="text-danger">*</span>
+                     <input type="text" class="form-control" name="personName" #personName="ngModel" appTitleCase
+                        [(ngModel)]="user.personName" placeholder="Name of Person" required>
+                     <span class="help-block" *ngIf="personName.errors?.required">Name of
+                        Person
+                        is
+                        required</span>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-group" [class.has-error]="isInvalidField(userForm,password)">
+                     <span class="text-danger">*</span>
+                     <input type="password" class="form-control" name="password" #password="ngModel"
+                        [(ngModel)]="user.password" placeholder="Password" minlength="8" required>
+                     <span class="help-block" *ngIf="password.errors?.required">Password is
+                        required</span>
+                     <span class="help-block" *ngIf="password.errors?.minlength">Password must be at least
+                        8 characters</span>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-group" [class.has-error]="isInvalidField(userForm,confirmPassword)">
+                     <span class="text-danger">*</span>
+                     <input type="password" class="form-control" name="confirmPassword" #confirmPassword="ngModel"
+                        appConfirmEqualValidator="password" [(ngModel)]="user.confirmPassword"
+                        placeholder="Confirm Password" required>
+                     <span class="help-block" *ngIf="confirmPassword.errors?.required">Confirm
+                        Password
+                        is
+                        required</span>
+                     <span class="help-block" *ngIf="confirmPassword.errors?.notEqual">
+                        Passwords do not match
+                     </span>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-group" [class.has-error]="isInvalidField(userForm,userType)">
+                     <span class="text-danger">*</span>
+                     <select class="form-control" name="userType" #userType="ngModel" [(ngModel)]="user.userType"
+                        required>
+                        <option value="null" disabled selected="true">
+                           Type
+                           of user
+                        </option>
+                        <option *ngFor="let profile of profileTypes" [value]="profile.GlobalCodeId">
+                           {{profile.CodeName}}
+                        </option>
+                     </select>
+                     <span class="help-block" *ngIf="userType.errors?.required">User Type is
+                        required</span>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-group" [class.has-error]="isInvalidField(userForm,email)">
+                     <span class="text-danger">*</span>
+                     <input type="email" class="form-control" placeholder="Enter Email" id="email" #email="ngModel"
+                        name="email" [(ngModel)]="user.email"
+                        pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
+                     <span class="help-block" *ngIf="email.errors?.required">Email is
+                        required</span>
+                     <span class="help-block" *ngIf="email.errors?.pattern">Email is
+                        invalid</span>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-group" [class.has-error]="isInvalidField(userForm,phone)">
+                     <span class="text-danger">*</span>
+                     <input type="text" class="form-control" placeholder="Phone Number" id="phone" #phone="ngModel"
+                        name="phone" [(ngModel)]="user.phone" mask="(000) 000-0000" minlength="10" required>
+                     <span class="help-block" *ngIf="phone.errors?.required">Phone Number is
+                        required</span>
+                     <span class="help-block" *ngIf="phone.errors?.minlength">Phone Number is
+                        invalid</span>
+
+                  </div>
+               </div>
+               <div class="col-sm-12">
+                  <div class="form-group">
+                     <textarea class="form-control" name="comments" #name="ngModel" appTitleCase
+                        [(ngModel)]="user.comments" placeholder="Comments"></textarea>
+                  </div>
+               </div>
+               <div class="col-sm-12">
+                  <div class="buttons">
+                     <button class="btn btn-red btnCss" [routerLink]="['/admin/admin-panel']">Cancel</button> <button
+                        type="submit" [disabled]="disableButton" class="btn btn-red btnCss">Submit</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+      <div class="loaderDiv" *ngIf="loading">
+         <mat-spinner></mat-spinner>
+      </div>
+   </div>
+</div>

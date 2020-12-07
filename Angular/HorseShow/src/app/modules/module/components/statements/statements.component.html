@@ -1,0 +1,258 @@
+<div class="sortData mb-4">
+    <h4>Modules Reports Menu</h4>
+</div>
+<form>
+    <div class="gridTable addBlueStrip">
+        <div class="table-responsive">
+            <table class="table table-bordered tableBodyScroll">
+                <thead>
+                    <tr>
+                        <th>Report Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td (click)="selectReport(0)" [ngClass]="{'blueRow': selectedRowIndex == 0}">
+                            <div class="mmReportList"> Exhibitor Sponsor Confirmation(#3)
+
+                                <span id="downarrow3" style="display: block;"  (click)="showpopupbox('showpopupbox3','downarrow3','uparrow3')">
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </span>
+                                <span id="uparrow3" style="display: none;" (click)="hidepopupbox('showpopupbox3','uparrow3','downarrow3')">
+                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                </span>
+
+                                <div class="mmHoverContent" id="showpopupbox3">
+                                    <div class="prePostField mb-4 multiCheckBtn">
+                                        <div class="form-group">
+                                            <label class="radioBtn">
+                                                <input type="radio" value="all"
+                                                    [checked]="allExhibitorSponsorConfirm==true"
+                                                    (change)="checkChange($event.target.value,'exhibitorsponsorconfirm')"
+                                                    name="mmr1">
+                                                <span class="checkmark"></span>All
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="radioBtn">
+                                                <input type="radio" value="one" name="mmr2"
+                                                    [checked]="allExhibitorSponsorConfirm==false"
+                                                    (change)="checkChange($event.target.value,'exhibitorsponsorconfirm')">
+                                                <span class="checkmark"></span>One Exhibitors
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <input class="form-control" placeholder="Select Exhibitor"
+                                            name="exhibitorsponsorconfirm" #exhibitorsponsorconfirm="ngModel"
+                                            [(ngModel)]="selectedexhibitorsponsorconfirmname"
+                                            (keyup)="filterExhibitorSponsorConfirm($event.target.value,true)"
+                                            value="{{selectedexhibitorsponsorconfirmname}}" autocomplete="new-password"
+                                            type="search" [matAutocomplete]="ExhibitorSponsorConfirmauto">
+
+
+                                        <mat-autocomplete #ExhibitorSponsorConfirmauto="matAutocomplete">
+                                            <mat-option *ngFor="let exhibitor of filteredExhibitorsList"
+                                                [value]="exhibitor.FirstName"
+                                                (onSelectionChange)="getFilteredExhibitorSponsorConfirm(exhibitor.ExhibitorId,$event);">
+                                                {{exhibitor.FirstName}} {{exhibitor.LastName}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <button type="button"
+                                (click)="setreportType('display','ExhibitorSponsorConfirmationStatement')"
+                                class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                            <button type="button"
+                                (click)="setreportType('email','ExhibitorSponsorConfirmationStatement')"
+                                class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                            <button type="button"
+                                (click)="setreportType('print','ExhibitorSponsorConfirmationStatement')"
+                                class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                            <button type="button"
+                                (click)="setreportType('download','ExhibitorSponsorConfirmationStatement')"
+                                class="icon"><span></span>
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                        </td>
+
+
+                    </tr>
+
+                    <tr>
+
+                        <td (click)="selectReport(1)" [ngClass]="{'blueRow': selectedRowIndex == 1}">
+                            <div class="mmReportList">Group Statement Report(#17)
+                                <span id="downarrow17" style="display: block;"  (click)="showpopupbox('showpopupbox17','downarrow17','uparrow17')">
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </span>
+                                <span id="uparrow17" style="display: none;" (click)="hidepopupbox('showpopupbox17','uparrow17','downarrow17')">
+                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                </span>
+
+                                <div class="mmHoverContent" id="showpopupbox17">
+                                    <div class="prePostField mb-4 multiCheckBtn">
+                                        <div class="form-group">
+                                            <label class="radioBtn">
+                                                <input type="radio" value="all" [checked]="allGroupStatement==true"
+                                                    (change)="checkChange($event.target.value,'groupstatementreport')"
+                                                    name="mmr3">
+                                                <span class="checkmark"></span>All
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="radioBtn">
+                                                <input type="radio" value="one" name="mmr4"
+                                                    [checked]="allGroupStatement==false"
+                                                    (change)="checkChange($event.target.value,'groupstatementreport')">
+                                                <span class="checkmark"></span>One Groups
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <input class="form-control" placeholder="Select Group" name="groupstatement"
+                                            #groupstatement="ngModel" [(ngModel)]="selectedgroupstatementname"
+                                            (keyup)="filterGroupStatement($event.target.value,true)"
+                                            value="{{selectedgroupstatementname}}" autocomplete="new-password"
+                                            type="search" [matAutocomplete]="GroupStatementauto">
+
+
+                                        <mat-autocomplete #GroupStatementauto="matAutocomplete">
+                                            <mat-option *ngFor="let group of filteredGroupsList"
+                                                [value]="group.GroupName"
+                                                (onSelectionChange)="getFilteredGroupStatement(group.GroupId,$event);">
+                                                {{group.GroupName}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <button type="button" (click)="setreportType('display','GroupStatementReport')"
+                                class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                            <button type="button" (click)="setreportType('email','GroupStatementReport')"
+                                class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                            <button type="button" (click)="setreportType('print','GroupStatementReport')"
+                                class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                            <button type="button" (click)="setreportType('download','GroupStatementReport')"
+                                class="icon"><span></span>
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                        </td>
+                    </tr>
+
+                    <tr>
+
+                        <td (click)="selectReport(2)" [ngClass]="{'blueRow': selectedRowIndex == 2}">
+                            <div class="mmReportList">Exhibitor Sponsor Refund Statement(#3a)
+                                <span id="downarrow3a" style="display: block;"  (click)="showpopupbox('showpopupbox3a','downarrow3a','uparrow3a')">
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </span>
+                                <span id="uparrow3a" style="display: none;" (click)="hidepopupbox('showpopupbox3a','uparrow3a','downarrow3a')">
+                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                </span>
+
+                                <div class="mmHoverContent" id="showpopupbox3a">
+                                    <div class="prePostField mb-4 multiCheckBtn">
+                                        <div class="form-group">
+                                            <label class="radioBtn">
+                                                <input type="radio" value="all"
+                                                    [checked]="allExhibitorSponsorRefund==true"
+                                                    (change)="checkChange($event.target.value,'exhibitorsponsorrefund')"
+                                                    name="mmr5">
+                                                <span class="checkmark"></span>All
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="radioBtn">
+                                                <input type="radio" value="one" name="mmr6"
+                                                    [checked]="allExhibitorSponsorRefund==false"
+                                                    (change)="checkChange($event.target.value,'exhibitorsponsorrefund')">
+                                                <span class="checkmark"></span>One Exhibitors
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <input class="form-control" placeholder="Select Exhibitor"
+                                            name="exhibitorsponsorrefund" #exhibitorsponsorrefund="ngModel"
+                                            [(ngModel)]="selectedexhibitorsponsorrefundname"
+                                            (keyup)="filterExhibitorSponsorRefund($event.target.value,true)"
+                                            value="{{selectedexhibitorsponsorrefundname}}" autocomplete="new-password"
+                                            type="search" [matAutocomplete]="ExhibitorSponsorRefundauto">
+
+
+                                        <mat-autocomplete #ExhibitorSponsorRefundauto="matAutocomplete">
+                                            <mat-option *ngFor="let exhibitor of filteredExhibitorsList2"
+                                                [value]="exhibitor.FirstName"
+                                                (onSelectionChange)="getFilteredExhibitorSponsorRefund(exhibitor.ExhibitorId,$event);">
+                                                {{exhibitor.FirstName}} {{exhibitor.LastName}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <button type="button" (click)="setreportType('display','ExhibitorSponsorRefundStatement')"
+                                class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                            <button type="button" (click)="setreportType('email','ExhibitorSponsorRefundStatement')"
+                                class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                            <button type="button" (click)="setreportType('print','ExhibitorSponsorRefundStatement')"
+                                class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                            <button type="button" (click)="setreportType('download','ExhibitorSponsorRefundStatement')"
+                                class="icon"><span></span>
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+    </div>
+
+</form>
+<div class="loaderWrapper" *ngIf="loading">
+    <div class="loader"></div>
+</div>

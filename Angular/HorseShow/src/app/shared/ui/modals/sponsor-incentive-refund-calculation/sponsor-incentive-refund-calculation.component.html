@@ -1,0 +1,98 @@
+<div id="classSplit" class="modal fade trashPopup" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form #addIncentiveForm="ngForm" (ngSubmit)="addIncentiveForm.valid && addUpdateIncentive()" class="formScroll">
+                <div class="modal-header">
+                    <button (click)="onDismiss()"type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sponsor Incentive Refund Calculation</h4>
+                </div>
+
+                <div class="modal-body text-center">
+                    <div class="table-responsive emTable">
+                        <table class="table table-bordered tableBodyScroll">
+                                <thead>
+                                    <tr>
+                                        <th>Once Reach Sponsor Amount </th>
+                                        <th>Then Award Incentive</th>
+                                        <th>Update</th>
+                                        <th>Remove</th>
+                                    </tr>
+                                </thead>
+                                <perfect-scrollbar class="nicescrollBar-2">
+                                <tbody>
+                                    <tr *ngFor="let incentive of sponsorIncentiveList;let i=index">
+                                        <td *ngIf="updateMode==false || (updateMode==true && updateRowIndex!=i)">${{incentive.SponsorAmount}} </td> 
+                                        <td *ngIf="updateMode==true && updateRowIndex==i">
+                                            <span *ngIf="updateMode"> <input #editAmount="ngModel"  appOnlynumber name="editAmount"  required [(ngModel)]="editIncentiveAmount" type="text" class="form-control" /></span>
+                                         </td>                                      
+                                        <td *ngIf="updateMode==false || (updateMode==true && updateRowIndex!=i)">{{incentive.Award}}</td>
+                                        <td *ngIf="updateMode==true && updateRowIndex==i">
+                                            <span *ngIf="updateMode"> <input #editAward="ngModel"  appOnlynumber name="editAward"  required [(ngModel)]="editIncentiveAward" type="text" class="form-control" /></span>
+                                         </td>
+                                        <td data-label="Update" class="non-print-element">
+                                           
+                                            <button
+                                            *ngIf="updateMode==false  || (updateMode==true && updateRowIndex!=i)"
+                                            type="button" class="icon"
+                                            (click)="editIncentive(i,incentive)">
+                                            <span></span> <i class="fa fa-edit"
+                                                aria-hidden="true"></i>
+                                        </button>
+
+                                     
+                                        <button 
+                                            *ngIf="updateMode==true && updateRowIndex==i"
+                                            type="button" class="icon"
+                                            (click)="updateIncentive(incentive)"><i
+                                                class="fa fa-pencil-square-o"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                        <button *ngIf="updateMode==true && updateRowIndex==i"
+                                            type="button" class="icon" (click)="cancelEdit()"><i
+                                                class="fa fa-times-circle" aria-hidden="true"></i>
+                                        </button>
+
+                                        </td>
+
+                                        <td>
+                                            <button (click)="confirmRemoveIncentive(incentive.SponsorIncentiveId)" type="button" class="icon" ><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </td>
+                                    </tr>                                                                  
+                                    <tr>
+                                        <td>
+                                        <input type="text" #amount="ngModel" [(ngModel)]="sponsorIncentive.Amount" name="IncentiveAmount" required class="form-control" /> 
+                                        <span class="help-block"
+                                        *ngIf="(addIncentiveForm.submitted || amount.touched) && amount.invalid">
+                                    Please enter amount
+                                    </span>  
+                                        </td>
+                                        <td>
+                                            <input type="text" #award="ngModel" [(ngModel)]="sponsorIncentive.Award" name="awardIncentive" required class="form-control" /> 
+                                            <span class="help-block"
+                                            *ngIf="(addIncentiveForm.submitted || award.touched) && award.invalid">
+                                        Please enter award incentive
+                                        </span>  
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                       
+                                    </tr>
+                                </tbody>
+                                </perfect-scrollbar>
+
+                            </table>
+                    </div>	
+                </div>
+               
+                <div class="modal-footer text-center">					
+                    <button type="button" (click)="onDismiss()" class="btn btn-default" data-dismiss="modal">Back</button>
+                    <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>	
+<div class="loaderWrapper" *ngIf="loading">
+	<div class="loader"></div>
+</div>

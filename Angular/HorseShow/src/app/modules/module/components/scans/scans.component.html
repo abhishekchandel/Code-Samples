@@ -1,0 +1,127 @@
+<div class="innerContent">
+    <div class="sortData searchForm">
+        <form class="form-inline">
+             <!-- <div class="form-control">
+                 <i class="fa fa-search" aria-hidden="true"></i>
+                 <input class= "form-control-sm" type="text" placeholder="Search" aria-label="Search">                 
+            </div>  -->
+        </form>
+    </div>
+
+    <div class="gridTable addBlueStrip">
+        <div class="table-responsive">
+            <table class="table table-bordered tableBodyScroll">
+                <thead>
+                    <tr>
+                        <th>Show Year</th>
+                        <th>Pre Entry Cutoff Date</th>
+                        <th>Pre Entry Fee</th>
+                        <th>Post Entry Fee</th>
+                        <th>Date Created</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <perfect-scrollbar class="nicescrollBar-1">
+                    <tbody>
+                        <tr *ngFor="let summary of yearlyMaintenanceSummaryList ;let i = index " (click)="highlight(summary.YearlyMaintenanceId,i)" [ngClass]="{'blueRow': selectedRowIndex == i}">
+                            <td data-label="Show Year">{{summary.Year}}</td>
+                            <td data-label="Pre Entry Cutoff Date">{{summary.PreEntryCutOffDate | date : 'MM-dd-yyyy'}}</td>
+                            <td data-label="Pre Entry Free">{{summary.PreEntryFee}}</td>
+                            <td data-label="Post Entry Free">{{summary.PostEntryFee}}</td>
+                            <td data-label="Date Created">{{summary.DateCreated | date : 'MM-dd-yyyy'}}</td>
+                            <td data-label="Remove">
+                                <button type="button" class="icon" (click)="confirmRemoveYear($event,summary.YearlyMaintenanceId)"><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </perfect-scrollbar>
+            </table>
+            <div>
+                <mat-paginator  #paginator [length]="totalItems" (page)="getNext($event)" [pageSizeOptions]="[5]">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+
+    <div class="dataDesc gridTable twoCol">
+        <table class="table table-bordered tableBodyScroll">
+            <tbody>
+                <tr>
+                    <td><span class="blueBox"></span><b>Horse Show Year:</b> {{yearlyMaintenanceSummary.Year}}</td>
+                    <td><span class="blueBox"></span><b>Horse Show Location:</b> &nbsp; {{location}}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="sponTabbing tabAutoWidth mt-3">
+        <div class="tab-content">
+            <form>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="comnCaption mb-4">Scanned Document</h3>
+                        <div class="form-group maxWidth mb-5">
+                            <select class="form-control" name="document" 
+                            [(ngModel)]="documentId"
+                            (change)="setDocumentType($event.target.value)"
+                            #documentControl="ngModel">
+                            <option [ngValue]="null" disabled>
+                                Select Document
+                            </option>
+                            <option *ngFor="let document of documentTypes"
+                                [value]="document.GlobalCodeId">{{document.CodeName}} 
+                            </option>
+                        </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive tableTab ssReports" id="contentscroll2">
+                                    <table class="table table-bordered tableBodyScroll">
+                                        <thead>
+                                            <tr>
+                                                <th>Choose a Document to View</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                            <tbody>
+                                                <tr *ngFor="let document of documentsList">
+                                                    <td>{{document.DocumentName}}</td>
+                                                    <td>
+                                                        <button type="button"
+                                                            (click)="viewDocument(document.DocumentPath)"
+                                                            class="icon"><span></span><i class="fa fa-eye"
+                                                                aria-hidden="true"></i></button>
+                                                        <button type="button"
+                                                            (click)="openEmailModal(document.DocumentPath)"
+                                                            class="icon"><i class="fa fa-envelope-o"
+                                                                aria-hidden="true"></i></button>
+                                                        <button type="button"
+                                                            (click)="printDocument(document.DocumentPath)"
+                                                            class="icon"><i class="fa fa-print"
+                                                                aria-hidden="true"></i></button>
+                                                        <button type="button"
+                                                            (click)="downloadFile(document.DocumentPath)"
+                                                            class="icon"><i class="fa fa-download"
+                                                                aria-hidden="true"></i></button>                                                     
+                                                    </td>
+                                                </tr>                                                                                            
+                                            </tbody>
+                                    </table>
+
+                                  
+                                </div> 
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </form>
+           
+        </div>
+    </div>
+
+</div>
+<div class="loaderWrapper" *ngIf="loading">
+	<div class="loader"></div>
+</div>

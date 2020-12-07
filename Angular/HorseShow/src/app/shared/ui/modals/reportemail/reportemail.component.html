@@ -1,0 +1,40 @@
+<div id="confirmAction" class="modal fade trashPopup" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <button (click)="onDismiss()" type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Send Email</h4>
+        </div>
+        <div class="modal-body text-center">
+           
+           
+           
+            <div class="assignPopContent">
+              
+            
+                <div class="moveField">
+                    <input type="email" name="reportemail" placeholder="Email Id" class="form-control"
+                    #reportemail="ngModel"
+                    [(ngModel)]="reportsemailid" 
+                    (change)="setreportemail($event.target.value)"
+                    required>
+                   
+                    <span class="help-block errorMessageText" 
+                    *ngIf="reportemail.errors?.required &&  reportemail.touched"
+                    >
+                    Email Id is required</span>
+
+                </div>
+
+                <div class="text-center col-sm-12 mb-3 btnSpace">
+                    <button type="button" class="btn btn-default roundBtn" (click)="submit()" >Submit</button>
+                    <button type="button" class="btn btn-default roundBtn" (click)="onDismiss()" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+</div>

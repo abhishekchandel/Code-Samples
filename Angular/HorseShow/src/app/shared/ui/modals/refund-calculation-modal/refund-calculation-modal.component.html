@@ -1,0 +1,115 @@
+<div id="classSplit" class="modal fade trashPopup" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form #addRefundForm="ngForm" (ngSubmit)="addRefundForm.valid && addRefund()" class="formScroll">
+            <div class="modal-header">
+                <button (click)="onDismiss()"type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Refund Calculations for Cancellations ( Scratch )</h4>
+            </div>
+            <div class="modal-body text-center">
+                        <div class="table-responsive emTable">
+                            <table class="table table-bordered tableBodyScroll">
+                                    <thead>
+                                        <tr>
+                                            <th>Date After</th>
+                                            <th>Date Before</th>
+                                            <th>Refund Type</th>
+                                            <th>Refund </th>
+                                            <th>Active</th>
+                                            <th>Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <perfect-scrollbar class="nicescrollBar-2">
+                                    <tbody>
+                             
+                                        <tr *ngFor="let fee of refundList">
+                                            <td>{{fee.DateAfter | date : 'MM-dd-yyyy'}}</td>
+                                            <td>{{fee.DateBefore | date : 'MM-dd-yyyy'}}</td>
+                                            <td>{{fee.RefundType}}</td>
+                                            <td>{{fee.Refund}}</td>
+                                            <td>
+                                                <label class="customCheckbox d-inline">
+                                                    <input name="nsbaIndicator" type="checkbox" (click)="confirmActiveInactiveScratchRefund(fee.RefundId,$event)" [attr.checked]="fee.Active === true ? true : null" class="ciCheckbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>                                       											
+                                            <td>
+                                                <button type="button" class="icon" (click)="confirmRemoveFee(fee.RefundId)"><span></span> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                            </td>
+                                        </tr>
+                                       											
+                                        <tr>
+                                            <td>
+                                                    <mat-form-field class="dateField">
+                                                        <input matInput required [matDatepicker]="dayAfterDatePicker"
+                                                            placeholder="Day After" class="form-control"
+                                                            name="dayAfter" #dayAfter="ngModel"
+                                                            (dateChange)="handleAfterDate()"
+                                                            [(ngModel)]="afterDate" readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="dayAfterDatePicker" class="dateColumn">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #dayAfterDatePicker></mat-datepicker>													
+                                                    </mat-form-field>
+                                                    <span class="help-block"
+                                                    *ngIf="(addRefundForm.submitted || dayAfter.touched) && dayAfter.invalid">
+                                                    Please select day after
+                                                </span>
+                                            </td>
+                                            <td>
+                                                    <mat-form-field class="dateField">
+                                                        <input matInput required [matDatepicker]="dayBeforeDatePicker"
+                                                            placeholder="Day Before" class="form-control"
+                                                            name="dayBefore" #dayBefore="ngModel"
+                                                            (dateChange)="handleBeforeDate()"
+                                                            [(ngModel)]="beforeDate" readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="dayBeforeDatePicker" class="dateColumn">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #dayBeforeDatePicker></mat-datepicker>													
+                                                    </mat-form-field>
+                                                    <span class="help-block"
+                                                    *ngIf="(addRefundForm.submitted || dayBefore.touched) && dayBefore.invalid">
+                                                    Please select day before
+                                                </span>
+                                                </td>
+                                            <td> 
+                                                <select  class="form-control"  (change)="setFeeType($event.target.value)"  #feeType="ngModel" [(ngModel)]="feeTypeId" name="feeType" required>													
+                                                    <option value="null" disabled="true" [selected]="true">
+                                                        Select Refund Type
+                                                    </option>
+                                                    <option *ngFor="let fee of feeDetails"
+                                                        [value]="fee.FeeTypeId">{{fee.FeeType}} 
+                                                    </option>                                                                                                
+                                                </select>
+
+                                                <span class="help-block"  *ngIf="(addRefundForm.submitted || feeType.touched) && feeType.invalid">
+                                                Please select refund Type
+                                            </span>
+                                            </td>
+                                            <td>
+                                                <input #refund="ngModel"  appOnlynumber name="refund"  required [(ngModel)]="refundPercent" type="text" class="form-control" />
+                                                <span class="help-block"
+                                                *ngIf="(addRefundForm.submitted || refund.touched) && refund.invalid">
+                                                Please enter refund
+                                            </span>
+                                            </td>
+                                            <td>                                             
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                    </perfect-scrollbar>
+                                </table>
+                        </div>	
+        </div>
+        <div class="modal-footer text-center">					
+            <button type="button"  (click)="onDismiss()" class="btn btn-default" data-dismiss="modal">Back</button>
+            <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
+        </div>
+    </form>
+        </div>
+
+    </div>
+</div>
+<div class="loaderWrapper" *ngIf="loading">
+    <div class="loader"></div>
+</div>

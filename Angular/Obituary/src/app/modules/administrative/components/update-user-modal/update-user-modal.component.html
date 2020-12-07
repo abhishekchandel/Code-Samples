@@ -1,0 +1,63 @@
+<form #editForm="ngForm" name="editForm" (ngSubmit)="editForm.valid && submit(editForm)" novalidate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Edit User Information
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" #loginName="ngModel" name="loginName"
+                        [(ngModel)]="updateUserModel.loginName" placeholder="Login Name" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" #personName="ngModel" name="personName"
+                        [(ngModel)]="updateUserModel.personName" placeholder="Login Name" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" [class.has-error]="isInvalidField(editForm,email)">
+                    <input type="text" class="form-control" #email="ngModel" name="email"
+                        pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                        [(ngModel)]="updateUserModel.email" placeholder="Enter Email" />
+                    <span class="help-block" *ngIf="email.errors?.pattern"> Enter a valid Email
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" [class.has-error]="isInvalidField(editForm,phone)">
+                    <input type="text" class="form-control" #phone="ngModel" name="phone" mask="(000) 000-0000"
+                        minlength="10" [(ngModel)]="updateUserModel.phone" placeholder="Phone" />
+                    <span class="help-block" *ngIf="phone.errors?.minlength">Phone Number is
+                        invalid</span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="password" class="form-control" #password="ngModel" name="password"
+                        [(ngModel)]="updateUserModel.password" placeholder="Enter New Password" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" [class.has-error]="isInvalidField(editForm,confirmPassword)">
+                    <input type="password" class="form-control" appConfirmEqualValidator="password"
+                        #confirmPassword="ngModel" name="confirmPassword" [(ngModel)]="updateUserModel.confirmPassword"
+                        placeholder="Enter Confirm Password" />
+                    <span class="help-block" *ngIf="confirmPassword.errors?.notEqual"> Passwords do not match
+                    </span>
+                </div>
+            </div>
+            <div class="loaderDiv" *ngIf="loading">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-red btnCss">Submit</button>
+    </div>
+</form>

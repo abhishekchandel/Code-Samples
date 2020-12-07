@@ -1,0 +1,303 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "./assets/scss/common.scss";
+@import "../node_modules/font-awesome/css/font-awesome.css";
+@import "./public-style.scss";
+/*--create obit--*/
+.table-responsive {
+	.table {
+		thead {
+			tr {
+				background-color: #A2968A;
+				th {
+					color: #fff;
+					border-color: #ccd3bc;
+					text-align: center;
+					font-weight: 400;
+					&:first-child {
+						width: 200px;
+					}
+					&:last-child {
+						width: 100px;
+					}
+				}
+			}
+		}
+		tbody {
+			tr {
+				background-color: #F7F9FB;
+				td {
+					color: #000;
+					border-color: #A2968A;
+					vertical-align: middle;
+					font-size: 14px;
+					text-align: center;
+					&:first-child {
+						width: 200px;
+					}
+					&:last-child {
+						width: 100px;
+					}
+					&.lastCol{
+						width:200px;
+					}
+					.form-group {
+						margin:0 0 25px 0;
+						position: relative;
+						textarea {
+							height: 50px;
+							font-size: 12px;
+							padding: 3px 6px;
+							background-color: #F7F9FB;
+						}
+						.ngx-material-timepicker-toggle {
+							position: absolute;
+							top: 2px;
+							right: 0;
+							svg{
+								width:20px!important;
+								height:20px!important;
+							}
+						}
+					}
+					.icon {
+						text-align: center;
+						i {
+							color: #b4523d;
+							font-size: 25px;
+							cursor: pointer;
+						}
+					}
+					.form-check {
+						margin: 0px;
+					}
+					.imageData {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						position: relative;
+						margin: 0 0 22px 0;
+						.help-block{
+							position: absolute;
+							/* right: 62px; */
+							bottom: -29px;
+							color: #ff0000;
+							font-size: 12px;
+							/* left: 50%; */
+							transform: translateY(-50%);
+						}
+						.thumbImage {
+							// display: none;
+							margin: 0 10px 0 0;
+							float: left;
+							width: 50px;
+							img {
+							  max-width:100%;
+							}
+							&.show {
+								display: inline-block;
+							}
+						}
+						.thumbButton {
+							display: inline-block;
+							&.hide {
+								display: none;
+							}
+							.upload-btn-wrapper {
+								position: relative;
+								overflow: hidden;
+								display: inline-block;
+								input[type=file] {
+									font-size: 100px;
+									position: absolute;
+									left: 0;
+									top: 0;
+									opacity: 0;
+								}
+							}
+						}
+						.thumbSelect {
+							float: left;
+							display: block;
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.blue-snackbar {
+    background: #2196F3;
+}
+.green-snackbar {
+    background:#8FBC8F;
+}
+.red-snackbar {
+    background:  #b4523d;
+}
+.tableBodyScroll {
+	table-layout:fixed;
+    margin:auto;
+	tbody {
+	    height:250px;
+		overflow:auto;
+		overflow-x:hidden;
+		display:block;
+		width:100%;
+		@media screen and (max-width:640px){
+		height:auto;
+		}
+		tr {
+		    display:table;
+    width:100%;
+    table-layout:fixed;
+		}
+	}
+	thead {
+		display:table;
+		width:100%;
+	}
+}
+
+@media screen and (max-width:640px) {
+	.table-responsive {
+		table {
+			border: 0;
+			thead {
+				display: none;
+				tr {
+					margin-bottom: 10px;
+					display: block;
+					border-bottom: 2px solid #ddd;
+				}
+			}
+			tbody{
+				td {
+					display: block;
+					text-align: right;
+					font-size: 13px!important;
+					border-bottom: 1px dotted #ccc;
+					position: relative!important;
+					&:last-child {
+						border-bottom: 0;
+					}
+					&:before {
+						content: attr(data-label);
+						float: left;
+						text-transform: capitalize;
+						font-weight: normal;
+						margin: 0;
+						/* display: block; */
+						/* text-align: left; */
+						/* font-size: 14px; */
+						/* font-weight: bold; */
+						position: absolute;
+						left: 12px;
+						top: 50%;
+						transform: translateY(-50%);
+						font-weight: bold;
+						font-size: 13px;
+						color: #a2968a;
+					}
+					.form-group {
+						padding-left: 50%;
+					}
+					.form-check {
+						padding-left: 50%;
+						.checkActive {
+							width: 75px;
+							text-align: left;
+						}
+					}
+					&:first-child {
+						max-width: inherit!important;
+						width: 100%!important;
+					}
+					&:last-child {
+						max-width: inherit!important;
+						width: 100%!important;
+					}
+					.imageData {
+						width: 100%!important;
+						justify-content: flex-end!important;
+						padding-left: 50%;
+						.thumbButton {
+							display: inline-block;
+						}
+						.thumbSelect {
+							width: 100%!important;
+							padding-left: 0;
+						}
+					}
+					.thumbSelect {
+						width: 100%!important;
+						justify-content: flex-end!important;
+						padding-left: 50%;
+					}
+					.icon {
+						text-align: right!important;
+					}
+					.locationControls {
+						padding-left: 50%!important;
+						.form-group {
+							padding-left: 0px!important;
+						}
+					}
+					.inputRadio {
+						padding-left: 50%!important;
+						.radioButton {
+							width: 100px!important;
+							text-align: left!important;
+							display: inline-block!important;
+							font-size: 13px!important;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.mat-calendar-body-selected {
+    background-color: #b4523d !important;
+    color: #fff !important;
+}
+.mat-focus-indicator{
+	&:focus{
+		outline: none!important;
+	}
+}
+.timepicker {
+
+	.timepicker__header {
+	  background-color: #b4523d !important;
+	}
+	.timepicker-dial__control{
+		&:focus{
+			outline: none!important;
+		}
+	}
+  
+	.clock-face__clock-hand {
+	  background-color: #b4523d !important;
+  
+	  &::after {
+		background-color: #b4523d !important;
+	  }
+  
+	  &::before {
+		border-color: #b4523d !important;
+	  }
+	}
+  
+	.clock-face__number {
+	  > span.active {
+		background-color: #b4523d !important;
+	  }
+	}
+  
+	button:not(.timepicker-dial__item) {
+	  color: #b4523d !important;
+	}
+  }
+

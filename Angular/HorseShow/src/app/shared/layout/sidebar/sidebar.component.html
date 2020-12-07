@@ -1,0 +1,31 @@
+<div class="sideBaar">
+<div class="sidebarListing">
+  <h2>Perspectives</h2>
+  <ul>
+     <li routerLinkActive="active"><a [routerLink]="['/perspective/exhibitor']"><div class="icon"><img src="assets/images/Exhibitors.png" alt="image"/></div><span>Exhibitors</span></a></li>  
+     <li routerLinkActive="active"><a [routerLink]="['/perspective/horse']"><div class="icon"><img src="assets/images/Horses.png" alt="image"/></div><span>Horses</span></a></li>  
+       <li routerLinkActive="active"><a [routerLink]="['/perspective/group']"><div class="icon"><img src="assets/images/Groups.png" alt="image"/></div><span>Groups</span></a></li>  
+       <li routerLinkActive="active"><a [routerLink]="['/perspective/sponsor']"><div class="icon"><img src="assets/images/Sponsors.png" alt="image"/></div><span>Sponsors</span></a></li>  
+       <li routerLinkActive="active"><a [routerLink]="['/perspective/class']"><div class="icon"><img src="assets/images/Classes.png" alt="image"/></div><span>Classes</span></a></li>  
+  </ul>
+</div>
+<div class="sidebarListing">
+  <h2>Modules</h2>
+  <ul>
+     <li routerLinkActive="active"><a [routerLink]="['/module/financials']"><div class="icon"><img src="assets/images/Financials.png" alt="image"/></div><span>Financials</span></a></li>  
+     <li routerLinkActive="active">
+       <a [routerLink]="['/module/statements']"> <div class="icon"><img src="assets/images/Statements.png" alt="image"/>
+      </div><span>Statements</span></a></li>  
+
+       <li routerLinkActive="active"><a [routerLink]="['/module/scans']">
+        <div class="icon"><img src="assets/images/Scans.png" alt="image"/></div><span>Scans</span></a>
+      </li>  
+
+       <li routerLinkActive="active" *ngIf="role=='Admin'"><a [routerLink]="['/module/yearly-maintenance']">
+        <div class="icon"><img src="assets/images/Yearly Maintenance.png" alt="image"/></div><span>Yearly Maintenance</span></a></li>  
+       <li routerLinkActive="active"><a [routerLink]="['/module/stall-assignment']">
+        <div class="icon"><img src="assets/images/Stall Assignments.png" alt="image"/></div><span>Stall Assignments</span></a></li>  
+      <li routerLinkActive="active"><a [routerLink]="['/module/reports']"><div class="icon"><img src="assets/images/Reports.png" alt="image"/></div><span>Reports</span></a></li>  
+  </ul>
+</div>
+</div>

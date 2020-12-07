@@ -1,0 +1,410 @@
+<div class="sortData mb-4">
+    <h4>Modules Reports Menu</h4>
+</div>
+<form #reportForm="ngForm" (ngSubmit)="reportForm.valid && download()">
+    <div class="gridTable addBlueStrip">
+        <div class="table-responsive">
+            <table class="table table-bordered tableBodyScroll">
+                <thead>
+                    <tr>
+                        <th>Report Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+              
+                    <tbody>
+
+                        <tr>
+                            <td (click)="selectReport(0,'result')" [ngClass]="{'blueRow': selectedRowIndex == 0}">
+                                <div class="mmReportList">Class Results ( #102 )
+                                    <span id="downarrow102" style="display: block;"  (click)="showpopupbox('showpopupbox102','downarrow102','uparrow102')">
+                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="uparrow102" style="display: none;" (click)="hidepopupbox('showpopupbox102','uparrow102','downarrow102')">
+                                        <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                    </span>
+    
+                                    <div class="mmHoverContent" id="showpopupbox102">
+                                        <div class="prePostField mb-4 multiCheckBtn">
+                                            <div class="form-group">
+                                                <label class="radioBtn">
+                                                    <input type="radio" value="all"
+                                                        (change)="checkChange($event.target.value,'result')" name="mmr">
+                                                    <span class="checkmark"></span>All
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="radioBtn">
+                                                    <input type="radio" value="one" name="mmr"
+                                                        (change)="checkChange($event.target.value,'result')">
+                                                    <span class="checkmark"></span>One Class
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <input class="form-control" placeholder="Select Class" name="result"
+                                                #result="ngModel" [(ngModel)]="selectedresultClasssname"
+                                                (keyup)="filterresultclass($event.target.value,true)"
+                                                value="{{selectedresultClasssname}}" autocomplete="new-password"
+                                                type="search" [matAutocomplete]="resultclassauto">
+
+
+                                            <mat-autocomplete #resultclassauto="matAutocomplete">
+                                                <mat-option *ngFor="let class of classresultsclassesList"
+                                                    [value]="class.Name"
+                                                    (onSelectionChange)="getFilteredresultclass(class.ClassId,$event);">
+                                                    {{class.Name}}/
+                                                    {{class.AgeGroup}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','result')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','result')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','result')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','result')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td  (click)="selectReport(1,'nsbaclassresult')" 
+                            [ngClass]="{'blueRow': selectedRowIndex == 1}">
+                                <div class="mmReportList">NSBA Classes Results ( #102a )
+                                </div>
+                            </td>
+
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','nsbaclassresult')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','nsbaclassresult')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','nsbaclassresult')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','nsbaclassresult')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+
+
+                        </tr>
+
+                        <tr>
+                            <td (click)="selectReport(2,'entries')" [ngClass]="{'blueRow': selectedRowIndex == 2}">
+                                <div class="mmReportList">Entries Per Class ( #27 )</div>
+                            </td>
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','entries')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','entries')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','entries')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','entries')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td (click)="selectReport(3,'paddock')" [ngClass]="{'blueRow': selectedRowIndex == 3}">
+                                <div class="mmReportList">Paddock Sheet ( #23 )
+                                    <span id="downarrow23" style="display: block;"  (click)="showpopupbox('showpopupbox23','downarrow23','uparrow23')">
+                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="uparrow23" style="display: none;" (click)="hidepopupbox('showpopupbox23','uparrow23','downarrow23')">
+                                        <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                    </span>
+    
+                                    <div class="mmHoverContent" id="showpopupbox23">
+                                        <div class="prePostField mb-4 multiCheckBtn">
+                                            <div class="form-group">
+                                                <label class="radioBtn">
+                                                    <input type="radio" value="all" name="mmr"
+                                                        (change)="checkChange($event.target.value,'paddock')">
+                                                    <span class="checkmark"></span>All
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="radioBtn">
+                                                    <input type="radio" name="mmr" value="one"
+                                                        (change)="checkChange($event.target.value,'paddock')">
+                                                    <span class="checkmark"></span>One Sheet
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+
+
+                                            <input class="form-control" placeholder="Select Class" name="paddock"
+                                                #paddock="ngModel" [(ngModel)]="selectedpaddockClasssname"
+                                                (keyup)="filterpaddockclass($event.target.value,true)"
+                                                value="{{selectedpaddockClasssname}}" autocomplete="new-password"
+                                                type="search" [matAutocomplete]="paddockclassauto">
+
+
+                                            <mat-autocomplete #paddockclassauto="matAutocomplete">
+                                                <mat-option *ngFor="let class of paddocksheetclassesList"
+                                                    [value]="class.Name"
+                                                    (onSelectionChange)="getFilteredpaddockclass(class.ClassId,$event);">
+                                                    {{class.Name}}/
+                                                    {{class.AgeGroup}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','paddock')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','paddock')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','paddock')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','paddock')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td (click)="selectReport(4,'patron')" [ngClass]="{'blueRow': selectedRowIndex == 4}">
+                                <div class="mmReportList">Patrons List ( #103 )</div>
+                            </td>
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','patron')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','patron')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','patron')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','patron')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td (click)="selectReport(5,'program')" [ngClass]="{'blueRow': selectedRowIndex == 5}">
+                                <div class="mmReportList">Program Sheet ( #25 )
+                                    <span id="downarrow25" style="display: block;"  (click)="showpopupbox('showpopupbox25','downarrow25','uparrow25')">
+                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="uparrow25" style="display: none;" (click)="hidepopupbox('showpopupbox25','uparrow25','downarrow25')">
+                                        <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                    </span>
+    
+                                    <div class="mmHoverContent" id="showpopupbox25">
+                                        <div class="prePostField mb-4 multiCheckBtn">
+                                            <div class="form-group">
+                                                <label class="radioBtn">
+                                                    <input type="radio" value="all" name="mmr"
+                                                        (change)="checkChange($event.target.value,'program')">
+                                                    <span class="checkmark"></span>All
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="radioBtn">
+                                                    <input type="radio" name="mmr" value="one"
+                                                        (change)="checkChange($event.target.value,'program')">
+                                                    <span class="checkmark"></span>One Sheet
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+
+                                            <input class="form-control" placeholder="Select Class" name="program"
+                                                #program="ngModel" [(ngModel)]="selectedprogramClasssname"
+                                                (keyup)="filterprogramclass($event.target.value,true)"
+                                                value="{{selectedprogramClasssname}}" autocomplete="new-password"
+                                                type="search" [matAutocomplete]="programclassauto">
+
+
+                                            <mat-autocomplete #programclassauto="matAutocomplete">
+                                                <mat-option *ngFor="let class of programsheetclassesList"
+                                                    [value]="class.Name"
+                                                    (onSelectionChange)="getFilteredprogramclass(class.ClassId,$event);">
+                                                    {{class.Name}}/
+                                                    {{class.AgeGroup}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','program')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','program')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','program')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','program')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td (click)="selectReport(6,'summary')" [ngClass]="{'blueRow': selectedRowIndex == 6}">
+                                <div class="mmReportList">Year Show Summary ( #105 )</div>
+                            </td>
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','summary')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','summary')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','summary')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','summary')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td (click)="selectReport(7,'administrative')" [ngClass]="{'blueRow': selectedRowIndex == 7}">
+                                <div class="mmReportList">Yearly Maintenance Report ( #107)</div>
+                            </td>
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','administrative')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','administrative')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','administrative')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','administrative')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td (click)="selectReport(8,'nsba')" [ngClass]="{'blueRow': selectedRowIndex == 8}">
+                                <div class="mmReportList">NSBA Exhibitor Fee Totals Report ( #108)</div>
+                            </td>
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','nsba')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','nsba')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','nsba')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','nsba')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td (click)="selectReport(9,'nsbaclasses')" [ngClass]="{'blueRow': selectedRowIndex == 9}">
+                                <div class="mmReportList">NSBA and Classes Exhibitor Fee Totals Report ( #108a)</div>
+                            </td>
+                            <td>
+                                <button type="button"
+                                (click)="setreportType('display','nsbaclasses')" class="icon"><span></span>
+                                <i class="fa fa-eye" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('email','nsbaclasses')" class="icon"><span></span>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('print','nsbaclasses')" class="icon"><span></span>
+                                <i class="fa fa-print" aria-hidden="true"></i></button>
+
+                                <button type="button"
+                                (click)="setreportType('download','nsbaclasses')" class="icon"><span></span> 
+                                <i class="fa fa-download" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+
+
+                    </tbody>
+               
+            </table>
+
+
+            </div>
+        </div>
+    
+</form>
+<div class="loaderWrapper" *ngIf="loading">
+    <div class="loader"></div>
+</div>

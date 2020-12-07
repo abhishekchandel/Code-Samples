@@ -1,0 +1,37 @@
+.advanceSearch{
+	.advanceSearchInner{
+	     width: 80%;
+         margin: 0 auto;
+		@media (max-width:767px){
+		width:100%;
+		}
+		  .form-group {
+				margin-bottom:25px;
+			    .srcBtn{
+				padding: 6px 50px;
+    			width: auto;  
+			  }
+			}
+	}
+	.searchBtn {
+    padding: 0 0 0 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+		@media (max-width:767px){
+		width: 100%;
+    padding: 25px 0 0 0;
+    border-top: 1px solid #B4523D !important;
+		}
+		.searchBtnInner{
+		  .btn {
+				padding: 15px 70px;
+				font-size: 20px;
+			  @media (max-width:767px){
+				 width:100%;
+			  }
+			}
+		}
+   }
+}

@@ -1,0 +1,57 @@
+.modal-body{ 
+    border:0px solid transparent;
+    .form-group{
+        margin-bottom:30px;
+        position: relative;	
+        label{
+         display:block;
+         margin-bottom:5px;
+        }
+        .mat-form-field
+        {
+        position: relative;	
+        border: 1px solid #ddd;
+        padding: 6px;
+        border-radius: 4px;
+        height: 40px;
+        width: 100%;
+         .mat-form-field-wrapper
+         {
+          padding:0px;
+          .mat-form-field-flex
+          {
+            .mat-form-field-infix
+            {
+             padding:0px;
+             width: 100%;
+             border-top: 0;
+             input{
+                font-size:13px;
+                height: auto;
+                color: #495057;
+             }
+             input[type="number"]::-webkit-inner-spin-button,
+              input[type="number"]::-webkit-outer-spin-button {
+                height: auto
+            }
+            } 
+          }
+          .mat-form-field-underline
+          {
+            height:0px;
+            .mat-form-field-ripple
+            {
+            height:0px;
+            }
+          }
+         }
+        }
+     }
+} 
+.bgImageClass{
+    // background-image: url("/assets/images/bgimage.jpg");
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    padding: 0 25px 22px 25px;
+    min-height: 75vh;
+}

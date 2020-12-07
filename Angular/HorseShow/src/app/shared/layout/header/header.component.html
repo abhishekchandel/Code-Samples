@@ -1,0 +1,24 @@
+<header class="topHeader">
+  <div class="container">
+   <div class="row">
+     <div class="col-sm-6">
+       <div class="headerText">
+        <h1>{{title}} <span class="userName">{{firstName | titlecase}} {{lastName | titlecase}}</span></h1>	
+        
+       </div> 
+     </div> 
+     <div class="col-sm-6">
+       <div class="headerInfo">
+          <div class="search">
+            <input type="text" (input)="onInput($event)" #search="ngModel" [(ngModel)]="searchText" name="searchText"  class="form-control" placeholder="Search"/>	
+              <span><i class="fa fa-search"></i></span>
+       </div>
+      <a   [routerLink]="['/login']" (click)="logoutSession()" class="logInBtn">Log off</a>
+      <div class="headerLogo">
+          <img src="assets/images/logo.png" alt="image" class="img-fluid"/>
+       </div> 
+     </div> 
+    </div>
+   </div>	
+  </div> 
+ </header> 

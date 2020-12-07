@@ -1,0 +1,73 @@
+<section class="mainContent">
+    <div class="container">
+        <div class="row">
+            <!--search panel-->
+            <div class="searchPanel">
+                <a [routerLink]="['/advance-search']">Continue Searching <i class="fa fa-search"></i></a>
+            </div>
+            <!---->
+            <div class="col-sm-12">
+                <div class="row mb-20">
+                    <div class="col-sm-12">
+                        <div class="mainHeading">
+                            <h1>Funeral Service provider</h1>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="searchSection">
+                            <div class="input-group">
+                                <input type="email" class="form-control" #searchTerm="ngModel"
+                                    [(ngModel)]="searchRequest.searchTerm" name="searchTerm"
+                                    placeholder="Search - Name,city or state">
+                                <label><i class="fa fa-search" aria-hidden="true"></i></label>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-red" type="submit"
+                                        (click)="searchFuneralAccounts()">Submit</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="funeralService">
+                            <div class="funeralListing">
+                                <div class="funeralListingInner">
+                                    <ul *ngIf="!isSearched">
+                                        <li
+                                            *ngFor="let funeralHomesData of funeralHomes | paginate: { itemsPerPage: 10, currentPage: currentPage,totalItems:totalItems}">
+                                            {{funeralHomesData.AccountName}} <span>{{funeralHomesData.Address}},
+                                                {{funeralHomesData.City}} {{funeralHomesData.State}}
+                                                {{funeralHomesData.Zip}}</span>
+                                        </li>
+                                    </ul>
+                                    <ul *ngIf="isSearched">
+                                        <li
+                                            *ngFor="let funeralHomesData of funeralHomes | paginate: { itemsPerPage: 10, currentPage: currentPage,totalItems:totalItems}">
+                                            {{funeralHomesData.AccountName}} <span>{{funeralHomesData.Address}},
+                                                {{funeralHomesData.City}} {{funeralHomesData.State}}
+                                                {{funeralHomesData.Zip}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pagNav">
+                                    <pagination-controls (pageChange)="getPage($event)" maxSize="9"
+                                        directionLinks="true" responsive="true" previousLabel="Previous"
+                                        nextLabel="Next">
+                                    </pagination-controls>
+                                </div>
+                            </div>
+
+                            <div class="thumbImage">
+                                <img src="assets/images/funeral-provider.jpg" alt="image" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loaderDiv" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+</section>
