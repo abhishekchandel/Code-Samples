@@ -1,0 +1,201 @@
+<odl-base-dialog [title]="product?.productName" (dialogClose)="close()">
+    <div class="header-title" header>
+      <ng-container *permissionIf="AvailablePermissions.ViewProductCostDeal">
+        <div class="productToggle">
+          <odl-toggle (toggle)="showDealerCostAmount = !showDealerCostAmount" [disableControl]="false"></odl-toggle>
+          {{ 'common.dc' | translate }}
+        </div>
+      </ng-container>
+      <label
+        >{{ 'menu.dialog.provider' | translate }}: <span>{{ product?.providerName }}</span></label
+      >
+      <div class="infoIcon" *ngIf="productDocs?.isPrimary" (click)="gotoLink(productDocs?.path)">
+        <span class="material-icons" matTooltip="Learn More">info</span>
+      </div>
+    </div>
+  
+    <form #form="ngForm" body>
+      <div class="formContainer">
+        <div fxLayout="row wrap" fxLayoutGap="30px grid" fxLayoutAlign="start center">
+          <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%">
+            <odl-dropdown
+              name="coverage"
+              [autoFocus]="true"
+              [label]="'fields.Coverage' | translate"
+              [placeholder]="'fields.Coverage' | translate"
+              [(ngModel)]="ratedProduct.coverageId"
+              [options]="coverageOptions"
+              [disableControl]="!ratedProduct.isRated"
+              [autoFocus]="true"
+              (selectedValue)="coverageChange()"
+            >
+            </odl-dropdown>
+          </div>
+          <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%">
+            <odl-dropdown
+              name="durationTerms"
+              [label]="'fields.Term' | translate"
+              [placeholder]="'fields.Term' | translate"
+              [(ngModel)]="ratedProduct.term"
+              [options]="durationTermsOptions"
+              [disableControl]="!ratedProduct.isRated"
+              (selectedValue)="fieldsChanged()"
+            >
+            </odl-dropdown>
+          </div>
+          <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%" *ngIf="mileageTermsOptions?.length > 0">
+            <odl-dropdown
+              name="mileageTerms"
+              [label]="'fields.Miles' | translate"
+              [placeholder]="'fields.Miles' | translate"
+              [(ngModel)]="ratedProduct.mileage"
+              [options]="mileageTermsOptions"
+              [disableControl]="!ratedProduct.isRated"
+              (selectedValue)="fieldsChanged()"
+            >
+            </odl-dropdown>
+          </div>
+          <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%" *ngIf="deductiblesOptions?.length > 0">
+            <odl-dropdown
+              [label]="'fields.Deductible' | translate"
+              [placeholder]="'fields.Deductible' | translate"
+              name="deductibles"
+              [(ngModel)]="ratedProduct.deductibleValue"
+              [options]="deductiblesOptions"
+              [disableControl]="!ratedProduct.isRated"
+              (selectedValue)="fieldsChanged(true, true)"
+            ></odl-dropdown>
+          </div>
+          <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%">
+            <odl-amount
+              name="customerCostAmount"
+              [label]="'fields.CustomerCost' | translate"
+              [placeholder]="'fields.CustomerCost' | translate"
+              [(ngModel)]="ratedProduct.totalSellingPrice"
+              [separatorLimit]="999999.99"
+              [required]="true"
+              [allowZero]="true"
+              [disableControl]="isCustomerCostFixed || ratedProduct.ratingType === CSOType"
+              [maxValue]="maxSellingPrice"
+              [minValue]="isCustomerCostFixed ? 0 : ratedProduct.totalCostPrice"
+              (ngModelChange)="customerCostChange()"
+              [submitted]="form.submitted"
+            >
+            </odl-amount>
+          </div>
+  
+          <ng-container *ngIf="ratedProduct.isTaxConfigEnabled">
+            <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%">
+              <odl-amount
+                name="taxRate"
+                [separatorLimit]="50.0"
+                [precision]="3"
+                [maxValue]="50"
+                [showSuffix]="true"
+                [allowZero]="true"
+                [required]="!ratedProduct.isTaxAmountOverridden"
+                [(ngModel)]="ratedProduct.totalTaxRate"
+                [label]="'taxes.taxRate' | translate"
+                [placeholder]="'taxes.taxRate' | translate"
+                [disabled]="ratedProduct.isTaxAmountOverridden"
+                (ngModelChange)="totalTaxRateChange()"
+                [submitted]="form.submitted"
+              >
+              </odl-amount>
+            </div>
+            <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%">
+              <odl-amount
+                name="taxAmount"
+                [allowZero]="true"
+                [separatorLimit]="999999.99"
+                [allowZero]="true"
+                [required]="ratedProduct.isTaxAmountOverridden"
+                [(ngModel)]="totalTaxAmount"
+                [label]="'taxes.taxAmount' | translate"
+                [placeholder]="'taxes.taxAmount' | translate"
+                [disabled]="!ratedProduct.isTaxAmountOverridden"
+                (ngModelChange)="totalTaxAmountChange($event)"
+                [submitted]="form.submitted"
+              >
+              </odl-amount>
+            </div>
+  
+            <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%">
+              <div class="customCheckbox">
+                <odl-checkbox
+                  customClass="checkbox-label-weight"
+                  name="overrideCheckbox"
+                  [(ngModel)]="ratedProduct.isTaxAmountOverridden"
+                  (onChanged)="toggleTaxAmountOverridden($event)"
+                  [label]="'taxes.overrideCheckbox' | translate"
+                ></odl-checkbox>
+              </div>
+            </div>
+          </ng-container>
+  
+          <div fxFlex="50%" fxFlex.lg="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%" *ngFor="let surcharge of surcharges; trackBy: trackBy">
+            <div class="surcharge">
+              <odl-checkbox
+                name="surcharge_{{ surcharge.id }}"
+                [label]="surcharge?.name"
+                [(ngModel)]="surcharge.isSelected"
+                [disabled]="(surcharge.id === noSurchargeApplyId && disabledNoSurchargeApplyOptions) || surcharge.isDisabled"
+                (onChanged)="toggleSurcharge()"
+              >
+              </odl-checkbox>
+              <span class="surchargeAmount">
+                {{ (surcharge?.customerCostAmount ?? surcharge?.dealerCostAmount) | amount }}
+              </span>
+            </div>
+          </div>
+  
+          <div
+            fxFlex="100%"
+            fxFlex.lg="100%"
+            fxFlex.md="100%"
+            fxFlex.sm="100%"
+            fxFlex.xs="100%"
+            *ngIf="ratedProduct.totalSellingPrice > 0 && (ratedProduct.isTaxConfigEnabled || data.isFinanceDeal)"
+          >
+            <div class="payment-dialog">
+              <div class="payment-dialog-inner" *ngIf="ratedProduct.isTaxConfigEnabled">
+                <div class="payment-dialog-title">{{ 'taxes.totalCustomerCost' | translate }}:</div>
+                <div class="payment-dialog-value">
+                  <div class="payment-value-inner">
+                    <span>
+                      {{ totalCustomerCost | amount }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="data.isFinanceDeal" class="payment-dialog-inner">
+                <div class="payment-dialog-title">{{ 'menu.dialog.payment' | translate }}:</div>
+                <div class="payment-dialog-value">
+                  <ng-container *ngIf="paymentCalcRequest.length > 0">
+                    <div class="payment-value-inner" *ngFor="let paymentRequest of paymentCalcRequest">
+                      <span
+                        >{{ paymentRequest.term }} {{ 'menu.payments' | translate }} {{ 'common.of' | translate }}
+                        {{ ratedProduct.totalSellingPrice | paymentWithTaxCalc : paymentRequest | async }}
+                      </span>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="action-btns" [class.dealerCostValue]="showDealerCostAmount">
+        <span *ngIf="showDealerCostAmount"> {{ 'common.dc' | translate }}: {{ ratedProduct.totalCostPrice | amount }} </span>
+        <div class="inner-buttons">
+          <button type="button" color="primary" mat-stroked-button class="buttonOutline border-primary" (keyup.enter)="close()" (click)="close()">
+            {{ 'common.cancel' | translate }}
+          </button>
+          <button type="submit" color="primary" mat-raised-button color="primary" class="buttonOutline" (keyup.enter)="handleFormSubmit()" (click)="handleFormSubmit()">
+            {{ 'common.save' | translate }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </odl-base-dialog>
+  

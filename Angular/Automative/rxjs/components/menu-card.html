@@ -1,0 +1,77 @@
+<div class="menu-card card-box" cdkDrag [cdkDragData]="{ name: name, product: product, canDrop: !isCustom }">
+  <div *cdkDragPlaceholder class="field-placeholder"></div>
+  <div class="menu-button action-icon">
+    <button mat-icon-button [matMenuTriggerFor]="productOptionMenu" (menuOpened)="buildMenu()" (menuClosed)="clearMenu()">
+      <span class="material-icons">more_vert</span>
+    </button>
+  </div>
+  <mat-menu #productOptionMenu="matMenu" xPosition="before" class="quick-actions">
+    <button mat-menu-item *ngIf="product?.infoUrl" (click)="gotoLink(product?.infoUrl)">
+      <span class="material-icons-outlined">info</span>
+      {{ 'common.brochure' | translate }}
+    </button>
+    <button
+      *ngIf="isCustomColumnVisible && customOptionEnabled"
+      [disabled]="disableCustomColumnOption"
+      [class.disabled]="disableCustomColumnOption"
+      mat-menu-item
+      (click)="copyOrMoveProduct('Custom Protection')"
+    >
+      <span class="material-icons"> build </span>
+      {{ 'common.customize' | translate }}
+    </button>
+    <button mat-menu-item (click)="deleteProduct(name, product.dealProductId)">
+      <span class="material-icons"> delete </span>
+      {{ 'common.remove' | translate }}
+    </button>
+    <button *ngIf="!isCustom" mat-menu-item [matMenuTriggerFor]="copyOptionsMenu">
+      <span class="material-icons"> content_copy </span>
+      {{ 'common.copy' | translate }}
+    </button>
+
+    <mat-menu #copyOptionsMenu="matMenu">
+      <ng-container *ngFor="let column of columnOptions">
+        <button [disabled]="column.isDisabled" [class.disabled]="column.isDisabled" mat-menu-item (click)="copyOrMoveProduct(column.text, true)">
+          {{ column.text }}
+        </button>
+      </ng-container>
+    </mat-menu>
+  </mat-menu>
+
+  <div class="menu-info">
+    <div class="menu-product-name" [matTooltip]="product?.productName" (click)="showHideDetail()">
+      <div class="product-name ellipsis">{{ product?.productName }}</div>
+      <span class="material-icons">{{ showCardDetail ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</span>
+    </div>
+  </div>
+
+  <div class="product-info">
+    <div class="product-coverage ellipsis" [matTooltip]="product?.coverageName">{{ product?.coverageName }}</div>
+    <div class="product-desc">
+      <div class="product-terms">{{ product?.durationTerm | term }}</div>
+    </div>
+  </div>
+
+  <div class="product-show-desc" [ngClass]="{ show: showCardDetail }">
+    <div class="product-desc">{{ product?.description }}</div>
+    <div class="product-price" *ngIf="showCostPrice">
+      <span>{{ 'menu.costPrice' | translate }}:</span> {{ product?.costPriceAmount | amount }}
+    </div>
+    <div class="payments" *ngIf="showPayment && isFinanceDeal">
+      <div class="payment-desc">
+        <div class="payment-desc-inner" *ngFor="let paymentTerm of product?.paymentTerms">
+          <ng-container *ngIf="product?.costPriceAmount > 0">
+            <span>{{ paymentTerm?.term }} {{ 'menu.payments' | translate }} {{ 'common.of' | translate }} {{ paymentTerm?.paymentAmount | amount }}</span>
+            ({{ paymentTerm?.dailyPaymentAmount | amount }}/{{ 'common.day' | translate }})
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="product-card-footer" [ngClass]="{ 'single-item': isCustomerView }">
+       
+      <div class="inner-card" *ngIf="(isShowEditVisible || (isEditProductEnable$ | async)) && product?.editEnabled " (click)="editProduct()">
+        <span class="material-icons edit-icon">edit</span>{{ 'menu.editProduct' | translate }}
+      </div>
+    </div>
+  </div>
+</div>
