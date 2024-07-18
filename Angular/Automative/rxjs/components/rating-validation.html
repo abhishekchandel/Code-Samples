@@ -1,0 +1,59 @@
+<abc-base-dialog [title]="'deal.worksheet.rateProducts.confirmRatingInformation' | translate" (dialogClose)="close()" *ngIf="!loading">
+    <div body>
+      <form #form="ngForm">
+        <div class="contract-body">
+          <div class="formContainer">
+            <div class="required-msg-part">
+              <abc-mandatory-message [withoutPadding]="true"></abc-mandatory-message>
+            </div>
+  
+            <ng-container *ngIf="unitWithMissingFields?.length > 0">
+              <div class="unit-panel" *ngFor="let unitData of unitWithMissingFields; trackBy: mainTrackBy; let index = index">
+                <div class="panel-card">
+                  <div class="panel-card-header">{{ unitData.label ? unitData.label : 'Unit ' + unitData.unitNo }}</div>
+                  <div class="panel-card-body">
+                    <abc-rating-validations-form
+                      #validationFormComponent
+                      [unitData]="unitData"
+                      [unitTypes]="unitTypes"
+                      (valuesChanged)="unitChanged($event, index)"
+                      (customFieldChanged)="fieldChanged($event)"
+                    >
+                    </abc-rating-validations-form>
+  
+                    <div class="sub-unit-panel" *ngFor="let subUnitData of unitData.components; trackBy: trackBy; let subIndex = index">
+                      <div class="panel-card" *ngIf="subUnitData.keys.length > 0">
+                        <div class="panel-card-header">
+                          {{ 'common.engine' | translate }}{{ unitData.components.length > 1 ? '#' + (subIndex + 1) + ': ' + subUnitData.label : '' }}
+                        </div>
+                        <div class="panel-card-body">
+                          <abc-rating-validations-form
+                            #validationFormComponent
+                            [unitData]="subUnitData"
+                            [unitTypes]="unitTypes"
+                            (valuesChanged)="unitChanged($event, index, subIndex)"
+                          >
+                          </abc-rating-validations-form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="footer-part">
+          <div class="action-btns">
+            <button type="button" mat-stroked-button color="primary" class="buttonOutline border-primary" (click)="close()">
+              {{ 'common.cancel' | translate }}
+            </button>
+            <button cdkFocusInitial mat-raised-button color="primary" type="button" class="buttonOutline" (click)="update()">
+              {{ 'common.save' | translate | uppercase }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </abc-base-dialog>
+  
